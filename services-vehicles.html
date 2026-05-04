@@ -1,0 +1,1550 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vehicle Recovery — Legit Patrol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <style>
+        *,*::before,*::after {
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --accent: #00a8ff;
+            --accent-dark: #0088cc;
+            --accent-glow: rgba(0,168,255,.25);
+            --alert: #ff6d00;
+            --alert-glow: rgba(255,109,0,.3);
+            --text-primary: #f0f0f0;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --border: #2a2a2a;
+            --font-heading: 'Chakra Petch', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        
+        html { scroll-behavior: smooth; }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+        
+        #scroll-progress {
+            position: fixed;
+            top: 0; left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--alert));
+            z-index: 10000;
+            width: 0;
+            transition: width .1s linear;
+        }
+        
+        .grid-bg {
+            background-image: radial-gradient(circle, rgba(0,168,255,.07) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        /* Scroll to Top */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px; left: 30px;
+            width: 46px; height: 46px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 9990;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all .4s cubic-bezier(.16,1,.3,1);
+            box-shadow: 0 4px 15px rgba(0,0,0,.3);
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .scroll-to-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%;
+            z-index: 9999;
+            padding: 18px 0;
+            transition: all .4s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(10,10,10,.95);
+            backdrop-filter: blur(20px);
+            padding: 12px 0;
+            box-shadow: 0 2px 30px rgba(0,0,0,.5);
+        }
+        
+        .nav-container {
+            width: 100%;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .nav-logo-icon {
+            width: 42px; height: 42px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #000;
+            position: relative;
+        }
+        
+        .nav-logo-icon .fa-shield-halved { font-size: 24px; }
+        
+        .nav-logo-icon .fa-magnifying-glass {
+            position: absolute;
+            font-size: 10px;
+            bottom: 6px; right: 6px;
+            color: #000;
+        }
+        
+        .nav-logo-icon .fa-paw {
+            position: absolute;
+            font-size: 8px;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+        }
+        
+        .nav-logo-text {
+            font-family: var(--font-heading);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+        
+        .nav-logo-text span { color: var(--accent); }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 8px;
+            transition: all .3s ease;
+            letter-spacing: .5px;
+            font-family: var(--font-heading);
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+            background: rgba(0,168,255,.08);
+        }
+        
+        .nav-links a.active {
+            color: var(--accent);
+            background: rgba(0,168,255,.12);
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Page Hero */
+        .page-hero {
+            padding: 160px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: -200px; left: 50%;
+            transform: translateX(-50%);
+            width: 600px; height: 600px;
+            background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+            opacity: .3;
+        }
+        
+        .page-hero .section-tag { margin-bottom: 16px; }
+        
+        .page-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        
+        .page-hero h1 span { color: var(--accent); }
+        
+        .page-hero p {
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 620px;
+            margin: 0 auto;
+            position: relative;
+            line-height: 1.8;
+        }
+        
+        .page-hero-breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-family: var(--font-heading);
+            position: relative;
+        }
+        
+        .page-hero-breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Responsive Service Tabs */
+        .service-tabs-wrapper {
+            background: var(--bg-secondary);
+            border-bottom: 1px solid var(--border);
+            position: sticky;
+            top: 64px;
+            z-index: 10;
+            padding: 0;
+        }
+        
+        .service-tabs {
+            display: flex;
+            width: 100%;
+        }
+        
+        .service-tab {
+            flex: 1;
+            padding: 18px 20px;
+            font-family: var(--font-heading);
+            font-size: clamp(13px, 2vw, 16px);
+            font-weight: 600;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: all .3s;
+            border-bottom: 3px solid transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            text-align: center;
+            white-space: nowrap;
+        }
+        
+        .service-tab:hover {
+            color: var(--accent);
+            background: rgba(0,168,255,.03);
+        }
+        
+        .service-tab.active {
+            color: var(--accent);
+            border-bottom-color: var(--accent);
+            background: rgba(0,168,255,.08);
+        }
+        
+        .service-tab i {
+            font-size: clamp(14px, 2vw, 18px);
+        }
+
+        /* Sections */
+        .section { padding: 100px 0; }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+        
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: var(--font-heading);
+            margin-bottom: 16px;
+        }
+        
+        .section-tag i { font-size: 10px; }
+        
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        
+        .section-title span { color: var(--accent); }
+        
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #000;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 15px;
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all .3s ease;
+            border: none;
+            cursor: pointer;
+            letter-spacing: .5px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px var(--accent-glow);
+        }
+
+        /* Vehicle Cards */
+        .vehicle-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            overflow: hidden;
+            transition: all .5s cubic-bezier(.16,1,.3,1);
+            height: 100%;
+        }
+        
+        .vehicle-card:hover {
+            border-color: rgba(0,168,255,.3);
+            transform: translateY(-10px);
+            box-shadow: 0 25px 60px rgba(0,0,0,.4);
+        }
+        
+        .vehicle-card-img {
+            height: 200px;
+            overflow: hidden;
+            position: relative;
+        }
+        
+        .vehicle-card-img img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform .6s ease;
+        }
+        
+        .vehicle-card:hover .vehicle-card-img img { transform: scale(1.08); }
+        
+        .vehicle-card-img .vc-badge {
+            position: absolute;
+            top: 14px; right: 14px;
+            background: rgba(10,10,10,.85);
+            backdrop-filter: blur(8px);
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            padding: 6px 14px;
+            font-size: 11px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--accent);
+            letter-spacing: .5px;
+        }
+        
+        .vehicle-card-body { padding: 28px; }
+        
+        .vehicle-card-body h3 {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 700;
+            margin-bottom: 6px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .vehicle-card-body h3 i { color: var(--accent); font-size: 18px; }
+        
+        .vehicle-card-body .vc-desc {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+            margin-bottom: 18px;
+        }
+        
+        .vc-stats {
+            display: flex;
+            gap: 16px;
+            margin-bottom: 18px;
+        }
+        
+        .vc-stat {
+            text-align: center;
+            flex: 1;
+            padding: 12px 8px;
+            background: rgba(0,168,255,.04);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+        }
+        
+        .vc-stat .vc-num {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 700;
+            color: var(--accent);
+        }
+        
+        .vc-stat .vc-label {
+            font-size: 10px;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: .5px;
+            font-family: var(--font-heading);
+            margin-top: 2px;
+        }
+        
+        .vc-features {
+            list-style: none;
+            margin-bottom: 20px;
+        }
+        
+        .vc-features li {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 7px 0;
+            font-size: 13px;
+            color: var(--text-secondary);
+            border-top: 1px solid var(--border);
+        }
+        
+        .vc-features li i { color: var(--accent); font-size: 10px; }
+        .vc-cta { text-align: center; }
+
+        /* Track Steps */
+        .track-step {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .track-step-circle {
+            width: 88px; height: 88px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 18px;
+            font-size: 28px;
+            color: var(--accent);
+            transition: all .4s;
+        }
+        
+        .track-step:hover .track-step-circle {
+            border-color: var(--accent);
+            background: rgba(0,168,255,.1);
+            transform: scale(1.12);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+        
+        .track-step h4 {
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .track-step p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Tech Card */
+        .tech-card {
+            padding: 30px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: all .4s;
+            height: 100%;
+        }
+        
+        .tech-card:hover {
+            border-color: rgba(0,168,255,.25);
+            transform: translateY(-6px);
+            box-shadow: 0 15px 40px rgba(0,0,0,.3);
+        }
+        
+        .tech-card-header {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            margin-bottom: 14px;
+        }
+        
+        .tech-card-header i { font-size: 24px; color: var(--accent); }
+        
+        .tech-card-header h4 {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: 600;
+        }
+        
+        .tech-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Why Section */
+        .why-section { background: var(--bg-secondary); }
+        
+        .why-card {
+            display: flex;
+            gap: 18px;
+            padding: 28px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            transition: all .4s;
+            height: 100%;
+        }
+        
+        .why-card:hover {
+            border-color: rgba(0,168,255,.2);
+            transform: translateX(6px);
+        }
+        
+        .why-icon {
+            width: 52px; height: 52px;
+            min-width: 52px;
+            background: rgba(0,168,255,.08);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            color: var(--accent);
+            transition: all .3s;
+        }
+        
+        .why-card:hover .why-icon {
+            background: var(--accent);
+            color: #000;
+        }
+        
+        .why-card h4 {
+            font-family: var(--font-heading);
+            font-size: 16px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .why-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Testimonials */
+        .testimonial-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all .4s;
+            height: 100%;
+        }
+        
+        .testimonial-card:hover {
+            border-color: rgba(0,168,255,.2);
+            transform: translateY(-5px);
+        }
+        
+        .testimonial-card .tq {
+            font-size: 28px;
+            color: rgba(0,168,255,.12);
+            margin-bottom: 10px;
+        }
+        
+        .testimonial-stars {
+            display: flex;
+            gap: 3px;
+            margin-bottom: 14px;
+        }
+        
+        .testimonial-stars i { font-size: 13px; color: #ffc107; }
+        
+        .testimonial-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 18px;
+            font-style: italic;
+        }
+        
+        .testimonial-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .testimonial-avatar {
+            width: 42px; height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+        
+        .testimonial-name {
+            font-family: var(--font-heading);
+            font-size: 13px;
+            font-weight: 600;
+        }
+        
+        .testimonial-role {
+            font-size: 11px;
+            color: var(--text-muted);
+        }
+
+        /* FAQ */
+        .faq-section { background: var(--bg-secondary); }
+        
+        .faq-list { max-width: 800px; margin: 0 auto; }
+        
+        .faq-item {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 12px;
+            overflow: hidden;
+            transition: border-color .3s;
+        }
+        
+        .faq-item.active { border-color: rgba(0,168,255,.3); }
+        
+        .faq-question {
+            padding: 20px 24px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 600;
+            transition: color .3s;
+        }
+        
+        .faq-item.active .faq-question { color: var(--accent); }
+        
+        .faq-question i {
+            color: var(--accent);
+            font-size: 13px;
+            transition: transform .3s;
+        }
+        
+        .faq-item.active .faq-question i { transform: rotate(180deg); }
+        
+        .faq-answer {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height .4s ease, padding .4s ease;
+        }
+        
+        .faq-item.active .faq-answer {
+            max-height: 300px;
+            padding: 0 24px 20px;
+        }
+        
+        .faq-answer p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+
+        /* CTA */
+        .cta-section { padding: 80px 0; }
+        
+        .cta-box {
+            background: linear-gradient(135deg, rgba(0,168,255,.1), rgba(255,109,0,.05));
+            border: 1px solid rgba(0,168,255,.2);
+            border-radius: 24px;
+            padding: 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%; left: -50%;
+            width: 200%; height: 200%;
+            background: radial-gradient(circle at 30% 50%, var(--accent-glow), transparent 50%);
+            opacity: .3;
+            animation: ctaG 6s ease-in-out infinite;
+        }
+        
+        @keyframes ctaG {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(5%, -5%); }
+        }
+        
+        .cta-box>* { position: relative; z-index: 2; }
+        
+        .cta-box h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(24px, 3.5vw, 38px);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .cta-box p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 70px 0 0;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-top: 16px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .footer-social a {
+            width: 40px; height: 40px;
+            border-radius: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 16px;
+            transition: all .3s ease;
+            text-decoration: none;
+        }
+        
+        .footer-social a:hover {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .footer-col h4 {
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: .5px;
+        }
+        
+        .footer-col ul { list-style: none; }
+        
+        .footer-col ul li { margin-bottom: 12px; }
+        
+        .footer-col ul a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            transition: all .3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-col ul a:hover {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+        
+        .footer-col ul a i {
+            font-size: 10px;
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity .3s;
+        }
+        
+        .footer-col ul a:hover i { opacity: 1; }
+        
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .footer-contact-item i {
+            color: var(--accent);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .footer-contact-item span,
+        .footer-contact-item a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+            transition: color .3s;
+        }
+        
+        .footer-contact-item a:hover { color: var(--accent); }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .footer-bottom p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        .footer-bottom-links {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .footer-bottom-links a {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color .3s;
+        }
+        
+        .footer-bottom-links a:hover { color: var(--accent); }
+
+        /* Animations */
+        .anim-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-up.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .anim-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-left.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .anim-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-right.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .anim-scale {
+            opacity: 0;
+            transform: scale(.85);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-scale.animated {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .d1 { transition-delay: .1s !important; }
+        .d2 { transition-delay: .2s !important; }
+        .d3 { transition-delay: .3s !important; }
+        .d4 { transition-delay: .4s !important; }
+        .d5 { transition-delay: .5s !important; }
+        .d6 { transition-delay: .6s !important; }
+
+        /* Responsive */
+        @media(max-width: 1024px) {
+            .footer-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+        
+        @media(max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%; left: 0;
+                width: 100%;
+                background: rgba(10,10,10,.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 20px 30px;
+                gap: 4px;
+                border-bottom: 1px solid var(--border);
+            }
+            .nav-links.open { display: flex; }
+            .nav-toggle { display: block; }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            .cta-box { padding: 40px 24px; }
+            .scroll-to-top {
+                bottom: 20px; left: 20px;
+                width: 40px; height: 40px;
+                font-size: 16px;
+            }
+            .service-tab {
+                padding: 14px 12px;
+                font-size: 12px;
+                gap: 6px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="scroll-progress"></div>
+    
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTopBtn" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- Navbar - FULL WIDTH -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="nav-logo-icon">
+                    <i class="fas fa-shield-halved"></i>
+                    <i class="fas fa-magnifying-glass"></i>
+                    <i class="fas fa-paw"></i>
+                </div>
+                <div class="nav-logo-text">Legit<span>Patrol</span></div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="services-vehicles.html" class="active">Services</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+            <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Responsive Service Tabs -->
+    <div class="service-tabs-wrapper">
+        <div class="container p-0">
+            <div class="service-tabs">
+                <a href="services-vehicles.html" class="service-tab active">
+                    <i class="fas fa-car"></i> <span>Vehicle Recovery</span>
+                </a>
+                <a href="services-pets.html" class="service-tab">
+                    <i class="fas fa-paw"></i> <span>Pet Recovery</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Hero -->
+    <section class="page-hero grid-bg">
+        <div class="container">
+            <div class="section-tag anim-up"><i class="fas fa-circle"></i> VEHICLE RECOVERY</div>
+            <h1 class="anim-up d1">Stolen Vehicle? <span>We'll Find It.</span></h1>
+            <p class="anim-up d2">Cars, bikes, scooters, mopeds, trailers, caravans — our advanced tracking technology and field teams recover them all with a 97% success rate.</p>
+            <div class="page-hero-breadcrumb anim-up d3">
+                <a href="index.html">Home</a> 
+                <i class="fas fa-chevron-right" style="font-size:10px"></i> 
+                <a href="services.html">Services</a> 
+                <i class="fas fa-chevron-right" style="font-size:10px"></i> 
+                Vehicle Recovery
+            </div>
+        </div>
+    </section>
+
+    <!-- Vehicle Cards - BOOTSTRAP RESPONSIVE -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> OUR VEHICLE SERVICES</div>
+                <h2 class="section-title">Every Vehicle Type, <span>Covered</span></h2>
+                <p class="section-desc">We specialize in recovering all types of vehicles using tailored methods for each category.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="vehicle-card anim-up d1">
+                        <div class="vehicle-card-img">
+                            <img src="https://images.unsplash.com/photo-1549317661-bd32c8ce0db2?auto=format&fit=crop&w=600&q=80" alt="Stolen car being recovered by tracking team">
+                            <div class="vc-badge">MOST REQUESTED</div>
+                        </div>
+                        <div class="vehicle-card-body">
+                            <h3><i class="fas fa-car"></i> Car Recovery</h3>
+                            <p class="vc-desc">Full-scale car recovery using live GPS tracking, ANPR camera networks, and coordinated field operations to locate and recover your stolen vehicle.</p>
+                            <div class="vc-stats">
+                                <div class="vc-stat"><div class="vc-num">1,847</div><div class="vc-label">Recovered</div></div>
+                                <div class="vc-stat"><div class="vc-num">18hrs</div><div class="vc-label">Avg Time</div></div>
+                                <div class="vc-stat"><div class="vc-num">98%</div><div class="vc-label">Success</div></div>
+                            </div>
+                            <ul class="vc-features">
+                                <li><i class="fas fa-check"></i> Live GPS & satellite tracking</li>
+                                <li><i class="fas fa-check"></i> ANPR camera network access</li>
+                                <li><i class="fas fa-check"></i> On-ground recovery teams</li>
+                                <li><i class="fas fa-check"></i> Police coordination</li>
+                                <li><i class="fas fa-check"></i> Nationwide coverage</li>
+                            </ul>
+                            <div class="vc-cta">
+                                <a href="contact.html" class="btn-primary" style="width:100%;justify-content:center">
+                                    <i class="fas fa-bolt"></i> Report Stolen Car
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="vehicle-card anim-up d2">
+                        <div class="vehicle-card-img">
+                            <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c39?auto=format&fit=crop&w=600&q=80" alt="Motorcycle theft recovery in progress">
+                            <div class="vc-badge">FAST TRACK</div>
+                        </div>
+                        <div class="vehicle-card-body">
+                            <h3><i class="fas fa-motorcycle"></i> Bike & Scooter Recovery</h3>
+                            <p class="vc-desc">Compact tracking methods designed for motorcycles, scooters, mopeds, and e-bikes with rapid mobilization and specialized recovery techniques.</p>
+                            <div class="vc-stats">
+                                <div class="vc-stat"><div class="vc-num">623</div><div class="vc-label">Recovered</div></div>
+                                <div class="vc-stat"><div class="vc-num">12hrs</div><div class="vc-label">Avg Time</div></div>
+                                <div class="vc-stat"><div class="vc-num">96%</div><div class="vc-label">Success</div></div>
+                            </div>
+                            <ul class="vc-features">
+                                <li><i class="fas fa-check"></i> Compact GPS tracker deployment</li>
+                                <li><i class="fas fa-check"></i> Dark web marketplace monitoring</li>
+                                <li><i class="fas fa-check"></i> Scrap yard & chop shop checks</li>
+                                <li><i class="fas fa-check"></i> Social media intelligence</li>
+                                <li><i class="fas fa-check"></i> Mobilization under 1 hour</li>
+                            </ul>
+                            <div class="vc-cta">
+                                <a href="contact.html" class="btn-primary" style="width:100%;justify-content:center">
+                                    <i class="fas fa-bolt"></i> Report Stolen Bike
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-lg-4 col-md-6">
+                    <div class="vehicle-card anim-up d3">
+                        <div class="vehicle-card-img">
+                            <img src="https://plus.unsplash.com/premium_photo-1682125870462-f2ea2ca7483a?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTd8fGNhcmF2YW58ZW58MHx8MHx8fDA%3D" alt="Trailer and caravan tracking operation">
+                            <div class="vc-badge">HEAVY ASSET</div>
+                        </div>
+                        <div class="vehicle-card-body">
+                            <h3><i class="fas fa-trailer"></i> Trailer & Caravan Recovery</h3>
+                            <p class="vc-desc">Long-range satellite tracking and cross-border coordination for stolen trailers, caravans, horseboxes, and heavy equipment recovery.</p>
+                            <div class="vc-stats">
+                                <div class="vc-stat"><div class="vc-num">377</div><div class="vc-label">Recovered</div></div>
+                                <div class="vc-stat"><div class="vc-num">36hrs</div><div class="vc-label">Avg Time</div></div>
+                                <div class="vc-stat"><div class="vc-num">95%</div><div class="vc-label">Success</div></div>
+                            </div>
+                            <ul class="vc-features">
+                                <li><i class="fas fa-check"></i> Long-range satellite tracking</li>
+                                <li><i class="fas fa-check"></i> Cross-border coordination</li>
+                                <li><i class="fas fa-check"></i> VIN & chassis verification</li>
+                                <li><i class="fas fa-check"></i> Transport logistics support</li>
+                                <li><i class="fas fa-check"></i> Safe return delivery</li>
+                            </ul>
+                            <div class="vc-cta">
+                                <a href="contact.html" class="btn-primary" style="width:100%;justify-content:center">
+                                    <i class="fas fa-bolt"></i> Report Stolen Trailer
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- How We Track - BOOTSTRAP RESPONSIVE -->
+    <section class="section" style="background:var(--bg-secondary)">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> TRACKING METHODS</div>
+                <h2 class="section-title">How We <span>Track Vehicles</span></h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6">
+                    <div class="track-step anim-up d1">
+                        <div class="track-step-circle"><i class="fas fa-satellite"></i></div>
+                        <h4>Satellite GPS</h4>
+                        <p>Real-time positioning via satellite for wide-area coverage.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="track-step anim-up d2">
+                        <div class="track-step-circle"><i class="fas fa-camera"></i></div>
+                        <h4>ANPR Network</h4>
+                        <p>Nationwide cameras tracing vehicle movements in real-time.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="track-step anim-up d3">
+                        <div class="track-step-circle"><i class="fas fa-globe"></i></div>
+                        <h4>OSINT Intel</h4>
+                        <p>Open-source intelligence from dark web and social media.</p>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="track-step anim-up d4">
+                        <div class="track-step-circle"><i class="fas fa-people-group"></i></div>
+                        <h4>Ground Teams</h4>
+                        <p>On-the-ground operatives for safe vehicle recovery.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Technology - BOOTSTRAP RESPONSIVE -->
+    <section class="section grid-bg">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> TECHNOLOGY</div>
+                <h2 class="section-title">Our <span>Vehicle Tech Stack</span></h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="tech-card anim-up d1">
+                        <div class="tech-card-header"><i class="fas fa-location-crosshairs"></i><h4>Military-Grade GPS</h4></div>
+                        <p>Sub-meter accuracy GPS with real-time updates and geofencing alerts.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="tech-card anim-up d2">
+                        <div class="tech-card-header"><i class="fas fa-video"></i><h4>ANPR Camera Network</h4></div>
+                        <p>Access to thousands of nationwide cameras reading every plate.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="tech-card anim-up d3">
+                        <div class="tech-card-header"><i class="fas fa-database"></i><h4>Stolen Vehicle Database</h4></div>
+                        <p>Cross-referencing police, insurance, and DVLA records.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="tech-card anim-up d4">
+                        <div class="tech-card-header"><i class="fas fa-moon"></i><h4>Dark Web Monitoring</h4></div>
+                        <p>Automated scanning for stolen parts and cloned VINs.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="tech-card anim-up d5">
+                        <div class="tech-card-header"><i class="fas fa-mobile-screen"></i><h4>Mobile Command Center</h4></div>
+                        <p>Real-time tracking apps with encrypted communications.</p>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="tech-card anim-up d6">
+                        <div class="tech-card-header"><i class="fas fa-network-wired"></i><h4>Theft Ring Mapping</h4></div>
+                        <p>Identifying organized theft networks and predicting patterns.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Us - BOOTSTRAP RESPONSIVE -->
+    <section class="section why-section">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> WHY LEGIT PATROL</div>
+                <h2 class="section-title">Vehicle Recovery <span>Done Right</span></h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="why-card anim-left d1">
+                        <div class="why-icon"><i class="fas fa-bolt"></i></div>
+                        <div>
+                            <h4>Under 1 Hour Mobilization</h4>
+                            <p>From case intake to field deployment in under 60 minutes for urgent cases.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="why-card anim-right d2">
+                        <div class="why-icon"><i class="fas fa-handshake"></i></div>
+                        <div>
+                            <h4>Police Partnership</h4>
+                            <p>We work alongside law enforcement with full legal compliance.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="why-card anim-left d3">
+                        <div class="why-icon"><i class="fas fa-shield-halved"></i></div>
+                        <div>
+                            <h4>Fully Insured Operations</h4>
+                            <p>Every recovery operation is fully insured for your peace of mind.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="why-card anim-right d4">
+                        <div class="why-icon"><i class="fas fa-money-bill-wave"></i></div>
+                        <div>
+                            <h4>Fast Recovery, Moderate Fee</h4>
+                            <p>If we don't get your vehicle back, you pay absolutely nothing.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials - BOOTSTRAP RESPONSIVE -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> VEHICLE RECOVERY STORIES</div>
+                <h2 class="section-title">Client <span>Testimonials</span></h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card anim-up d1">
+                        <div class="tq"><i class="fas fa-quote-left"></i></div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"My BMW was stolen from a hotel. Legit Patrol tracked it to a warehouse 60 miles away and had it back in 18 hours."</p>
+                        <div class="testimonial-author">
+                            <img src="https://i.pravatar.cc/100?img=11" alt="Tom Henderson" class="testimonial-avatar">
+                            <div>
+                                <div class="testimonial-name">Tom Henderson</div>
+                                <div class="testimonial-role">BMW 5 Series — Recovered in 18hrs</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card anim-up d2">
+                        <div class="tq"><i class="fas fa-quote-left"></i></div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="testimonial-text">"My motorcycle was stolen. Legit Patrol found it stripped in a garage and recovered it within 48 hours. Legends."</p>
+                        <div class="testimonial-author">
+                            <img src="https://i.pravatar.cc/100?img=12" alt="James Mitchell" class="testimonial-avatar">
+                            <div>
+                                <div class="testimonial-name">James Mitchell</div>
+                                <div class="testimonial-role">Yamaha MT-07 — Recovered in 48hrs</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card anim-up d3">
+                        <div class="tq"><i class="fas fa-quote-left"></i></div>
+                        <div class="testimonial-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i>
+                        </div>
+                        <p class="testimonial-text">"They tracked down my stolen caravan missing for 3 weeks. Found it in another county!"</p>
+                        <div class="testimonial-author">
+                            <img src="https://i.pravatar.cc/100?img=5" alt="Norma Clarke" class="testimonial-avatar">
+                            <div>
+                                <div class="testimonial-name">Norma Clarke</div>
+                                <div class="testimonial-role">Swift Caravan — Recovered in 3 weeks</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq-section">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> VEHICLE FAQ</div>
+                <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item anim-up d1">
+                    <div class="faq-question">How quickly can you start tracking my stolen vehicle? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>We begin tracking within 1 hour of receiving your case. Our team mobilizes field agents and activates GPS/ANPR systems immediately after case assessment and verification.</p></div>
+                </div>
+                <div class="faq-item anim-up d2">
+                    <div class="faq-question">Do I need a police report before contacting you? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>While a police report is helpful, you can contact us immediately after the theft. We can begin tracking while you file the report.</p></div>
+                </div>
+                <div class="faq-item anim-up d3">
+                    <div class="faq-question">What if my vehicle doesn't have a GPS tracker installed? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>No problem. We use ANPR cameras, satellite imaging, OSINT intelligence, and ground teams to locate vehicles even without built-in trackers.</p></div>
+                </div>
+                <div class="faq-item anim-up d4">
+                    <div class="faq-question">What information do you need from me? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Vehicle registration number, VIN/chassis number, make/model/color, last known location, date and time of theft, and any relevant photos or CCTV footage.</p></div>
+                </div>
+                <div class="faq-item anim-up d5">
+                    <div class="faq-question">How much does vehicle recovery cost? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Pricing depends on vehicle type and complexity. We provide a transparent quote upfront — you only pay when we succeed.</p></div>
+                </div>
+                <div class="faq-item anim-up d6">
+                    <div class="faq-question">Can you recover vehicles taken abroad? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Yes, we have cross-border coordination capabilities and international recovery partnerships.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box anim-scale">
+                <h2>Vehicle Stolen? <span style="color:var(--accent)">Act Now.</span></h2>
+                <p>Every hour reduces recovery chances. Contact us immediately and we'll start tracking.</p>
+                <a href="contact.html" class="btn-primary">
+                    <i class="fas fa-bolt"></i> Report Stolen Vehicle
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo">
+                        <div class="nav-logo-icon">
+                            <i class="fas fa-shield-halved"></i>
+                            <i class="fas fa-magnifying-glass"></i>
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <div class="nav-logo-text">Legit<span>Patrol</span></div>
+                    </a>
+                    <p>Professional tracking and recovery services for stolen vehicles and missing pets. Trusted by thousands across the country.</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/share/1DvacHvp3x/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Vehicle Recovery</a></li>
+                        <li><a href="services-pets.html"><i class="fas fa-chevron-right"></i> Pet Recovery</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Trailer Recovery</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Motorcycle Tracking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:legitpatrol1@gmail.com?subject=Recovery Assistance Request&body=Hello Legit Patrol,%0D%0A%0D%0AI understand your company specializes in recovery. I would like to request assistance with the following:%0D%0A%0D%0A%0D%0A%0D%0AThank you." target="_blank">
+                            legitpatrol1@gmail.com
+                        </a>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>24/7 — Always Active</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Legit Patrol. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // Scroll handler
+            $(window).on('scroll', function() {
+                var st = $(window).scrollTop();
+                var dh = $(document).height() - $(window).height();
+                $('#scroll-progress').css('width', (st / dh) * 100 + '%');
+                
+                if (st > 80) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+                
+                // Scroll to top visibility
+                if (st > 300) {
+                    $('#scrollToTopBtn').addClass('visible');
+                } else {
+                    $('#scrollToTopBtn').removeClass('visible');
+                }
+                
+                $('.anim-up, .anim-left, .anim-right, .anim-scale').each(function() {
+                    if ($(this).offset().top < st + $(window).height() - 80) {
+                        $(this).addClass('animated');
+                    }
+                });
+            });
+            
+            // Scroll to top
+            $('#scrollToTopBtn').on('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // Mobile menu toggle
+            $('.nav-toggle').on('click', function() {
+                $('.nav-links').toggleClass('open');
+                $(this).find('i').toggleClass('fa-bars fa-times');
+            });
+            
+            // FAQ accordion
+            $('.faq-question').on('click', function() {
+                var item = $(this).parent('.faq-item');
+                if (item.hasClass('active')) {
+                    item.removeClass('active');
+                } else {
+                    $('.faq-item').removeClass('active');
+                    item.addClass('active');
+                }
+            });
+            
+            $(window).trigger('scroll');
+        });
+    </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/69f888a84126b11c39d606b0/default';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+</body>
+</html>

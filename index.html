@@ -1,0 +1,1780 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Legit Patrol — Track. Recover. Return.</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <style>
+        *,*::before,*::after {
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --accent: #00a8ff;
+            --accent-dark: #0088cc;
+            --accent-glow: rgba(0,168,255,0.25);
+            --accent-glow-strong: rgba(0,168,255,0.5);
+            --alert: #ff6d00;
+            --alert-glow: rgba(255,109,0,0.3);
+            --text-primary: #f0f0f0;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --border: #2a2a2a;
+            --font-heading: 'Chakra Petch', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+        
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--alert));
+            z-index: 10000;
+            width: 0;
+            transition: width .1s linear;
+        }
+        
+        .grid-bg {
+            background-image: radial-gradient(circle, rgba(0,168,255,.07) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 9990;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all .4s cubic-bezier(.16,1,.3,1);
+            box-shadow: 0 4px 15px rgba(0,0,0,.3);
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .scroll-to-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            padding: 18px 0;
+            transition: all .4s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(10,10,10,.95);
+            backdrop-filter: blur(20px);
+            padding: 12px 0;
+            box-shadow: 0 2px 30px rgba(0,0,0,.5);
+        }
+        
+        .nav-container {
+            width: 100%;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .nav-logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #000;
+            position: relative;
+        }
+        
+        .nav-logo-icon .fa-shield-halved {
+            font-size: 24px;
+        }
+        
+        .nav-logo-icon .fa-magnifying-glass {
+            position: absolute;
+            font-size: 10px;
+            bottom: 6px;
+            right: 6px;
+            color: #000;
+        }
+        
+        .nav-logo-icon .fa-paw {
+            position: absolute;
+            font-size: 8px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+        }
+        
+        .nav-logo-text {
+            font-family: var(--font-heading);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+        
+        .nav-logo-text span {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 8px;
+            transition: all .3s ease;
+            letter-spacing: .5px;
+            font-family: var(--font-heading);
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+            background: rgba(0,168,255,.08);
+        }
+        
+        .nav-links a.active {
+            color: var(--accent);
+            background: rgba(0,168,255,.12);
+        }
+        
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark)) !important;
+            color: #000 !important;
+            font-weight: 600 !important;
+        }
+        
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Hero Section */
+        .hero {
+            position: relative;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+        }
+        
+        .hero-slideshow {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+        }
+        
+        .hero-slide {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            opacity: 0;
+            transition: opacity 1.5s ease-in-out;
+        }
+        
+        .hero-slide.active {
+            opacity: 1;
+        }
+        
+        .hero-slide:nth-child(1) {
+            background-image: url('https://images.unsplash.com/photo-1738101996181-f4503ebaec70?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fHRyYWlsZXIlMjByZWNvdmVyeXxlbnwwfHwwfHx8MA%3D%3D');
+        }
+        
+        .hero-slide:nth-child(2) {
+            background-image: url('https://images.unsplash.com/photo-1594004844563-536a03a6e532?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8Mnx8ZG9nJTIwcmVzY3VlfGVufDB8fDB8fHww');
+        }
+        
+        .hero-slide:nth-child(3) {
+            background-image: url('https://plus.unsplash.com/premium_photo-1661964084829-69f889505c00?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8NXx8bW90b3JjeWNsZSUyMG9uJTIwZmxhdGJlZHxlbnwwfHwwfHx8MA%3D%3D');
+        }
+        
+        .hero-slide:nth-child(4) {
+            background-image: url('https://images.unsplash.com/photo-1543852786-1cf6624b9987?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MTR8fGNhdHxlbnwwfHwwfHx8MA%3D%3D');
+        }
+        
+        .hero-slide:nth-child(5) {
+            background-image: url('https://images.unsplash.com/photo-1635749331220-777f27adbda9?w=500&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8MjB8fGNhcmF2YW4lMjBvbiUyMGZsYXRiZWR8ZW58MHx8MHx8fDA%3D');
+        }
+        
+        .hero-overlay {
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(180deg, rgba(10,10,10,.7) 0%, rgba(10,10,10,.85) 50%, rgba(10,10,10,1) 100%);
+            z-index: 2;
+        }
+        
+        .hero-grid {
+            position: absolute;
+            inset: 0;
+            z-index: 3;
+            background-image: radial-gradient(circle, rgba(0,168,255,.08) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 4;
+            text-align: center;
+            max-width: 900px;
+            padding: 0 30px;
+        }
+        
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: rgba(0,168,255,.1);
+            border: 1px solid rgba(0,168,255,.25);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 500;
+            margin-bottom: 30px;
+            font-family: var(--font-heading);
+            letter-spacing: 1px;
+        }
+        
+        .hero-badge .pulse-dot {
+            width: 8px;
+            height: 8px;
+            background: var(--accent);
+            border-radius: 50%;
+            animation: pulseDot 1.5s ease-in-out infinite;
+        }
+        
+        @keyframes pulseDot {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: .5; transform: scale(1.5); }
+        }
+        
+        .hero-title {
+            font-family: var(--font-heading);
+            font-size: clamp(36px, 6vw, 72px);
+            font-weight: 700;
+            line-height: 1.1;
+            margin-bottom: 10px;
+        }
+        
+        .hero-title .line1 {
+            display: block;
+            color: var(--text-primary);
+        }
+        
+        .hero-title .line2 {
+            display: block;
+            color: var(--accent);
+        }
+        
+        .hero-typed-wrap {
+            font-family: var(--font-heading);
+            font-size: clamp(18px, 3vw, 28px);
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            min-height: 40px;
+        }
+        
+        .hero-typed-wrap .prefix {
+            color: var(--text-secondary);
+        }
+        
+        #typed-text {
+            color: var(--accent);
+            border-right: 2px solid var(--accent);
+            padding-right: 4px;
+            animation: blinkCaret .8s step-end infinite;
+        }
+        
+        @keyframes blinkCaret {
+            0%, 100% { border-color: var(--accent); }
+            50% { border-color: transparent; }
+        }
+        
+        .hero-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            max-width: 620px;
+            margin: 0 auto 40px;
+            line-height: 1.8;
+        }
+        
+        .hero-buttons {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+        
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #000;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 15px;
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all .3s ease;
+            border: none;
+            cursor: pointer;
+            letter-spacing: .5px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px var(--accent-glow);
+        }
+        
+        .btn-secondary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: transparent;
+            color: var(--text-primary);
+            font-family: var(--font-heading);
+            font-weight: 500;
+            font-size: 15px;
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all .3s ease;
+            border: 1px solid var(--border);
+            cursor: pointer;
+            letter-spacing: .5px;
+        }
+        
+        .btn-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0,168,255,.05);
+        }
+        
+        .hero-scroll-indicator {
+            position: absolute;
+            bottom: 40px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 8px;
+            color: var(--text-muted);
+            font-size: 12px;
+            font-family: var(--font-heading);
+            letter-spacing: 2px;
+        }
+        
+        .scroll-line {
+            width: 1px;
+            height: 40px;
+            background: linear-gradient(to bottom, var(--accent), transparent);
+            animation: scrollLine 2s ease-in-out infinite;
+        }
+        
+        @keyframes scrollLine {
+            0% { transform: scaleY(0); transform-origin: top; }
+            50% { transform: scaleY(1); transform-origin: top; }
+            51% { transform-origin: bottom; }
+            100% { transform: scaleY(0); transform-origin: bottom; }
+        }
+        
+        .slide-indicators {
+            position: absolute;
+            bottom: 100px;
+            left: 50%;
+            transform: translateX(-50%);
+            z-index: 4;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .slide-indicator {
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            background: rgba(255,255,255,0.3);
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        
+        .slide-indicator.active {
+            background: var(--accent);
+            transform: scale(1.3);
+        }
+
+        /* Stats Section */
+        .stats-section {
+            padding: 60px 0;
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+        }
+        
+        .stat-item {
+            text-align: center;
+            padding: 16px;
+        }
+        
+        .stat-icon {
+            font-size: 26px;
+            color: var(--accent);
+            margin-bottom: 10px;
+        }
+        
+        .stat-number {
+            font-family: var(--font-heading);
+            font-size: 36px;
+            font-weight: 700;
+            color: var(--text-primary);
+            line-height: 1;
+            margin-bottom: 6px;
+        }
+        
+        .stat-number span {
+            color: var(--accent);
+        }
+        
+        .stat-label {
+            font-size: 11px;
+            color: var(--text-secondary);
+            font-weight: 500;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            font-family: var(--font-heading);
+        }
+
+        /* Sections */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+        
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: var(--font-heading);
+            margin-bottom: 16px;
+        }
+        
+        .section-tag i {
+            font-size: 10px;
+        }
+        
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        
+        .section-title span {
+            color: var(--accent);
+        }
+        
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* Services Grid */
+        .service-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 36px 30px;
+            transition: all .4s ease;
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+        
+        .service-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), transparent);
+            opacity: 0;
+            transition: opacity .4s ease;
+        }
+        
+        .service-card:hover {
+            border-color: rgba(0,168,255,.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 60px rgba(0,0,0,.4);
+        }
+        
+        .service-card:hover::before {
+            opacity: 1;
+        }
+        
+        .service-card-icon {
+            width: 60px;
+            height: 60px;
+            background: rgba(0,168,255,.1);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--accent);
+            margin-bottom: 20px;
+            transition: all .3s ease;
+        }
+        
+        .service-card:hover .service-card-icon {
+            background: var(--accent);
+            color: #000;
+            transform: scale(1.1);
+        }
+        
+        .service-card h3 {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 10px;
+        }
+        
+        .service-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 16px;
+        }
+        
+        .service-card-tags {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+        
+        .service-card-tags span {
+            font-size: 11px;
+            padding: 4px 12px;
+            background: rgba(0,168,255,.08);
+            color: var(--accent);
+            border-radius: 50px;
+            font-weight: 500;
+            font-family: var(--font-heading);
+        }
+
+        /* Why Section */
+        .why-section {
+            background: var(--bg-secondary);
+        }
+        
+        .why-card {
+            display: flex;
+            gap: 20px;
+            padding: 30px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            transition: all .4s ease;
+            height: 100%;
+        }
+        
+        .why-card:hover {
+            border-color: rgba(0,168,255,.2);
+            transform: translateX(8px);
+        }
+        
+        .why-card-num {
+            font-family: var(--font-heading);
+            font-size: 32px;
+            font-weight: 700;
+            color: rgba(0,168,255,.2);
+            min-width: 50px;
+            line-height: 1;
+        }
+        
+        .why-card h4 {
+            font-family: var(--font-heading);
+            font-size: 17px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        .why-card p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.7;
+        }
+
+        /* Steps Grid */
+        .steps-grid {
+            display: grid;
+            grid-template-columns: repeat(5, 1fr);
+            gap: 20px;
+            position: relative;
+        }
+        
+        .steps-grid::before {
+            content: '';
+            position: absolute;
+            top: 40px;
+            left: 10%;
+            right: 10%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, var(--border), var(--accent), var(--border), transparent);
+        }
+        
+        .step-item {
+            text-align: center;
+            position: relative;
+            z-index: 2;
+        }
+        
+        .step-circle {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: var(--bg-card);
+            border: 2px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 20px;
+            font-size: 22px;
+            color: var(--accent);
+            transition: all .4s ease;
+        }
+        
+        .step-item:hover .step-circle {
+            border-color: var(--accent);
+            background: rgba(0,168,255,.1);
+            transform: scale(1.15);
+            box-shadow: 0 0 30px var(--accent-glow);
+        }
+        
+        .step-num {
+            font-family: var(--font-heading);
+            font-size: 11px;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 2px;
+            margin-bottom: 8px;
+        }
+        
+        .step-item h4 {
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .step-item p {
+            font-size: 12px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+
+        /* Reviews Section */
+        .reviews-section {
+            background: var(--bg-secondary);
+        }
+        
+        .review-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 30px;
+            transition: all .4s ease;
+            height: 100%;
+        }
+        
+        .review-card:hover {
+            border-color: rgba(0,168,255,.2);
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,.3);
+        }
+        
+        .review-stars {
+            display: flex;
+            gap: 3px;
+            margin-bottom: 14px;
+        }
+        
+        .review-stars i {
+            font-size: 14px;
+            color: #ffc107;
+        }
+        
+        .review-text {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-bottom: 18px;
+            font-style: italic;
+        }
+        
+        .review-author {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+        
+        .review-avatar {
+            width: 42px;
+            height: 42px;
+            border-radius: 50%;
+            object-fit: cover;
+            border: 2px solid var(--border);
+        }
+        
+        .review-name {
+            font-family: var(--font-heading);
+            font-size: 14px;
+            font-weight: 600;
+        }
+        
+        .review-role {
+            font-size: 12px;
+            color: var(--text-muted);
+        }
+        
+        .review-quote-icon {
+            font-size: 28px;
+            color: rgba(0,168,255,.15);
+            margin-bottom: 10px;
+        }
+
+        /* CTA Section */
+        .cta-section {
+            padding: 80px 0;
+        }
+        
+        .cta-box {
+            background: linear-gradient(135deg, rgba(0,168,255,.1), rgba(255,109,0,.05));
+            border: 1px solid rgba(0,168,255,.2);
+            border-radius: 24px;
+            padding: 60px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .cta-box::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle at 30% 50%, var(--accent-glow), transparent 50%);
+            opacity: .3;
+            animation: ctaGlow 6s ease-in-out infinite;
+        }
+        
+        @keyframes ctaGlow {
+            0%, 100% { transform: translate(0, 0); }
+            50% { transform: translate(5%, -5%); }
+        }
+        
+        .cta-box > * {
+            position: relative;
+            z-index: 2;
+        }
+        
+        .cta-box h2 {
+            font-family: var(--font-heading);
+            font-size: clamp(24px, 3.5vw, 38px);
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+        
+        .cta-box p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 30px;
+            max-width: 500px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 70px 0 0;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-top: 16px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 16px;
+            transition: all .3s ease;
+            text-decoration: none;
+        }
+        
+        .footer-social a:hover {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .footer-col h4 {
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: var(--text-primary);
+            letter-spacing: .5px;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-col ul a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            transition: all .3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-col ul a:hover {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+        
+        .footer-col ul a i {
+            font-size: 10px;
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity .3s;
+        }
+        
+        .footer-col ul a:hover i {
+            opacity: 1;
+        }
+        
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .footer-contact-item i {
+            color: var(--accent);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .footer-contact-item span,
+        .footer-contact-item a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        
+        .footer-contact-item a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .footer-bottom p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        .footer-bottom-links {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .footer-bottom-links a {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color .3s;
+        }
+        
+        .footer-bottom-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Animations */
+        .anim-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-up.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .anim-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-left.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .anim-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-right.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .anim-scale {
+            opacity: 0;
+            transform: scale(.85);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-scale.animated {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .d1 { transition-delay: .1s !important; }
+        .d2 { transition-delay: .2s !important; }
+        .d3 { transition-delay: .3s !important; }
+        .d4 { transition-delay: .4s !important; }
+        .d5 { transition-delay: .5s !important; }
+        .d6 { transition-delay: .6s !important; }
+
+        /* Responsive Design */
+        @media(max-width: 1024px) {
+            .steps-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+            .steps-grid::before {
+                display: none;
+            }
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media(max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10,10,10,.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 20px 30px;
+                gap: 4px;
+                border-bottom: 1px solid var(--border);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-toggle {
+                display: block;
+            }
+            .steps-grid {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            .cta-box {
+                padding: 40px 24px;
+            }
+            .scroll-to-top {
+                bottom: 20px;
+                left: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="scroll-progress"></div>
+    
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTopBtn" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- Navbar — FULL WIDTH -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="nav-logo-icon">
+                    <i class="fas fa-shield-halved"></i>
+                    <i class="fas fa-magnifying-glass"></i>
+                    <i class="fas fa-paw"></i>
+                </div>
+                <div class="nav-logo-text">Legit<span>Patrol</span></div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html" class="active">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="services-vehicles.html">Services</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+            <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="hero-slideshow">
+            <div class="hero-slide active"></div>
+            <div class="hero-slide"></div>
+            <div class="hero-slide"></div>
+            <div class="hero-slide"></div>
+            <div class="hero-slide"></div>
+        </div>
+        <div class="hero-overlay"></div>
+        <div class="hero-grid"></div>
+        <div class="hero-content">
+            <div class="hero-badge anim-up">
+                <span class="pulse-dot"></span> ACTIVE TRACKING SYSTEM
+            </div>
+            <h1 class="hero-title anim-up d1">
+                <span class="line1">We Recover</span>
+                <span class="line2" id="typed-text-full"></span>
+            </h1>
+            <div class="hero-typed-wrap anim-up d2">
+                <span class="prefix">Specializing in </span><span id="typed-text"></span>
+            </div>
+            <p class="hero-desc anim-up d3">
+                From stolen vehicles to missing pets — our expert team uses cutting-edge technology to track, locate, and recover what matters most to you.
+            </p>
+            <div class="hero-buttons anim-up d4">
+                <a href="contact.html" class="btn-primary">
+                    <i class="fas fa-shield-halved"></i> Report a Case
+                </a>
+                <a href="services-vehicles.html" class="btn-secondary">
+                    <i class="fas fa-arrow-right"></i> Our Services
+                </a>
+            </div>
+        </div>
+        <div class="slide-indicators">
+            <div class="slide-indicator active" data-slide="0"></div>
+            <div class="slide-indicator" data-slide="1"></div>
+            <div class="slide-indicator" data-slide="2"></div>
+            <div class="slide-indicator" data-slide="3"></div>
+            <div class="slide-indicator" data-slide="4"></div>
+        </div>
+        <div class="hero-scroll-indicator">
+            <div class="scroll-line"></div>
+            SCROLL
+        </div>
+    </section>
+
+    <!-- Stats Section — BOOTSTRAP RESPONSIVE -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="row g-4">
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="stat-item anim-up">
+                        <div class="stat-icon"><i class="fas fa-car-burst"></i></div>
+                        <div class="stat-number" data-target="2847">0<span>+</span></div>
+                        <div class="stat-label">Vehicles Recovered</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="stat-item anim-up d1">
+                        <div class="stat-icon"><i class="fas fa-paw"></i></div>
+                        <div class="stat-number" data-target="1623">0<span>+</span></div>
+                        <div class="stat-label">Pets Reunited</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="stat-item anim-up d2">
+                        <div class="stat-icon"><i class="fas fa-clock"></i></div>
+                        <div class="stat-number" data-target="48">0<span>hrs</span></div>
+                        <div class="stat-label">Avg Recovery Time</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6 col-sm-6">
+                    <div class="stat-item anim-up d3">
+                        <div class="stat-icon"><i class="fas fa-trophy"></i></div>
+                        <div class="stat-number" data-target="99">0<span>%</span></div>
+                        <div class="stat-label">Success Rate</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Services Section — BOOTSTRAP RESPONSIVE -->
+    <section class="section grid-bg">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> WHAT WE DO</div>
+                <h2 class="section-title">Comprehensive <span>Recovery</span> Solutions</h2>
+                <p class="section-desc">
+                    Whether it's a stolen vehicle on the streets or a missing beloved pet — we have the expertise and tools to get it back.
+                </p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-6 col-md-6">
+                    <div class="service-card anim-up d1">
+                        <div class="service-card-icon"><i class="fas fa-car"></i></div>
+                        <h3>Vehicle Recovery</h3>
+                        <p>Advanced GPS tracking and on-ground intelligence network to locate and recover stolen cars, bikes, scooters, mopeds, trailers, and caravans fast.</p>
+                        <div class="service-card-tags">
+                            <span>Cars</span><span>Bikes</span><span>Scooters</span><span>Mopeds</span><span>Trailers</span><span>Caravans</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="service-card anim-up d2">
+                        <div class="service-card-icon"><i class="fas fa-paw"></i></div>
+                        <h3>Pet Recovery</h3>
+                        <p>Specialized pet tracking and recovery service using microchip scanning, social media alerts, drone surveillance, and ground search teams to find your missing companion.</p>
+                        <div class="service-card-tags">
+                            <span>Dogs</span><span>Cats</span><span>Birds</span><span>Rabbits</span><span>Horses</span><span>Exotic Pets</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="service-card anim-up d3">
+                        <div class="service-card-icon"><i class="fas fa-motorcycle"></i></div>
+                        <h3>Motorcycle & Scooter Tracking</h3>
+                        <p>Specialized recovery for two-wheeled vehicles using compact GPS trackers and rapid response ground teams for quick location and retrieval.</p>
+                        <div class="service-card-tags">
+                            <span>Motorcycles</span><span>E-Scooters</span><span>Mopeds</span><span>Dirt Bikes</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6 col-md-6">
+                    <div class="service-card anim-up d4">
+                        <div class="service-card-icon"><i class="fas fa-truck"></i></div>
+                        <h3>Trailer & Caravan Recovery</h3>
+                        <p>Heavy-duty tracking solutions for larger assets including trailers, caravans, and RVs. Long-range GPS with nationwide monitoring capabilities.</p>
+                        <div class="service-card-tags">
+                            <span>Caravans</span><span>Trailers</span><span>RVs</span><span>Horseboxes</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Why Choose Us Section — BOOTSTRAP RESPONSIVE -->
+    <section class="section why-section">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> WHY CHOOSE US</div>
+                <h2 class="section-title">The <span>Legit Patrol</span> Advantage</h2>
+                <p class="section-desc">We combine technology, experience, and determination to deliver results where others can't.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="why-card anim-left d1">
+                        <div class="why-card-num">01</div>
+                        <div>
+                            <h4>Rapid Response Time</h4>
+                            <p>Our team mobilizes within minutes of your report. Every second counts in recovery operations.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="why-card anim-right d2">
+                        <div class="why-card-num">02</div>
+                        <div>
+                            <h4>Advanced Tracking Tech</h4>
+                            <p>We use military-grade GPS, satellite imaging, drone surveillance, and proprietary software.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="why-card anim-left d3">
+                        <div class="why-card-num">03</div>
+                        <div>
+                            <h4>Pet & Vehicle Specialists</h4>
+                            <p>Dedicated teams for both vehicle asset recovery and pet search operations with tailored methods.</p>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="why-card anim-right d4">
+                        <div class="why-card-num">04</div>
+                        <div>
+                            <h4>99% Success Rate</h4>
+                            <p>Our proven track record speaks for itself. We don't give up until your property or pet is safely returned.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Process Section -->
+    <section class="section grid-bg">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> PROCESS</div>
+                <h2 class="section-title">How <span>It Works</span></h2>
+                <p class="section-desc">A streamlined five-step process from initial report to successful recovery.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg col-md-4 col-sm-6">
+                    <div class="step-item anim-up d1">
+                        <div class="step-circle"><i class="fas fa-file-lines"></i></div>
+                        <div class="step-num">STEP 01</div>
+                        <h4>Report Case</h4>
+                        <p>Submit details about your stolen vehicle or missing pet.</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-4 col-sm-6">
+                    <div class="step-item anim-up d2">
+                        <div class="step-circle"><i class="fas fa-magnifying-glass"></i></div>
+                        <div class="step-num">STEP 02</div>
+                        <h4>Investigation</h4>
+                        <p>Our analysts assess the case and begin intelligence gathering.</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-4 col-sm-6">
+                    <div class="step-item anim-up d3">
+                        <div class="step-circle"><i class="fas fa-satellite-dish"></i></div>
+                        <div class="step-num">STEP 03</div>
+                        <h4>Tracking</h4>
+                        <p>Deploy tracking technology to pinpoint the exact location.</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-6 col-sm-6">
+                    <div class="step-item anim-up d4">
+                        <div class="step-circle"><i class="fas fa-hand-holding-hand"></i></div>
+                        <div class="step-num">STEP 04</div>
+                        <h4>Recovery</h4>
+                        <p>Field teams execute safe and lawful recovery operations.</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-6 col-sm-12">
+                    <div class="step-item anim-up d5">
+                        <div class="step-circle"><i class="fas fa-circle-check"></i></div>
+                        <div class="step-num">STEP 05</div>
+                        <h4>Return</h4>
+                        <p>Your vehicle or pet is returned safely to you.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Reviews Section — BOOTSTRAP RESPONSIVE -->
+    <section class="section reviews-section">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> TESTIMONIALS</div>
+                <h2 class="section-title">What Our <span>Clients</span> Say</h2>
+                <p class="section-desc">Real stories from people who trusted us with their recoveries.</p>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="review-card anim-up d1">
+                        <div class="review-quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <div class="review-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"My motorcycle was stolen and the police had given up. Legit Patrol tracked it down within 48 hours. Absolutely incredible service!"</p>
+                        <div class="review-author">
+                            <img src="https://i.pravatar.cc/100?img=11" alt="James" class="review-avatar">
+                            <div>
+                                <div class="review-name">James Mitchell</div>
+                                <div class="review-role">Motorcycle Owner</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="review-card anim-up d2">
+                        <div class="review-quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <div class="review-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"Our golden retriever went missing for 5 days. Legit Patrol used drone surveillance and community alerts to find him 30 miles away. We are forever grateful."</p>
+                        <div class="review-author">
+                            <img src="https://i.pravatar.cc/100?img=5" alt="Emma" class="review-avatar">
+                            <div>
+                                <div class="review-name">Emma Wallace</div>
+                                <div class="review-role">Dog Owner</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="review-card anim-up d3">
+                        <div class="review-quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <div class="review-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"They recovered my stolen car within 24 hours. The GPS tracking was spot on and they coordinated with local authorities to get it back safely."</p>
+                        <div class="review-author">
+                            <img src="https://i.pravatar.cc/100?img=68" alt="Robert" class="review-avatar">
+                            <div>
+                                <div class="review-name">Robert Chen</div>
+                                <div class="review-role">Car Owner</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="review-card anim-up d4">
+                        <div class="review-quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <div class="review-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-stroke"></i>
+                        </div>
+                        <p class="review-text">"They tracked down my stolen caravan that the police couldn't find for weeks. Found it in another state! Highly recommend their services."</p>
+                        <div class="review-author">
+                            <img src="https://i.pravatar.cc/100?img=12" alt="David" class="review-avatar">
+                            <div>
+                                <div class="review-name">David Roberts</div>
+                                <div class="review-role">Caravan Owner</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="review-card anim-up d5">
+                        <div class="review-quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <div class="review-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"My Bengal cat disappeared from home. Legit Patrol set up social media alerts and found her being kept by someone two neighborhoods away. Heroes!"</p>
+                        <div class="review-author">
+                            <img src="https://i.pravatar.cc/100?img=16" alt="Lisa" class="review-avatar">
+                            <div>
+                                <div class="review-name">Lisa Park</div>
+                                <div class="review-role">Cat Owner</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="review-card anim-up d6">
+                        <div class="review-quote-icon"><i class="fas fa-quote-left"></i></div>
+                        <div class="review-stars">
+                            <i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i>
+                        </div>
+                        <p class="review-text">"My delivery scooter was stolen and I was losing business daily. Legit Patrol found it within 12 hours. Back on the road the next day!"</p>
+                        <div class="review-author">
+                            <img src="https://i.pravatar.cc/100?img=31" alt="Ahmed" class="review-avatar">
+                            <div>
+                                <div class="review-name">Ahmed Hassan</div>
+                                <div class="review-role">Scooter Owner</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box anim-scale">
+                <h2>Vehicle Stolen or Pet Missing? <span style="color:var(--accent)">Let's Get It Back.</span></h2>
+                <p>Don't wait. Every minute reduces the chances of recovery. Contact us now and let our tracking experts take over.</p>
+                <a href="contact.html" class="btn-primary">
+                    <i class="fas fa-bolt"></i> Start Recovery Now
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo">
+                        <div class="nav-logo-icon">
+                            <i class="fas fa-shield-halved"></i>
+                            <i class="fas fa-magnifying-glass"></i>
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <div class="nav-logo-text">Legit<span>Patrol</span></div>
+                    </a>
+                    <p>Professional tracking and recovery services for stolen vehicles and missing pets. Trusted by thousands across the country.</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/share/1DvacHvp3x/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Vehicle Recovery</a></li>
+                        <li><a href="services-pets.html"><i class="fas fa-chevron-right"></i> Pet Recovery</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Trailer Recovery</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Motorcycle Tracking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:legitpatrol1@gmail.com?subject=Recovery Assistance Request&body=Hello Legit Patrol,%0D%0A%0D%0AI understand your company specializes in recovery. I would like to request assistance with the following:%0D%0A%0D%0A%0D%0A%0D%0AThank you." target="_blank">
+                            legitpatrol1@gmail.com
+                        </a>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>24/7 — Always Active</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Legit Patrol. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // Hero slideshow
+            var currentSlide = 0;
+            var totalSlides = 5;
+            var slideInterval;
+            
+            function showSlide(index) {
+                $('.hero-slide').removeClass('active');
+                $('.hero-slide').eq(index).addClass('active');
+                $('.slide-indicator').removeClass('active');
+                $('.slide-indicator').eq(index).addClass('active');
+                currentSlide = index;
+            }
+            
+            function nextSlide() {
+                var next = (currentSlide + 1) % totalSlides;
+                showSlide(next);
+            }
+            
+            function startSlideshow() {
+                slideInterval = setInterval(nextSlide, 5000);
+            }
+            
+            function stopSlideshow() {
+                clearInterval(slideInterval);
+            }
+            
+            $('.slide-indicator').on('click', function() {
+                var slideIndex = parseInt($(this).data('slide'));
+                showSlide(slideIndex);
+                stopSlideshow();
+                startSlideshow();
+            });
+            
+            startSlideshow();
+            
+            // Scroll handler
+            $(window).on('scroll', function() {
+                var scrollTop = $(window).scrollTop();
+                var docHeight = $(document).height() - $(window).height();
+                var scrollPercent = (scrollTop / docHeight) * 100;
+                $('#scroll-progress').css('width', scrollPercent + '%');
+                
+                if (scrollTop > 80) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+                
+                // Scroll to top button visibility
+                if (scrollTop > 300) {
+                    $('#scrollToTopBtn').addClass('visible');
+                } else {
+                    $('#scrollToTopBtn').removeClass('visible');
+                }
+                
+                $('.anim-up, .anim-left, .anim-right, .anim-scale').each(function() {
+                    var elementTop = $(this).offset().top;
+                    var windowBottom = scrollTop + $(window).height();
+                    if (elementTop < windowBottom - 80) {
+                        $(this).addClass('animated');
+                    }
+                });
+                
+                $('.stat-number').each(function() {
+                    var elementTop = $(this).offset().top;
+                    var windowBottom = scrollTop + $(window).height();
+                    if (elementTop < windowBottom - 50 && !$(this).data('counted')) {
+                        $(this).data('counted', true);
+                        var $this = $(this);
+                        var target = parseInt($this.data('target'));
+                        var suffix = $this.find('span').text();
+                        
+                        $({ countNum: 0 }).animate({ countNum: target }, {
+                            duration: 2000,
+                            easing: 'swing',
+                            step: function() {
+                                $this.html(Math.floor(this.countNum) + '<span>' + suffix + '</span>');
+                            },
+                            complete: function() {
+                                $this.html(target + '<span>' + suffix + '</span>');
+                            }
+                        });
+                    }
+                });
+            });
+            
+            // Scroll to top button click
+            $('#scrollToTopBtn').on('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Mobile menu toggle
+            $('.nav-toggle').on('click', function() {
+                $('.nav-links').toggleClass('open');
+                $(this).find('i').toggleClass('fa-bars fa-times');
+            });
+            
+            // Typewriter effect
+            var words = [
+                'Stolen Vehicles',
+                'Missing Pets',
+                'Lost Dogs & Cats',
+                'Stolen Motorcycles',
+                'Missing Caravans',
+                'Lost Horses & Birds',
+                'Your Peace of Mind'
+            ];
+            
+            var wordIndex = 0;
+            var charIndex = 0;
+            var isDeleting = false;
+            var typeSpeed = 90;
+            
+            function typeEffect() {
+                var currentWord = words[wordIndex];
+                
+                if (isDeleting) {
+                    charIndex--;
+                    typeSpeed = 40;
+                } else {
+                    charIndex++;
+                    typeSpeed = 90;
+                }
+                
+                $('#typed-text').text(currentWord.substring(0, charIndex));
+                $('#typed-text-full').text(currentWord.substring(0, charIndex));
+                
+                if (!isDeleting && charIndex === currentWord.length) {
+                    typeSpeed = 2200;
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    wordIndex = (wordIndex + 1) % words.length;
+                    typeSpeed = 400;
+                }
+                
+                setTimeout(typeEffect, typeSpeed);
+            }
+            
+            typeEffect();
+            $(window).trigger('scroll');
+        });
+    </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/69f888a84126b11c39d606b0/default';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+</body>
+</html>

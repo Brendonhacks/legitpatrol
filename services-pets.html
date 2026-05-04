@@ -1,0 +1,649 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pet Recovery — Legit Patrol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <style>
+        *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+        :root{--bg-primary:#0a0a0a;--bg-secondary:#111111;--bg-card:#1a1a1a;--accent:#00a8ff;--accent-dark:#0088cc;--accent-glow:rgba(0,168,255,.25);--alert:#ff6d00;--alert-glow:rgba(255,109,0,.3);--pet-purple:#a855f7;--pet-pink:#ec4899;--pet-green:#22c55e;--pet-orange:#f97316;--text-primary:#f0f0f0;--text-secondary:#888888;--text-muted:#555555;--border:#2a2a2a;--font-heading:'Chakra Petch',sans-serif;--font-body:'Inter',sans-serif}
+        html{scroll-behavior:smooth}body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;line-height:1.7}
+        #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--pet-pink));z-index:10000;width:0;transition:width .1s linear}
+        .grid-bg{background-image:radial-gradient(circle,rgba(0,168,255,.07) 1px,transparent 1px);background-size:32px 32px}
+
+        /* Scroll to Top */
+        .scroll-to-top{position:fixed;bottom:30px;left:30px;width:46px;height:46px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#000;border:none;border-radius:12px;font-size:18px;cursor:pointer;z-index:9990;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(20px);transition:all .4s cubic-bezier(.16,1,.3,1);box-shadow:0 4px 15px rgba(0,0,0,.3)}
+        .scroll-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
+        .scroll-to-top:hover{transform:translateY(-4px);box-shadow:0 8px 25px var(--accent-glow)}
+
+        /* Navbar */
+        .navbar{position:fixed;top:0;left:0;width:100%;z-index:9999;padding:18px 0;transition:all .4s ease}
+        .navbar.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);padding:12px 0;box-shadow:0 2px 30px rgba(0,0,0,.5)}
+        .nav-container{width:100%;padding:0 30px;display:flex;align-items:center;justify-content:space-between}
+        .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
+        .nav-logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#000;position:relative}
+        .nav-logo-icon .fa-shield-halved{font-size:24px}
+        .nav-logo-icon .fa-magnifying-glass{position:absolute;font-size:10px;bottom:6px;right:6px;color:#000}
+        .nav-logo-icon .fa-paw{position:absolute;font-size:8px;top:50%;left:50%;transform:translate(-50%,-50%);color:#000}
+        .nav-logo-text{font-family:var(--font-heading);font-size:22px;font-weight:700;color:var(--text-primary);letter-spacing:1px}.nav-logo-text span{color:var(--accent)}
+        .nav-links{display:flex;align-items:center;gap:8px;list-style:none}
+        .nav-links a{text-decoration:none;color:var(--text-secondary);font-size:14px;font-weight:500;padding:8px 18px;border-radius:8px;transition:all .3s ease;letter-spacing:.5px;font-family:var(--font-heading)}
+        .nav-links a:hover{color:var(--accent);background:rgba(0,168,255,.08)}
+        .nav-links a.active{color:var(--accent);background:rgba(0,168,255,.12)}
+        .nav-toggle{display:none;background:none;border:none;color:var(--text-primary);font-size:24px;cursor:pointer}
+
+        /* Responsive Service Tabs */
+        .service-tabs-wrapper{background:var(--bg-secondary);border-bottom:1px solid var(--border);position:sticky;top:64px;z-index:10;padding:0}
+        .service-tabs{display:flex;width:100%}
+        .service-tab{flex:1;padding:18px 20px;font-family:var(--font-heading);font-size:clamp(13px, 2vw, 16px);font-weight:600;color:var(--text-muted);text-decoration:none;transition:all .3s;border-bottom:3px solid transparent;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;white-space:nowrap}
+        .service-tab:hover{color:var(--accent);background:rgba(0,168,255,.03)}
+        .service-tab.active{color:var(--pet-pink);border-bottom-color:var(--pet-pink);background:rgba(236,72,153,.08)}
+        .service-tab i{font-size:clamp(14px, 2vw, 18px)}
+
+        /* Page Hero */
+        .page-hero{padding:160px 0 80px;text-align:center;position:relative;overflow:hidden}
+        .page-hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(168,85,247,.2),transparent 70%);opacity:.4}
+        .page-hero .section-tag{margin-bottom:16px}.page-hero h1{font-family:var(--font-heading);font-size:clamp(36px,5vw,56px);font-weight:700;margin-bottom:16px;position:relative}.page-hero h1 span{color:var(--pet-pink)}.page-hero p{font-size:17px;color:var(--text-secondary);max-width:620px;margin:0 auto;position:relative;line-height:1.8}
+        .page-hero-breadcrumb{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:24px;font-size:13px;color:var(--text-muted);font-family:var(--font-heading);position:relative}.page-hero-breadcrumb a{color:var(--accent);text-decoration:none}
+
+        .section{padding:100px 0}.section-header{text-align:center;max-width:700px;margin:0 auto 60px}
+        .section-tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--pet-pink);font-weight:600;letter-spacing:2px;text-transform:uppercase;font-family:var(--font-heading);margin-bottom:16px}.section-tag i{font-size:10px}
+        .section-title{font-family:var(--font-heading);font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.2;margin-bottom:16px}.section-title span{color:var(--pet-pink)}
+        .section-desc{font-size:16px;color:var(--text-secondary);line-height:1.8}
+        .container{max-width:1280px;margin:0 auto;padding:0 30px}
+
+        .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#000;font-family:var(--font-heading);font-weight:600;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;transition:all .3s ease;border:none;cursor:pointer}.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 35px var(--accent-glow)}
+        .btn-pet{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--pet-pink),var(--pet-purple));color:#fff;font-family:var(--font-heading);font-weight:600;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;transition:all .3s ease;border:none;cursor:pointer}.btn-pet:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(236,72,153,.3)}
+
+        /* Pet Cards */
+        .pet-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .5s cubic-bezier(.16,1,.3,1);position:relative;height:100%}
+        .pet-card:hover{border-color:rgba(236,72,153,.3);transform:translateY(-10px);box-shadow:0 25px 60px rgba(0,0,0,.4)}
+        .pet-card-color{height:6px}
+        .pet-card-body{padding:30px}
+        .pet-card-icon{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:20px;transition:all .4s}
+        .pet-card:hover .pet-card-icon{transform:scale(1.15) rotate(-5deg)}
+        .pet-card-body h3{font-family:var(--font-heading);font-size:22px;font-weight:700;margin-bottom:8px}
+        .pet-card-body .pet-sub{font-size:12px;font-family:var(--font-heading);font-weight:600;letter-spacing:1px;margin-bottom:12px}
+        .pet-card-body .pet-desc{font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:18px}
+        .pet-breeds{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
+        .pet-breeds span{font-size:11px;padding:4px 12px;border-radius:50px;font-family:var(--font-heading);font-weight:500}
+        .pet-methods{list-style:none;margin-bottom:20px}
+        .pet-methods li{display:flex;align-items:center;gap:8px;padding:8px 0;font-size:13px;color:var(--text-secondary);border-top:1px solid var(--border)}
+        .pet-methods li i{font-size:10px;min-width:14px}
+        .pet-cta{text-align:center}
+
+        /* Methods */
+        .methods-section{background:var(--bg-secondary)}
+        .method-card{display:flex;gap:20px;padding:30px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;transition:all .4s;height:100%}
+        .method-card:hover{border-color:rgba(236,72,153,.2);transform:translateY(-4px)}
+        .method-icon{width:60px;height:60px;min-width:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;transition:all .3s}
+        .method-card:hover .method-icon{transform:scale(1.1)}
+        .method-card h4{font-family:var(--font-heading);font-size:17px;font-weight:600;margin-bottom:6px}
+        .method-card p{font-size:13px;color:var(--text-secondary);line-height:1.7}
+
+        /* Search Steps */
+        .search-step{text-align:center;position:relative;z-index:2}
+        .search-step-circle{width:80px;height:80px;border-radius:50%;background:var(--bg-card);border:2px solid var(--border);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;font-size:24px;color:var(--pet-pink);transition:all .4s}
+        .search-step:hover .search-step-circle{border-color:var(--pet-pink);background:rgba(236,72,153,.1);transform:scale(1.15);box-shadow:0 0 30px rgba(236,72,153,.3)}
+        .search-step h4{font-family:var(--font-heading);font-size:14px;font-weight:600;margin-bottom:5px}
+        .search-step p{font-size:11px;color:var(--text-secondary);line-height:1.5}
+
+        /* Need Cards */
+        .need-card{text-align:center;padding:36px 24px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;transition:all .4s;height:100%}
+        .need-card:hover{border-color:rgba(236,72,153,.25);transform:translateY(-6px)}
+        .need-card i{font-size:32px;color:var(--pet-pink);margin-bottom:16px;display:block}
+        .need-card h4{font-family:var(--font-heading);font-size:16px;font-weight:600;margin-bottom:10px}
+        .need-card ul{list-style:none;text-align:left}
+        .need-card ul li{font-size:13px;color:var(--text-secondary);padding:5px 0;display:flex;align-items:center;gap:8px}
+        .need-card ul li i{color:var(--pet-pink);font-size:10px}
+
+        /* Testimonials */
+        .testimonial-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:30px;transition:all .4s;height:100%}
+        .testimonial-card:hover{border-color:rgba(236,72,153,.2);transform:translateY(-5px)}
+        .testimonial-card .tq{font-size:28px;color:rgba(236,72,153,.12);margin-bottom:10px}
+        .testimonial-stars{display:flex;gap:3px;margin-bottom:14px}.testimonial-stars i{font-size:13px;color:#ffc107}
+        .testimonial-text{font-size:14px;color:var(--text-secondary);line-height:1.8;margin-bottom:18px;font-style:italic}
+        .testimonial-author{display:flex;align-items:center;gap:12px}
+        .testimonial-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--border)}
+        .testimonial-name{font-family:var(--font-heading);font-size:13px;font-weight:600}
+        .testimonial-role{font-size:11px;color:var(--text-muted)}
+
+        /* FAQ */
+        .faq-section{background:var(--bg-secondary)}.faq-list{max-width:800px;margin:0 auto}
+        .faq-item{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:border-color .3s}
+        .faq-item.active{border-color:rgba(236,72,153,.3)}
+        .faq-question{padding:20px 24px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--font-heading);font-size:15px;font-weight:600;transition:color .3s}
+        .faq-item.active .faq-question{color:var(--pet-pink)}
+        .faq-question i{color:var(--pet-pink);font-size:13px;transition:transform .3s}
+        .faq-item.active .faq-question i{transform:rotate(180deg)}
+        .faq-answer{max-height:0;overflow:hidden;transition:max-height .4s ease,padding .4s ease}
+        .faq-item.active .faq-answer{max-height:300px;padding:0 24px 20px}
+        .faq-answer p{font-size:14px;color:var(--text-secondary);line-height:1.8}
+
+        /* CTA */
+        .cta-section{padding:80px 0}.cta-box{background:linear-gradient(135deg,rgba(236,72,153,.1),rgba(168,85,247,.05));border:1px solid rgba(236,72,153,.2);border-radius:24px;padding:60px;text-align:center;position:relative;overflow:hidden}
+        .cta-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(236,72,153,.15),transparent 50%);opacity:.4;animation:ctaG 6s ease-in-out infinite}@keyframes ctaG{0%,100%{transform:translate(0,0)}50%{transform:translate(5%,-5%)}}
+        .cta-box>*{position:relative;z-index:2}.cta-box h2{font-family:var(--font-heading);font-size:clamp(24px,3.5vw,38px);font-weight:700;margin-bottom:16px}
+        .cta-box p{font-size:16px;color:var(--text-secondary);margin-bottom:30px;max-width:500px;margin-left:auto;margin-right:auto}
+
+        /* Footer */
+        .footer{background:var(--bg-secondary);border-top:1px solid var(--border);padding:70px 0 0}
+        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:50px;margin-bottom:50px}
+        .footer-brand p{font-size:14px;color:var(--text-secondary);line-height:1.8;margin-top:16px}
+        .footer-social{display:flex;gap:12px;margin-top:24px}.footer-social a{width:40px;height:40px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:16px;transition:all .3s ease;text-decoration:none}.footer-social a:hover{background:var(--accent);color:#000;border-color:var(--accent);transform:translateY(-3px)}
+        .footer-col h4{font-family:var(--font-heading);font-size:15px;font-weight:600;margin-bottom:20px;letter-spacing:.5px}.footer-col ul{list-style:none}.footer-col ul li{margin-bottom:12px}.footer-col ul a{text-decoration:none;color:var(--text-secondary);font-size:14px;transition:all .3s ease;display:flex;align-items:center;gap:8px}.footer-col ul a:hover{color:var(--accent);transform:translateX(4px)}.footer-col ul a i{font-size:10px;color:var(--accent);opacity:0;transition:opacity .3s}.footer-col ul a:hover i{opacity:1}
+        .footer-contact-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}.footer-contact-item i{color:var(--accent);font-size:14px;margin-top:4px}.footer-contact-item span,.footer-contact-item a{font-size:14px;color:var(--text-secondary);text-decoration:none;transition:color .3s}.footer-contact-item a:hover{color:var(--accent)}
+        .footer-bottom{border-top:1px solid var(--border);padding:24px 0;display:flex;align-items:center;justify-content:space-between}.footer-bottom p{font-size:13px;color:var(--text-muted)}.footer-bottom-links{display:flex;gap:24px}.footer-bottom-links a{font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .3s}.footer-bottom-links a:hover{color:var(--accent)}
+
+        /* Animations */
+        .anim-up{opacity:0;transform:translateY(50px);transition:all .8s cubic-bezier(.16,1,.3,1)}.anim-up.animated{opacity:1;transform:translateY(0)}
+        .anim-left{opacity:0;transform:translateX(-50px);transition:all .8s cubic-bezier(.16,1,.3,1)}.anim-left.animated{opacity:1;transform:translateX(0)}
+        .anim-right{opacity:0;transform:translateX(50px);transition:all .8s cubic-bezier(.16,1,.3,1)}.anim-right.animated{opacity:1;transform:translateX(0)}
+        .anim-scale{opacity:0;transform:scale(.85);transition:all .8s cubic-bezier(.16,1,.3,1)}.anim-scale.animated{opacity:1;transform:scale(1)}
+        .d1{transition-delay:.1s!important}.d2{transition-delay:.2s!important}.d3{transition-delay:.3s!important}.d4{transition-delay:.4s!important}.d5{transition-delay:.5s!important}.d6{transition-delay:.6s!important}
+
+        @media(max-width:1024px){.footer-grid{grid-template-columns:repeat(2,1fr)}}
+        @media(max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(20px);flex-direction:column;padding:20px 30px;gap:4px;border-bottom:1px solid var(--border)}.nav-links.open{display:flex}.nav-toggle{display:block}.footer-grid{grid-template-columns:1fr;gap:30px}.footer-bottom{flex-direction:column;gap:12px;text-align:center}.cta-box{padding:40px 24px}.scroll-to-top{bottom:20px;left:20px;width:40px;height:40px;font-size:16px}.service-tab{padding:14px 12px;font-size:12px;gap:6px}}
+    </style>
+</head>
+<body>
+    <div id="scroll-progress"></div>
+    
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTopBtn" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- Navbar - FULL WIDTH -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="nav-logo-icon">
+                    <i class="fas fa-shield-halved"></i>
+                    <i class="fas fa-magnifying-glass"></i>
+                    <i class="fas fa-paw"></i>
+                </div>
+                <div class="nav-logo-text">Legit<span>Patrol</span></div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="services-vehicles.html" class="active">Services</a></li>
+                <li><a href="contact.html">Contact Us</a></li>
+            </ul>
+            <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Responsive Service Tabs -->
+    <div class="service-tabs-wrapper">
+        <div class="container p-0">
+            <div class="service-tabs">
+                <a href="services-vehicles.html" class="service-tab">
+                    <i class="fas fa-car"></i> <span>Vehicle Recovery</span>
+                </a>
+                <a href="services-pets.html" class="service-tab active">
+                    <i class="fas fa-paw"></i> <span>Pet Recovery</span>
+                </a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Page Hero -->
+    <section class="page-hero grid-bg">
+        <div class="container">
+            <div class="section-tag anim-up"><i class="fas fa-circle"></i> PET RECOVERY</div>
+            <h1 class="anim-up d1">Missing Pet? <span>We'll Find Them.</span></h1>
+            <p class="anim-up d2">Dogs, cats, birds, rabbits, horses, and exotic animals — our dedicated pet search teams use drones, microchip scanning, scent tracking, and community alerts to bring them home.</p>
+            <div class="page-hero-breadcrumb anim-up d3">
+                <a href="index.html">Home</a> 
+                <i class="fas fa-chevron-right" style="font-size:10px"></i> 
+                <a href="services.html">Services</a> 
+                <i class="fas fa-chevron-right" style="font-size:10px"></i> 
+                Pet Recovery
+            </div>
+        </div>
+    </section>
+
+    <!-- Pet Type Cards - BOOTSTRAP RESPONSIVE -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> PETS WE RECOVER</div>
+                <h2 class="section-title">Every Pet Type, <span>Every Method</span></h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="pet-card anim-up d1">
+                        <div class="pet-card-color" style="background:linear-gradient(90deg,var(--pet-orange),transparent)"></div>
+                        <div class="pet-card-body">
+                            <div class="pet-card-icon" style="background:rgba(249,115,22,.1);color:var(--pet-orange)"><i class="fas fa-dog"></i></div>
+                            <h3>Dog Recovery</h3>
+                            <div class="pet-sub" style="color:var(--pet-orange)">CANINE SEARCH & RESCUE</div>
+                            <p class="pet-desc">Dedicated dog recovery using scent trailing, thermal drone searches, and rapid community alert networks.</p>
+                            <div class="pet-breeds"><span style="background:rgba(249,115,22,.1);color:var(--pet-orange)">All Breeds</span><span style="background:rgba(249,115,22,.1);color:var(--pet-orange)">Puppies</span></div>
+                            <ul class="pet-methods">
+                                <li><i class="fas fa-check" style="color:var(--pet-orange)"></i> Scent trailing with trained dogs</li>
+                                <li><i class="fas fa-check" style="color:var(--pet-orange)"></i> Thermal drone aerial searches</li>
+                                <li><i class="fas fa-check" style="color:var(--pet-orange)"></i> Microchip database scanning</li>
+                            </ul>
+                            <div class="pet-cta"><a href="contact.html" class="btn-pet" style="width:100%;justify-content:center"><i class="fas fa-paw"></i> Report Missing Dog</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="pet-card anim-up d2">
+                        <div class="pet-card-color" style="background:linear-gradient(90deg,var(--pet-purple),transparent)"></div>
+                        <div class="pet-card-body">
+                            <div class="pet-card-icon" style="background:rgba(168,85,247,.1);color:var(--pet-purple)"><i class="fas fa-cat"></i></div>
+                            <h3>Cat Recovery</h3>
+                            <div class="pet-sub" style="color:var(--pet-purple)">FELINE SEARCH OPERATIONS</div>
+                            <p class="pet-desc">Specialized cat recovery with humane trapping, night vision cameras, and online found-pet monitoring.</p>
+                            <div class="pet-breeds"><span style="background:rgba(168,85,247,.1);color:var(--pet-purple)">All Breeds</span><span style="background:rgba(168,85,247,.1);color:var(--pet-purple)">Indoor Cats</span></div>
+                            <ul class="pet-methods">
+                                <li><i class="fas fa-check" style="color:var(--pet-purple)"></i> Humane trap deployment</li>
+                                <li><i class="fas fa-check" style="color:var(--pet-purple)"></i> Night vision camera setups</li>
+                                <li><i class="fas fa-check" style="color:var(--pet-purple)"></i> Door-to-door neighborhood search</li>
+                            </ul>
+                            <div class="pet-cta"><a href="contact.html" class="btn-pet" style="width:100%;justify-content:center;background:linear-gradient(135deg,var(--pet-purple),#7c3aed)"><i class="fas fa-paw"></i> Report Missing Cat</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="pet-card anim-up d3">
+                        <div class="pet-card-color" style="background:linear-gradient(90deg,var(--pet-green),transparent)"></div>
+                        <div class="pet-card-body">
+                            <div class="pet-card-icon" style="background:rgba(34,197,94,.1);color:var(--pet-green)"><i class="fas fa-dove"></i></div>
+                            <h3>Bird Recovery</h3>
+                            <div class="pet-sub" style="color:var(--pet-green)">AVIAN SEARCH & CAPTURE</div>
+                            <p class="pet-desc">Specialized bird recovery for parrots, pigeons, finches using calls and community sighting networks.</p>
+                            <div class="pet-breeds"><span style="background:rgba(34,197,94,.1);color:var(--pet-green)">Parrots</span><span style="background:rgba(34,197,94,.1);color:var(--pet-green)">Pigeons</span></div>
+                            <ul class="pet-methods">
+                                <li><i class="fas fa-check" style="color:var(--pet-green)"></i> Species-specific call playback</li>
+                                <li><i class="fas fa-check" style="color:var(--pet-green)"></i> Humane netting & capture</li>
+                                <li><i class="fas fa-check" style="color:var(--pet-green)"></i> Community sighting coordination</li>
+                            </ul>
+                            <div class="pet-cta"><a href="contact.html" class="btn-pet" style="width:100%;justify-content:center;background:linear-gradient(135deg,var(--pet-green),#16a34a)"><i class="fas fa-paw"></i> Report Missing Bird</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="pet-card anim-up d4">
+                        <div class="pet-card-color" style="background:linear-gradient(90deg,var(--pet-pink),transparent)"></div>
+                        <div class="pet-card-body">
+                            <div class="pet-card-icon" style="background:rgba(236,72,153,.1);color:var(--pet-pink)"><i class="fas fa-otter"></i></div>
+                            <h3>Rabbit & Small Mammal</h3>
+                            <div class="pet-sub" style="color:var(--pet-pink)">SMALL MAMMAL SEARCH</div>
+                            <p class="pet-desc">Recovery for rabbits, hamsters, guinea pigs using humane traps and localized search patterns.</p>
+                            <div class="pet-breeds"><span style="background:rgba(236,72,153,.1);color:var(--pet-pink)">Rabbits</span><span style="background:rgba(236,72,153,.1);color:var(--pet-pink)">Guinea Pigs</span></div>
+                            <ul class="pet-methods">
+                                <li><i class="fas fa-check" style="color:var(--pet-pink)"></i> Humane live trapping</li>
+                                <li><i class="fas fa-check" style="color:var(--pet-pink)"></i> Burrow & hiding spot search</li>
+                                <li><i class="fas fa-check" style="color:var(--pet-pink)"></i> Food lure placement</li>
+                            </ul>
+                            <div class="pet-cta"><a href="contact.html" class="btn-pet" style="width:100%;justify-content:center"><i class="fas fa-paw"></i> Report Missing Pet</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="pet-card anim-up d5">
+                        <div class="pet-card-color" style="background:linear-gradient(90deg,#8b5cf6,transparent)"></div>
+                        <div class="pet-card-body">
+                            <div class="pet-card-icon" style="background:rgba(139,92,246,.1);color:#8b5cf6"><i class="fas fa-horse"></i></div>
+                            <h3>Horse & Equine Recovery</h3>
+                            <div class="pet-sub" style="color:#8b5cf6">EQUINE LOCATION SERVICES</div>
+                            <p class="pet-desc">Large-scale equine recovery using GPS tracking, aerial searches, and equestrian network contacts.</p>
+                            <div class="pet-breeds"><span style="background:rgba(139,92,246,.1);color:#8b5cf6">Horses</span><span style="background:rgba(139,92,246,.1);color:#8b5cf6">Ponies</span></div>
+                            <ul class="pet-methods">
+                                <li><i class="fas fa-check" style="color:#8b5cf6"></i> GPS tracker deployment</li>
+                                <li><i class="fas fa-check" style="color:#8b5cf6"></i> Helicopter/drone aerial search</li>
+                                <li><i class="fas fa-check" style="color:#8b5cf6"></i> Equestrian community network</li>
+                            </ul>
+                            <div class="pet-cta"><a href="contact.html" class="btn-pet" style="width:100%;justify-content:center;background:linear-gradient(135deg,#8b5cf6,#7c3aed)"><i class="fas fa-paw"></i> Report Missing Horse</a></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="pet-card anim-up d6">
+                        <div class="pet-card-color" style="background:linear-gradient(90deg,var(--alert),transparent)"></div>
+                        <div class="pet-card-body">
+                            <div class="pet-card-icon" style="background:rgba(255,109,0,.1);color:var(--alert)"><i class="fas fa-dragon"></i></div>
+                            <h3>Exotic Pet Recovery</h3>
+                            <div class="pet-sub" style="color:var(--alert)">SPECIALIZED ANIMAL SEARCH</div>
+                            <p class="pet-desc">Recovery for reptiles, snakes, lizards, turtles using specialist handlers and targeted methods.</p>
+                            <div class="pet-breeds"><span style="background:rgba(255,109,0,.1);color:var(--alert)">Reptiles</span><span style="background:rgba(255,109,0,.1);color:var(--alert)">Snakes</span></div>
+                            <ul class="pet-methods">
+                                <li><i class="fas fa-check" style="color:var(--alert)"></i> Exotic animal specialists</li>
+                                <li><i class="fas fa-check" style="color:var(--alert)"></i> Temperature & habitat mapping</li>
+                                <li><i class="fas fa-check" style="color:var(--alert)"></i> Safe capture & containment</li>
+                            </ul>
+                            <div class="pet-cta"><a href="contact.html" class="btn-pet" style="width:100%;justify-content:center;background:linear-gradient(135deg,var(--alert),#e65100)"><i class="fas fa-paw"></i> Report Missing Exotic Pet</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Methods - BOOTSTRAP RESPONSIVE -->
+    <section class="section methods-section">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> OUR METHODS</div>
+                <h2 class="section-title">How We <span>Search for Pets</span></h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <div class="method-card anim-left d1">
+                        <div class="method-icon" style="background:rgba(236,72,153,.1);color:var(--pet-pink)"><i class="fas fa-helicopter"></i></div>
+                        <div><h4>Drone Surveillance</h4><p>Thermal imaging drones scan large areas from above, detecting animal heat signatures even in dense vegetation or at night.</p></div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="method-card anim-right d2">
+                        <div class="method-icon" style="background:rgba(249,115,22,.1);color:var(--pet-orange)"><i class="fas fa-microchip"></i></div>
+                        <div><h4>Microchip Scanning</h4><p>We scan all local vets, shelters, and rescue centers while monitoring national microchip databases in real-time.</p></div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="method-card anim-left d3">
+                        <div class="method-icon" style="background:rgba(168,85,247,.1);color:var(--pet-purple)"><i class="fas fa-bullhorn"></i></div>
+                        <div><h4>Community Alert Networks</h4><p>Instant social media alert blasts to thousands of local residents, pet groups, and community watch networks.</p></div>
+                    </div>
+                </div>
+                <div class="col-lg-6">
+                    <div class="method-card anim-right d4">
+                        <div class="method-icon" style="background:rgba(34,197,94,.1);color:var(--pet-green)"><i class="fas fa-dog"></i></div>
+                        <div><h4>Scent Trailing</h4><p>For dogs, we deploy trained scent-trailing dogs that follow your pet's unique scent trail from the last known location.</p></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Search Steps - BOOTSTRAP RESPONSIVE -->
+    <section class="section grid-bg">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> SEARCH PROCESS</div>
+                <h2 class="section-title">Our Pet Search <span>Process</span></h2>
+            </div>
+            <div class="row g-4 justify-content-center">
+                <div class="col-lg col-md-4 col-sm-6">
+                    <div class="search-step anim-up d1">
+                        <div class="search-step-circle"><i class="fas fa-file-pen"></i></div>
+                        <h4>Intake</h4>
+                        <p>Submit pet details, photos, and last known location</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-4 col-sm-6">
+                    <div class="search-step anim-up d2">
+                        <div class="search-step-circle"><i class="fas fa-bullhorn"></i></div>
+                        <h4>Alert</h4>
+                        <p>Launch community alerts and social media blasts</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-4 col-sm-6">
+                    <div class="search-step anim-up d3">
+                        <div class="search-step-circle"><i class="fas fa-search-location"></i></div>
+                        <h4>Search</h4>
+                        <p>Deploy drones, cameras, and ground teams</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-6 col-sm-6">
+                    <div class="search-step anim-up d4">
+                        <div class="search-step-circle"><i class="fas fa-hand-holding-heart"></i></div>
+                        <h4>Rescue</h4>
+                        <p>Humanely capture and safely contain the pet</p>
+                    </div>
+                </div>
+                <div class="col-lg col-md-6 col-sm-12">
+                    <div class="search-step anim-up d5">
+                        <div class="search-step-circle"><i class="fas fa-house-chimney-heart"></i></div>
+                        <h4>Reunite</h4>
+                        <p>Safely transport and reunite pet with owner</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- What We Need - BOOTSTRAP RESPONSIVE -->
+    <section class="section" style="background:var(--bg-secondary)">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> GET STARTED</div>
+                <h2 class="section-title">What We Need <span>From You</span></h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="need-card anim-up d1">
+                        <i class="fas fa-id-card"></i>
+                        <h4>Pet Details</h4>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Species & breed</li>
+                            <li><i class="fas fa-check"></i> Color, size & weight</li>
+                            <li><i class="fas fa-check"></i> Distinctive markings</li>
+                            <li><i class="fas fa-check"></i> Microchip number</li>
+                            <li><i class="fas fa-check"></i> Clear photos (multiple)</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="need-card anim-up d2">
+                        <i class="fas fa-map-pin"></i>
+                        <h4>Location Info</h4>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Exact last known location</li>
+                            <li><i class="fas fa-check"></i> Date & time last seen</li>
+                            <li><i class="fas fa-check"></i> Direction pet was heading</li>
+                            <li><i class="fas fa-check"></i> Nearby landmarks</li>
+                            <li><i class="fas fa-check"></i> Any sighting reports</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="need-card anim-up d3">
+                        <i class="fas fa-heart"></i>
+                        <h4>Behavior & Health</h4>
+                        <ul>
+                            <li><i class="fas fa-check"></i> Temperament (friendly/shy)</li>
+                            <li><i class="fas fa-check"></i> Medical conditions</li>
+                            <li><i class="fas fa-check"></i> Medications needed</li>
+                            <li><i class="fas fa-check"></i> Food preferences</li>
+                            <li><i class="fas fa-check"></i> Whether wearing collar/tag</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials - BOOTSTRAP RESPONSIVE -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> REUNION STORIES</div>
+                <h2 class="section-title">Pets <span>Found & Reunited</span></h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card anim-up d1">
+                        <div class="tq"><i class="fas fa-quote-left"></i></div>
+                        <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="testimonial-text">"Our golden retriever went missing for 5 days. Legit Patrol used drone surveillance to find him 30 miles away."</p>
+                        <div class="testimonial-author">
+                            <img src="https://picsum.photos/seed/emmaw5/100/100.jpg" alt="" class="testimonial-avatar">
+                            <div><div class="testimonial-name">Emma Wallace</div><div class="testimonial-role">Golden Retriever — Found in 5 days</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card anim-up d2">
+                        <div class="tq"><i class="fas fa-quote-left"></i></div>
+                        <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="testimonial-text">"My Bengal cat disappeared. They found her being kept by someone two neighborhoods away. Absolute heroes."</p>
+                        <div class="testimonial-author">
+                            <img src="https://picsum.photos/seed/lisap5/100/100.jpg" alt="" class="testimonial-avatar">
+                            <div><div class="testimonial-name">Lisa Park</div><div class="testimonial-role">Bengal Cat — Found in 2 days</div></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="testimonial-card anim-up d3">
+                        <div class="tq"><i class="fas fa-quote-left"></i></div>
+                        <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <p class="testimonial-text">"Our African Grey parrot flew out. Their avian specialist located him 3 miles away. Incredible service."</p>
+                        <div class="testimonial-author">
+                            <img src="https://picsum.photos/seed/karenw5/100/100.jpg" alt="" class="testimonial-avatar">
+                            <div><div class="testimonial-name">Karen Williams</div><div class="testimonial-role">African Grey — Found in 1 day</div></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section faq-section">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> PET FAQ</div>
+                <h2 class="section-title">Frequently Asked <span>Questions</span></h2>
+            </div>
+            <div class="faq-list">
+                <div class="faq-item anim-up d1">
+                    <div class="faq-question">How quickly can you start searching for my pet? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>We launch community alerts within 30 minutes. Physical search teams and drone deployment begin within 2-4 hours.</p></div>
+                </div>
+                <div class="faq-item anim-up d2">
+                    <div class="faq-question">What types of pets can you recover? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Dogs, cats, birds, rabbits, guinea pigs, ferrets, hamsters, horses, donkeys, reptiles, and most exotic animals.</p></div>
+                </div>
+                <div class="faq-item anim-up d3">
+                    <div class="faq-question">How much does pet recovery cost? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>Pricing depends on pet type and search area. We provide a transparent quote before starting with no hidden fees.</p></div>
+                </div>
+                <div class="faq-item anim-up d4">
+                    <div class="faq-question">What if my pet has been stolen? <i class="fas fa-chevron-down"></i></div>
+                    <div class="faq-answer"><p>We handle suspected theft cases working with police, using CCTV analysis and online marketplace monitoring.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-box anim-scale">
+                <h2>Pet Missing? <span style="color:var(--pet-pink)">Every Minute Counts.</span></h2>
+                <p>Don't wait. The first 24-48 hours are critical. Submit your case now.</p>
+                <a href="contact.html" class="btn-pet"><i class="fas fa-paw"></i> Report Missing Pet Now</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo">
+                        <div class="nav-logo-icon">
+                            <i class="fas fa-shield-halved"></i>
+                            <i class="fas fa-magnifying-glass"></i>
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <div class="nav-logo-text">Legit<span>Patrol</span></div>
+                    </a>
+                    <p>Professional tracking and recovery services for stolen vehicles and missing pets. Trusted by thousands across the country.</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/share/1DvacHvp3x/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Vehicle Recovery</a></li>
+                        <li><a href="services-pets.html"><i class="fas fa-chevron-right"></i> Pet Recovery</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Trailer Recovery</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Motorcycle Tracking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:legitpatrol1@gmail.com?subject=Recovery Assistance Request&body=Hello Legit Patrol,%0D%0A%0D%0AI understand your company specializes in recovery. I would like to request assistance with the following:%0D%0A%0D%0A%0D%0A%0D%0AThank you." target="_blank">
+                            legitpatrol1@gmail.com
+                        </a>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>24/7 — Always Active</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Legit Patrol. All rights reserved.</p>
+                <div class="footer-bottom-links"></div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function(){
+            $(window).on('scroll',function(){
+                var st=$(window).scrollTop(),dh=$(document).height()-$(window).height();
+                $('#scroll-progress').css('width',(st/dh)*100+'%');
+                if(st>80) $('.navbar').addClass('scrolled');
+                else $('.navbar').removeClass('scrolled');
+                if(st>300) $('#scrollToTopBtn').addClass('visible');
+                else $('#scrollToTopBtn').removeClass('visible');
+                $('.anim-up,.anim-left,.anim-right,.anim-scale').each(function(){
+                    if($(this).offset().top<st+$(window).height()-80) $(this).addClass('animated')
+                })
+            });
+            $('#scrollToTopBtn').on('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
+            $('.nav-toggle').on('click',function(){$('.nav-links').toggleClass('open');$(this).find('i').toggleClass('fa-bars fa-times')});
+            $('.faq-question').on('click',function(){var i=$(this).parent('.faq-item');i.hasClass('active')?i.removeClass('active'):($('.faq-item').removeClass('active'),i.addClass('active'))});
+            $(window).trigger('scroll')
+        });
+    </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/69f888a84126b11c39d606b0/default';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+</body>
+</html>

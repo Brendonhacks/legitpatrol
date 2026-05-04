@@ -1,0 +1,1365 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us — Legit Patrol</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+
+    <!-- bootstrap -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+
+    <style>
+        *,*::before,*::after {
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+        }
+        
+        :root {
+            --bg-primary: #0a0a0a;
+            --bg-secondary: #111111;
+            --bg-card: #1a1a1a;
+            --accent: #00a8ff;
+            --accent-dark: #0088cc;
+            --accent-glow: rgba(0,168,255,.25);
+            --alert: #ff6d00;
+            --alert-glow: rgba(255,109,0,.3);
+            --pet-pink: #ec4899;
+            --text-primary: #f0f0f0;
+            --text-secondary: #888888;
+            --text-muted: #555555;
+            --border: #2a2a2a;
+            --font-heading: 'Chakra Petch', sans-serif;
+            --font-body: 'Inter', sans-serif;
+        }
+        
+        html {
+            scroll-behavior: smooth;
+        }
+        
+        body {
+            font-family: var(--font-body);
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            overflow-x: hidden;
+            line-height: 1.7;
+        }
+        
+        #scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--accent), var(--alert));
+            z-index: 10000;
+            width: 0;
+            transition: width .1s linear;
+        }
+        
+        .grid-bg {
+            background-image: radial-gradient(circle, rgba(0,168,255,.07) 1px, transparent 1px);
+            background-size: 32px 32px;
+        }
+
+        /* Scroll to Top Button */
+        .scroll-to-top {
+            position: fixed;
+            bottom: 30px;
+            left: 30px;
+            width: 46px;
+            height: 46px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #000;
+            border: none;
+            border-radius: 12px;
+            font-size: 18px;
+            cursor: pointer;
+            z-index: 9990;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            opacity: 0;
+            visibility: hidden;
+            transform: translateY(20px);
+            transition: all .4s cubic-bezier(.16,1,.3,1);
+            box-shadow: 0 4px 15px rgba(0,0,0,.3);
+        }
+        
+        .scroll-to-top.visible {
+            opacity: 1;
+            visibility: visible;
+            transform: translateY(0);
+        }
+        
+        .scroll-to-top:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+
+        /* Navbar */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 9999;
+            padding: 18px 0;
+            transition: all .4s ease;
+        }
+        
+        .navbar.scrolled {
+            background: rgba(10,10,10,.95);
+            backdrop-filter: blur(20px);
+            padding: 12px 0;
+            box-shadow: 0 2px 30px rgba(0,0,0,.5);
+        }
+        
+        .nav-container {
+            width: 100%;
+            padding: 0 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .nav-logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+        
+        .nav-logo-icon {
+            width: 42px;
+            height: 42px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: #000;
+            position: relative;
+        }
+        
+        .nav-logo-icon .fa-shield-halved {
+            font-size: 24px;
+        }
+        
+        .nav-logo-icon .fa-magnifying-glass {
+            position: absolute;
+            font-size: 10px;
+            bottom: 6px;
+            right: 6px;
+            color: #000;
+        }
+        
+        .nav-logo-icon .fa-paw {
+            position: absolute;
+            font-size: 8px;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #000;
+        }
+        
+        .nav-logo-text {
+            font-family: var(--font-heading);
+            font-size: 22px;
+            font-weight: 700;
+            color: var(--text-primary);
+            letter-spacing: 1px;
+        }
+        
+        .nav-logo-text span {
+            color: var(--accent);
+        }
+        
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            list-style: none;
+        }
+        
+        .nav-links a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            font-weight: 500;
+            padding: 8px 18px;
+            border-radius: 8px;
+            transition: all .3s ease;
+            letter-spacing: .5px;
+            font-family: var(--font-heading);
+        }
+        
+        .nav-links a:hover {
+            color: var(--accent);
+            background: rgba(0,168,255,.08);
+        }
+        
+        .nav-links a.active {
+            color: var(--accent);
+            background: rgba(0,168,255,.12);
+        }
+        
+        .nav-cta {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark)) !important;
+            color: #000 !important;
+            font-weight: 600 !important;
+        }
+        
+        .nav-cta:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px var(--accent-glow);
+        }
+        
+        .nav-toggle {
+            display: none;
+            background: none;
+            border: none;
+            color: var(--text-primary);
+            font-size: 24px;
+            cursor: pointer;
+        }
+
+        /* Page Hero */
+        .page-hero {
+            padding: 160px 0 80px;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .page-hero::before {
+            content: '';
+            position: absolute;
+            top: -200px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 600px;
+            height: 600px;
+            background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+            opacity: .3;
+        }
+        
+        .page-hero .section-tag {
+            margin-bottom: 16px;
+        }
+        
+        .page-hero h1 {
+            font-family: var(--font-heading);
+            font-size: clamp(36px, 5vw, 56px);
+            font-weight: 700;
+            margin-bottom: 16px;
+            position: relative;
+        }
+        
+        .page-hero h1 span {
+            color: var(--accent);
+        }
+        
+        .page-hero p {
+            font-size: 17px;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+            position: relative;
+            line-height: 1.8;
+        }
+        
+        .page-hero-breadcrumb {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 24px;
+            font-size: 13px;
+            color: var(--text-muted);
+            font-family: var(--font-heading);
+            position: relative;
+        }
+        
+        .page-hero-breadcrumb a {
+            color: var(--accent);
+            text-decoration: none;
+        }
+
+        /* Sections */
+        .section {
+            padding: 100px 0;
+        }
+        
+        .section-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+        
+        .section-tag {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 13px;
+            color: var(--accent);
+            font-weight: 600;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            font-family: var(--font-heading);
+            margin-bottom: 16px;
+        }
+        
+        .section-tag i {
+            font-size: 10px;
+        }
+        
+        .section-title {
+            font-family: var(--font-heading);
+            font-size: clamp(28px, 4vw, 44px);
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 16px;
+        }
+        
+        .section-title span {
+            color: var(--accent);
+        }
+        
+        .section-desc {
+            font-size: 16px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+        }
+        
+        .container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 0 30px;
+        }
+
+        /* Buttons */
+        .btn-primary {
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #000;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 15px;
+            padding: 14px 32px;
+            border-radius: 10px;
+            text-decoration: none;
+            transition: all .3s ease;
+            border: none;
+            cursor: pointer;
+            letter-spacing: .5px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px var(--accent-glow);
+        }
+
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+        }
+        
+        .contact-card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 20px;
+            padding: 44px;
+            position: relative;
+            overflow: hidden;
+            transition: all .4s;
+        }
+        
+        .contact-card:hover {
+            border-color: rgba(0,168,255,.2);
+            box-shadow: 0 20px 60px rgba(0,0,0,.3);
+        }
+        
+        .contact-card-header {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+            margin-bottom: 30px;
+        }
+        
+        .contact-card-icon {
+            width: 56px;
+            height: 56px;
+            background: rgba(0,168,255,.1);
+            border-radius: 14px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            color: var(--accent);
+            transition: all .3s;
+        }
+        
+        .contact-card:hover .contact-card-icon {
+            background: var(--accent);
+            color: #000;
+        }
+        
+        .contact-card-header h3 {
+            font-family: var(--font-heading);
+            font-size: 22px;
+            font-weight: 700;
+        }
+        
+        .contact-card-header p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+        
+        .contact-card-glow {
+            position: absolute;
+            top: -100px;
+            right: -100px;
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, var(--accent-glow), transparent 70%);
+            opacity: .15;
+            pointer-events: none;
+        }
+
+        /* Form */
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            color: var(--text-secondary);
+            margin-bottom: 8px;
+            letter-spacing: .5px;
+        }
+        
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: var(--bg-primary);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            color: var(--text-primary);
+            font-family: var(--font-body);
+            font-size: 14px;
+            transition: all .3s;
+            outline: none;
+        }
+        
+        .form-group input:focus,
+        .form-group select:focus,
+        .form-group textarea:focus {
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px var(--accent-glow);
+        }
+        
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: var(--text-muted);
+        }
+        
+        .form-group select {
+            cursor: pointer;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300a8ff' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+        }
+        
+        .form-group select option {
+            background: var(--bg-card);
+            color: var(--text-primary);
+        }
+        
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+        
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+        
+        .form-submit {
+            width: 100%;
+            margin-top: 8px;
+            justify-content: center;
+        }
+        
+        .form-success {
+            display: none;
+            text-align: center;
+            padding: 40px 20px;
+        }
+        
+        .form-success i {
+            font-size: 50px;
+            color: var(--accent);
+            margin-bottom: 16px;
+        }
+        
+        .form-success h4 {
+            font-family: var(--font-heading);
+            font-size: 20px;
+            margin-bottom: 8px;
+        }
+        
+        .form-success p {
+            font-size: 14px;
+            color: var(--text-secondary);
+        }
+
+        /* Email Features */
+        .email-feature {
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
+            padding: 22px;
+            background: rgba(0,168,255,.03);
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            margin-bottom: 16px;
+            transition: all .4s;
+        }
+        
+        .email-feature:hover {
+            border-color: rgba(0,168,255,.2);
+            transform: translateX(6px);
+            background: rgba(0,168,255,.06);
+        }
+        
+        .email-feature-icon {
+            width: 48px;
+            height: 48px;
+            min-width: 48px;
+            background: rgba(0,168,255,.08);
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            color: var(--accent);
+            transition: all .3s;
+        }
+        
+        .email-feature:hover .email-feature-icon {
+            background: var(--accent);
+            color: #000;
+        }
+        
+        .email-feature h4 {
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+        
+        .email-feature p {
+            font-size: 13px;
+            color: var(--text-secondary);
+            line-height: 1.6;
+        }
+        
+        .email-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin-top: auto;
+            padding-top: 20px;
+        }
+        
+        .btn-email {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            padding: 16px 24px;
+            border-radius: 12px;
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 15px;
+            text-decoration: none;
+            transition: all .4s;
+            cursor: pointer;
+            border: none;
+        }
+        
+        .btn-email-primary {
+            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
+            color: #000;
+        }
+        
+        .btn-email-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px var(--accent-glow);
+        }
+        
+        .btn-email-secondary {
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border);
+        }
+        
+        .btn-email-secondary:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            background: rgba(0,168,255,.05);
+            transform: translateY(-2px);
+        }
+        
+        .btn-email-pet {
+            background: linear-gradient(135deg, var(--pet-pink), #a855f7);
+            color: #fff;
+        }
+        
+        .btn-email-pet:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 35px rgba(236,72,153,.3);
+        }
+
+        /* Quick Contact Cards */
+        .quick-card {
+            text-align: center;
+            padding: 36px 20px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            transition: all .4s;
+            text-decoration: none;
+            color: var(--text-primary);
+            display: block;
+            height: 100%;
+        }
+        
+        .quick-card:hover {
+            border-color: rgba(0,168,255,.3);
+            transform: translateY(-8px);
+            box-shadow: 0 20px 50px rgba(0,0,0,.3);
+            color: var(--text-primary);
+        }
+        
+        .quick-card i {
+            font-size: 28px;
+            color: var(--accent);
+            margin-bottom: 16px;
+            display: block;
+            transition: all .3s;
+        }
+        
+        .quick-card:hover i {
+            transform: scale(1.2);
+        }
+        
+        .quick-card h4 {
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 6px;
+        }
+        
+        .quick-card p {
+            font-size: 13px;
+            color: var(--text-secondary);
+        }
+
+        /* Hours */
+        .hours-row {
+            display: flex;
+            justify-content: space-between;
+            padding: 18px 24px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            margin-bottom: 10px;
+            transition: all .3s;
+        }
+        
+        .hours-row:hover {
+            border-color: rgba(0,168,255,.2);
+        }
+        
+        .hours-row span {
+            font-family: var(--font-heading);
+            font-weight: 600;
+            font-size: 15px;
+        }
+        
+        .hours-row .time {
+            color: var(--accent);
+            font-weight: 500;
+            font-size: 14px;
+        }
+        
+        .hours-emergency {
+            border-color: rgba(255,109,0,.25) !important;
+            background: rgba(255,109,0,.08) !important;
+        }
+        
+        .hours-emergency span,
+        .hours-emergency .time {
+            color: var(--alert);
+        }
+
+        /* Footer */
+        .footer {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border);
+            padding: 70px 0 0;
+        }
+        
+        .footer-grid {
+            display: grid;
+            grid-template-columns: 2fr 1fr 1fr 1.5fr;
+            gap: 50px;
+            margin-bottom: 50px;
+        }
+        
+        .footer-brand p {
+            font-size: 14px;
+            color: var(--text-secondary);
+            line-height: 1.8;
+            margin-top: 16px;
+        }
+        
+        .footer-social {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+        }
+        
+        .footer-social a {
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-secondary);
+            font-size: 16px;
+            transition: all .3s ease;
+            text-decoration: none;
+        }
+        
+        .footer-social a:hover {
+            background: var(--accent);
+            color: #000;
+            border-color: var(--accent);
+            transform: translateY(-3px);
+        }
+        
+        .footer-col h4 {
+            font-family: var(--font-heading);
+            font-size: 15px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            letter-spacing: .5px;
+        }
+        
+        .footer-col ul {
+            list-style: none;
+        }
+        
+        .footer-col ul li {
+            margin-bottom: 12px;
+        }
+        
+        .footer-col ul a {
+            text-decoration: none;
+            color: var(--text-secondary);
+            font-size: 14px;
+            transition: all .3s ease;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .footer-col ul a:hover {
+            color: var(--accent);
+            transform: translateX(4px);
+        }
+        
+        .footer-col ul a i {
+            font-size: 10px;
+            color: var(--accent);
+            opacity: 0;
+            transition: opacity .3s;
+        }
+        
+        .footer-col ul a:hover i {
+            opacity: 1;
+        }
+        
+        .footer-contact-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            margin-bottom: 16px;
+        }
+        
+        .footer-contact-item i {
+            color: var(--accent);
+            font-size: 14px;
+            margin-top: 4px;
+        }
+        
+        .footer-contact-item span,
+        .footer-contact-item a {
+            font-size: 14px;
+            color: var(--text-secondary);
+            text-decoration: none;
+        }
+        
+        .footer-contact-item a:hover {
+            color: var(--accent);
+        }
+        
+        .footer-bottom {
+            border-top: 1px solid var(--border);
+            padding: 24px 0;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+        
+        .footer-bottom p {
+            font-size: 13px;
+            color: var(--text-muted);
+        }
+        
+        .footer-bottom-links {
+            display: flex;
+            gap: 24px;
+        }
+        
+        .footer-bottom-links a {
+            font-size: 13px;
+            color: var(--text-muted);
+            text-decoration: none;
+            transition: color .3s;
+        }
+        
+        .footer-bottom-links a:hover {
+            color: var(--accent);
+        }
+
+        /* Animations */
+        .anim-up {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-up.animated {
+            opacity: 1;
+            transform: translateY(0);
+        }
+        
+        .anim-left {
+            opacity: 0;
+            transform: translateX(-50px);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-left.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .anim-right {
+            opacity: 0;
+            transform: translateX(50px);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-right.animated {
+            opacity: 1;
+            transform: translateX(0);
+        }
+        
+        .anim-scale {
+            opacity: 0;
+            transform: scale(.85);
+            transition: all .8s cubic-bezier(.16,1,.3,1);
+        }
+        
+        .anim-scale.animated {
+            opacity: 1;
+            transform: scale(1);
+        }
+        
+        .d1 { transition-delay: .1s !important; }
+        .d2 { transition-delay: .2s !important; }
+        .d3 { transition-delay: .3s !important; }
+        .d4 { transition-delay: .4s !important; }
+        .d5 { transition-delay: .5s !important; }
+        .d6 { transition-delay: .6s !important; }
+
+        /* Responsive */
+        @media(max-width: 1024px) {
+            .footer-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+        
+        @media(max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                width: 100%;
+                background: rgba(10,10,10,.98);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 20px 30px;
+                gap: 4px;
+                border-bottom: 1px solid var(--border);
+            }
+            .nav-links.open {
+                display: flex;
+            }
+            .nav-toggle {
+                display: block;
+            }
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+            .form-row {
+                grid-template-columns: 1fr;
+            }
+            .footer-grid {
+                grid-template-columns: 1fr;
+                gap: 30px;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            .scroll-to-top {
+                bottom: 20px;
+                left: 20px;
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="scroll-progress"></div>
+    
+    <!-- Scroll to Top Button -->
+    <button class="scroll-to-top" id="scrollToTopBtn" title="Back to top">
+        <i class="fas fa-arrow-up"></i>
+    </button>
+    
+    <!-- Navbar — FULL WIDTH -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-logo">
+                <div class="nav-logo-icon">
+                    <i class="fas fa-shield-halved"></i>
+                    <i class="fas fa-magnifying-glass"></i>
+                    <i class="fas fa-paw"></i>
+                </div>
+                <div class="nav-logo-text">Legit<span>Patrol</span></div>
+            </a>
+            <ul class="nav-links">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="about.html">About Us</a></li>
+                <li><a href="services-vehicles.html">Services</a></li>
+                <li><a href="contact.html" class="active">Contact Us</a></li>
+            </ul>
+            <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+        </div>
+    </nav>
+
+    <!-- Page Hero -->
+    <section class="page-hero grid-bg">
+        <div class="container">
+            <div class="section-tag anim-up"><i class="fas fa-circle"></i> CONTACT US</div>
+            <h1 class="anim-up d1">Get In <span>Touch</span></h1>
+            <p class="anim-up d2">Whether you need immediate recovery help or just have a question — we're here 24/7 and ready to respond.</p>
+            <div class="page-hero-breadcrumb anim-up d3">
+                <a href="index.html">Home</a> 
+                <i class="fas fa-chevron-right" style="font-size:10px"></i> 
+                Contact Us
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact Cards -->
+    <section class="section" style="padding-top:0">
+        <div class="container">
+            <div class="contact-grid">
+                <!-- Message Us Card -->
+                <div class="contact-card anim-left d1">
+                    <div class="contact-card-glow"></div>
+                    <div class="contact-card-header">
+                        <div class="contact-card-icon"><i class="fas fa-headset"></i></div>
+                        <div>
+                            <h3>Message Us</h3>
+                            <p>Fill in the form and we'll respond within 15 minutes</p>
+                        </div>
+                    </div>
+                    <form id="contactForm">
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-user" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
+                                    Full Name
+                                </label>
+                                <input type="text" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label>
+                                    <i class="fas fa-phone" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
+                                    Phone Number
+                                </label>
+                                <input type="tel" placeholder="+44 xxx xxx xxxx">
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-envelope" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
+                                Email Address
+                            </label>
+                            <input type="email" placeholder="john@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-tag" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
+                                Service Needed
+                            </label>
+                            <select required>
+                                <option value="" disabled selected>Select a service...</option>
+                                <optgroup label="Vehicle Recovery">
+                                    <option value="car">Car Recovery</option>
+                                    <option value="bike">Bike / Scooter / Moped Recovery</option>
+                                    <option value="trailer">Trailer / Caravan Recovery</option>
+                                </optgroup>
+                                <optgroup label="Pet Recovery">
+                                    <option value="dog">Dog Recovery</option>
+                                    <option value="cat">Cat Recovery</option>
+                                    <option value="bird">Bird Recovery</option>
+                                    <option value="rabbit">Rabbit / Small Mammal Recovery</option>
+                                    <option value="horse">Horse / Equine Recovery</option>
+                                    <option value="exotic">Exotic Pet Recovery</option>
+                                </optgroup>
+                                <optgroup label="Digital Recovery">
+                                    <option value="meta">Meta (Facebook / Instagram) Account Recovery</option>
+                                    <option value="x">X (Twitter) Account Recovery</option>
+                                    <option value="other-digital">Other Digital Account Recovery</option>
+                                </optgroup>
+                                <option value="general">General Inquiry</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-message" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
+                                Message
+                            </label>
+                            <textarea placeholder="Describe your situation in detail — include dates, locations, registration numbers, pet description, or account details..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-primary form-submit">
+                            <i class="fas fa-paper-plane"></i> Send Message
+                        </button>
+                    </form>
+                    <div class="form-success" id="formSuccess">
+                        <i class="fas fa-circle-check"></i>
+                        <h4>Message Sent Successfully</h4>
+                        <p>Our team has received your message and will respond within 15 minutes. Check your email for confirmation.</p>
+                    </div>
+                </div>
+
+                <!-- Email Us Card -->
+                <div class="contact-card anim-right d2" style="display:flex;flex-direction:column">
+                    <div class="contact-card-glow" style="top:-100px;left:-100px;right:auto"></div>
+                    <div class="contact-card-header">
+                        <div class="contact-card-icon"><i class="fas fa-envelope-open-text"></i></div>
+                        <div>
+                            <h3>Email Us Directly</h3>
+                            <p>Prefer email? Choose the right channel below</p>
+                        </div>
+                    </div>
+                    <div class="email-feature">
+                        <div class="email-feature-icon"><i class="fas fa-car-burst"></i></div>
+                        <div>
+                            <h4>Vehicle Recovery Team</h4>
+                            <p>For stolen cars, bikes, scooters, mopeds, trailers, and caravans. Include registration and police report details.</p>
+                        </div>
+                    </div>
+                    <div class="email-feature">
+                        <div class="email-feature-icon" style="color:var(--pet-pink);background:rgba(236,72,153,.08)">
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <div>
+                            <h4>Pet Recovery Team</h4>
+                            <p>For missing dogs, cats, birds, rabbits, horses, and exotic pets. Include photos, breed, and last known location.</p>
+                        </div>
+                    </div>
+                    <div class="email-feature">
+                        <div class="email-feature-icon"><i class="fas fa-laptop-code"></i></div>
+                        <div>
+                            <h4>Digital Account Recovery</h4>
+                            <p>For hacked Meta, X, TikTok, Snapchat, email, and other accounts. Include screenshots if available.</p>
+                        </div>
+                    </div>
+                    <div class="email-feature">
+                        <div class="email-feature-icon"><i class="fas fa-circle-question"></i></div>
+                        <div>
+                            <h4>General Inquiries</h4>
+                            <p>Pricing, partnerships, media, or any other questions about our services.</p>
+                        </div>
+                    </div>
+                    <div class="email-actions">
+                        <a href="mailto:legitpatrol1@gmail.com?subject=Recovery%20Case%20-%20Urgent&body=Please%20describe%20your%20situation%20below%3A%0A%0AName%3A%20%0APhone%3A%20%0AService%20Needed%3A%20%0ADetails%3A%20" target="_blank" class="btn-email btn-email-primary">
+                            <i class="fas fa-envelope"></i> Email Recovery Team
+                        </a>
+                        <a href="mailto:legitpatrol1@gmail.com?subject=Missing%20Pet%20-%20Urgent&body=Pet%20Details%3A%0ABreed%3A%20%0AColor%2FSize%3A%20%0ALast%20Seen%3A%20%0ALocation%3A%20%0ADescription%3A%20" target="_blank" class="btn-email btn-email-pet">
+                            <i class="fas fa-paw"></i> Email Pet Recovery Team
+                        </a>
+                        <a href="mailto:legitpatrol1@gmail.com?subject=General%20Inquiry&body=Hi%20Legit%20Patrol%2C%0A%0AI%20would%20like%20to%20inquire%20about%3A%0A%0A" target="_blank" class="btn-email btn-email-secondary">
+                            <i class="fas fa-at"></i> General Inquiries
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Quick Contact — BOOTSTRAP RESPONSIVE GRID -->
+    <section class="section grid-bg" style="padding-top:60px">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> REACH US ANYWHERE</div>
+                <h2 class="section-title">Multiple Ways to <span>Connect</span></h2>
+            </div>
+            <div class="row g-4">
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <a href="mailto:legitpatrol1@gmail.com" target="_blank" class="quick-card anim-up d2">
+                        <i class="fas fa-envelope"></i>
+                        <h4>Email Us</h4>
+                        <p>legitpatrol1@gmail.com</p>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <a href="#" class="quick-card anim-up d3" id="liveChatCard">
+                        <i class="fas fa-comments"></i>
+                        <h4>Live Chat</h4>
+                        <p>Chat in real-time</p>
+                    </a>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-12">
+                    <a href="" target="_blank" class="quick-card anim-up d4">
+                        <i class="fab fa-whatsapp"></i>
+                        <h4>WhatsApp</h4>
+                        <p>Send a message</p>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Office Hours -->
+    <section class="section">
+        <div class="container">
+            <div class="section-header anim-up">
+                <div class="section-tag"><i class="fas fa-circle"></i> AVAILABILITY</div>
+                <h2 class="section-title">Office <span>Hours</span></h2>
+            </div>
+            <div style="max-width:600px;margin:0 auto">
+                <div class="hours-row anim-up d1">
+                    <span>Monday — Sunday</span>
+                    <span class="time">24HRS</span>
+                </div>
+                <div class="hours-row hours-emergency anim-up d4">
+                    <span><i class="fas fa-bolt" style="margin-right:8px"></i>Emergency Line</span>
+                    <span class="time">24/7 — Always Active</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-grid">
+                <div class="footer-brand">
+                    <a href="index.html" class="nav-logo">
+                        <div class="nav-logo-icon">
+                            <i class="fas fa-shield-halved"></i>
+                            <i class="fas fa-magnifying-glass"></i>
+                            <i class="fas fa-paw"></i>
+                        </div>
+                        <div class="nav-logo-text">Legit<span>Patrol</span></div>
+                    </a>
+                    <p>Professional tracking and recovery services for stolen vehicles and missing pets. Trusted by thousands across the country.</p>
+                    <div class="footer-social">
+                        <a href="https://www.facebook.com/share/1DvacHvp3x/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                    </div>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Services</a></li>
+                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Services</h4>
+                    <ul>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Vehicle Recovery</a></li>
+                        <li><a href="services-pets.html"><i class="fas fa-chevron-right"></i> Pet Recovery</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Trailer Recovery</a></li>
+                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Motorcycle Tracking</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Info</h4>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-envelope"></i>
+                        <a href="mailto:legitpatrol1@gmail.com?subject=Recovery Assistance Request&body=Hello Legit Patrol,%0D%0A%0D%0AI understand your company specializes in recovery. I would like to request assistance with the following:%0D%0A%0D%0A%0D%0A%0D%0AThank you." target="_blank">
+                            legitpatrol1@gmail.com
+                        </a>
+                    </div>
+                    <div class="footer-contact-item">
+                        <i class="fas fa-clock"></i>
+                        <span>24/7 — Always Active</span>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Legit Patrol. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        $(document).ready(function() {
+            // Scroll handler
+            $(window).on('scroll', function() {
+                var scrollTop = $(window).scrollTop();
+                var docHeight = $(document).height() - $(window).height();
+                var scrollPercent = (scrollTop / docHeight) * 100;
+                $('#scroll-progress').css('width', scrollPercent + '%');
+                
+                // Navbar effect
+                if (scrollTop > 80) {
+                    $('.navbar').addClass('scrolled');
+                } else {
+                    $('.navbar').removeClass('scrolled');
+                }
+                
+                // Scroll to top button visibility
+                if (scrollTop > 300) {
+                    $('#scrollToTopBtn').addClass('visible');
+                } else {
+                    $('#scrollToTopBtn').removeClass('visible');
+                }
+                
+                // Scroll animations
+                $('.anim-up, .anim-left, .anim-right, .anim-scale').each(function() {
+                    var elementTop = $(this).offset().top;
+                    var windowBottom = scrollTop + $(window).height();
+                    if (elementTop < windowBottom - 80) {
+                        $(this).addClass('animated');
+                    }
+                });
+            });
+            
+            // Scroll to top button click
+            $('#scrollToTopBtn').on('click', function() {
+                window.scrollTo({
+                    top: 0,
+                    behavior: 'smooth'
+                });
+            });
+            
+            // Mobile menu toggle
+            $('.nav-toggle').on('click', function() {
+                $('.nav-links').toggleClass('open');
+                $(this).find('i').toggleClass('fa-bars fa-times');
+            });
+            
+            // Contact form submission
+            $('#contactForm').on('submit', function(e) {
+                e.preventDefault();
+                $(this).hide();
+                $('#formSuccess').show();
+                
+                setTimeout(function() {
+                    $('#contactForm')[0].reset();
+                    $('#contactForm').show();
+                    $('#formSuccess').hide();
+                }, 5000);
+            });
+            
+            // Live Chat card — triggers Tawk.to chat
+            $('#liveChatCard').on('click', function(e) {
+                e.preventDefault();
+                if (typeof Tawk_API !== 'undefined' && typeof Tawk_API.toggle === 'function') {
+                    Tawk_API.toggle();
+                } else {
+                    setTimeout(function() {
+                        if (typeof Tawk_API !== 'undefined' && typeof Tawk_API.toggle === 'function') {
+                            Tawk_API.toggle();
+                        } else {
+                            window.open('https://tawk.to/chat/69f888a84126b11c39d606b0/default', '_blank');
+                        }
+                    }, 1000);
+                }
+            });
+            
+            // Initialize
+            $(window).trigger('scroll');
+        });
+    </script>
+
+    <!--Start of Tawk.to Script-->
+    <script type="text/javascript">
+        var Tawk_API=Tawk_API||{}, Tawk_LoadStart=new Date();
+        (function(){
+            var s1=document.createElement("script"),s0=document.getElementsByTagName("script")[0];
+            s1.async=true;
+            s1.src='https://embed.tawk.to/69f888a84126b11c39d606b0/default';
+            s1.charset='UTF-8';
+            s1.setAttribute('crossorigin','*');
+            s0.parentNode.insertBefore(s1,s0);
+        })();
+    </script>
+    <!--End of Tawk.to Script-->
+</body>
+</html>
