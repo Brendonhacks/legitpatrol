@@ -6,7 +6,7 @@
     <title>About Us — Legit Patrol</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -21,21 +21,48 @@
             box-sizing:border-box;
         }
         
+        /* ============ DARK MODE (Default) ============ */
         :root {
             --bg-primary: #0a0a0a;
             --bg-secondary: #111111;
             --bg-card: #1a1a1a;
             --accent: #00a8ff;
             --accent-dark: #0088cc;
-            --accent-glow: rgba(0,168,255,.25);
+            --accent-glow: rgba(0,168,255,0.25);
+            --accent-glow-strong: rgba(0,168,255,0.5);
             --alert: #ff6d00;
-            --alert-glow: rgba(255,109,0,.3);
+            --alert-glow: rgba(255,109,0,0.3);
             --text-primary: #f0f0f0;
             --text-secondary: #888888;
             --text-muted: #555555;
             --border: #2a2a2a;
             --font-heading: 'Chakra Petch', sans-serif;
             --font-body: 'Inter', sans-serif;
+            --navbar-bg: rgba(10,10,10,0.95);
+            --footer-bg: #111111;
+            --toggle-bg: rgba(255,255,255,0.08);
+            --toggle-border: rgba(255,255,255,0.15);
+        }
+        
+        /* ============ LIGHT MODE ============ */
+        [data-theme="light"] {
+            --bg-primary: #ffffff;
+            --bg-secondary: #f8f9fa;
+            --bg-card: #ffffff;
+            --accent: #0077cc;
+            --accent-dark: #005fa3;
+            --accent-glow: rgba(0,119,204,0.2);
+            --accent-glow-strong: rgba(0,119,204,0.4);
+            --alert: #e65c00;
+            --alert-glow: rgba(230,92,0,0.2);
+            --text-primary: #1a1a1a;
+            --text-secondary: #555555;
+            --text-muted: #999999;
+            --border: #e0e0e0;
+            --navbar-bg: rgba(255,255,255,0.95);
+            --footer-bg: #f8f9fa;
+            --toggle-bg: rgba(0,0,0,0.06);
+            --toggle-border: rgba(0,0,0,0.15);
         }
         
         html {
@@ -48,6 +75,7 @@
             color: var(--text-primary);
             overflow-x: hidden;
             line-height: 1.7;
+            transition: background 0.4s ease, color 0.4s ease;
         }
         
         #scroll-progress {
@@ -65,6 +93,10 @@
             background-image: radial-gradient(circle, rgba(0,168,255,.07) 1px, transparent 1px);
             background-size: 32px 32px;
         }
+        
+        [data-theme="light"] .grid-bg {
+            background-image: radial-gradient(circle, rgba(0,119,204,.05) 1px, transparent 1px);
+        }
 
         /* Scroll to Top Button */
         .scroll-to-top {
@@ -74,7 +106,7 @@
             width: 46px;
             height: 46px;
             background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: #000;
+            color: #fff;
             border: none;
             border-radius: 12px;
             font-size: 18px;
@@ -101,140 +133,176 @@
             box-shadow: 0 8px 25px var(--accent-glow);
         }
 
-        /* Navbar - Full Width */
+        /* ============ NAVBAR ============ */
         .navbar {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             z-index: 9999;
-            padding: 18px 0;
+            padding: 24px 0;
             transition: all .4s ease;
+            background: var(--navbar-bg);
+            backdrop-filter: blur(20px);
+            box-shadow: 0 2px 30px rgba(0,0,0,.15);
         }
         
-        .navbar.scrolled {
-            background: rgba(10,10,10,.95);
-            backdrop-filter: blur(20px);
-            padding: 12px 0;
+        [data-theme="dark"] .navbar {
             box-shadow: 0 2px 30px rgba(0,0,0,.5);
         }
         
         .nav-container {
             width: 100%;
-            padding: 0 30px;
+            padding: 0 40px;
             display: flex;
             align-items: center;
             justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto;
         }
         
         .nav-logo {
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 14px;
             text-decoration: none;
+            flex-shrink: 0;
         }
-        
+
         .nav-logo-icon {
-            width: 42px;
-            height: 42px;
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            border-radius: 10px;
+            width: auto;
+            height: auto;
+            background: transparent;
+            border-radius: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            font-size: 18px;
-            color: #000;
-            position: relative;
+            flex-shrink: 0;
         }
-        
-        .nav-logo-icon .fa-shield-halved {
-            font-size: 24px;
+
+        .nav-logo-icon img {
+            height: 48px;
+            width: auto;
+            display: block;
+            transition: height 0.4s ease;
         }
-        
-        .nav-logo-icon .fa-magnifying-glass {
-            position: absolute;
-            font-size: 10px;
-            bottom: 6px;
-            right: 6px;
-            color: #000;
-        }
-        
-        .nav-logo-icon .fa-paw {
-            position: absolute;
-            font-size: 8px;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%);
-            color: #000;
-        }
-        
+
         .nav-logo-text {
             font-family: var(--font-heading);
-            font-size: 22px;
-            font-weight: 700;
+            font-size: 28px;
+            font-weight: 800;
             color: var(--text-primary);
-            letter-spacing: 1px;
+            letter-spacing: 2px;
+            white-space: nowrap;
+            text-transform: uppercase;
+            transition: font-size 0.4s ease;
         }
         
         .nav-logo-text span {
             color: var(--accent);
+            font-weight: 800;
+        }
+        
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 24px;
         }
         
         .nav-links {
             display: flex;
             align-items: center;
-            gap: 8px;
+            gap: 12px;
             list-style: none;
+            margin: 0;
+            padding: 0;
         }
         
         .nav-links a {
             text-decoration: none;
             color: var(--text-secondary);
-            font-size: 14px;
-            font-weight: 500;
-            padding: 8px 18px;
-            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            padding: 10px 22px;
+            border-radius: 10px;
             transition: all .3s ease;
-            letter-spacing: .5px;
+            letter-spacing: 1px;
             font-family: var(--font-heading);
+            position: relative;
+            display: inline-block;
         }
         
-        .nav-links a:hover {
+        .nav-links a:hover,
+        .nav-links a:focus {
             color: var(--accent);
-            background: rgba(0,168,255,.08);
-        }
-        
-        .nav-links a.active {
-            color: var(--accent);
-            background: rgba(0,168,255,.12);
-        }
-        
-        .nav-cta {
-            background: linear-gradient(135deg, var(--accent), var(--accent-dark)) !important;
-            color: #000 !important;
-            font-weight: 600 !important;
-        }
-        
-        .nav-cta:hover {
+            background: rgba(0,168,255,.1);
             transform: translateY(-2px);
-            box-shadow: 0 8px 25px var(--accent-glow);
+            outline: none;
+        }
+        
+        /* ACTIVE STATE - Always visible */
+        .nav-links a.active {
+            color: var(--accent) !important;
+            background: rgba(0,168,255,.15) !important;
+            font-weight: 700;
+        }
+        
+        /* Underline effect for active link */
+        .nav-links a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 20px;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 1px;
+        }
+
+        /* Theme Toggle in Navbar */
+        .theme-toggle-nav {
+            background: var(--toggle-bg);
+            border: 2px solid var(--toggle-border);
+            color: var(--text-primary);
+            width: 46px;
+            height: 46px;
+            border-radius: 12px;
+            font-size: 19px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all .3s ease;
+            flex-shrink: 0;
+        }
+        
+        .theme-toggle-nav:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: rotate(15deg);
         }
         
         .nav-toggle {
             display: none;
-            background: none;
-            border: none;
+            background: rgba(255,255,255,0.15);
+            border: 2px solid rgba(255,255,255,0.3);
             color: var(--text-primary);
-            font-size: 24px;
+            font-size: 26px;
             cursor: pointer;
+            padding: 10px;
+            flex-shrink: 0;
+            line-height: 1;
+            border-radius: 10px;
         }
 
-        /* Page Hero */
+        /* ============ PAGE HERO ============ */
         .page-hero {
-            padding: 160px 0 80px;
+            padding: 180px 0 80px;
             text-align: center;
             position: relative;
             overflow: hidden;
+            transition: background 0.4s ease;
         }
         
         .page-hero::before {
@@ -291,9 +359,10 @@
             text-decoration: none;
         }
 
-        /* Sections */
+        /* ============ SECTIONS ============ */
         .section {
             padding: 100px 0;
+            transition: background 0.4s ease;
         }
         
         .section-header {
@@ -343,13 +412,13 @@
             padding: 0 30px;
         }
 
-        /* Buttons */
+        /* ============ BUTTONS ============ */
         .btn-primary {
             display: inline-flex;
             align-items: center;
             gap: 10px;
             background: linear-gradient(135deg, var(--accent), var(--accent-dark));
-            color: #000;
+            color: #fff;
             font-family: var(--font-heading);
             font-weight: 600;
             font-size: 15px;
@@ -360,14 +429,16 @@
             border: none;
             cursor: pointer;
             letter-spacing: .5px;
+            box-shadow: 0 8px 25px rgba(0,0,0,0.3);
         }
         
         .btn-primary:hover {
             transform: translateY(-3px);
             box-shadow: 0 12px 35px var(--accent-glow);
+            color: #fff;
         }
 
-        /* Story Grid */
+        /* ============ STORY SECTION ============ */
         .story-image {
             position: relative;
             border-radius: 20px;
@@ -454,6 +525,12 @@
             background: var(--bg-card);
             border: 1px solid var(--border);
             border-radius: 10px;
+            transition: all 0.3s ease;
+        }
+        
+        .story-highlight-item:hover {
+            border-color: rgba(0,168,255,.3);
+            transform: translateY(-2px);
         }
         
         .story-highlight-item i {
@@ -467,9 +544,10 @@
             font-family: var(--font-heading);
         }
 
-        /* Mission & Vision */
+        /* ============ MISSION & VISION ============ */
         .mv-section {
             background: var(--bg-secondary);
+            transition: background 0.4s ease;
         }
         
         .mv-card {
@@ -486,6 +564,11 @@
         .mv-card:hover {
             border-color: rgba(0,168,255,.25);
             transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0,0,0,.15);
+        }
+        
+        [data-theme="dark"] .mv-card:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,.4);
         }
         
         .mv-card::before {
@@ -527,7 +610,7 @@
             z-index: 2;
         }
 
-        /* Values Grid */
+        /* ============ VALUES ============ */
         .value-card {
             text-align: center;
             padding: 40px 24px;
@@ -542,6 +625,10 @@
             border-color: rgba(0,168,255,.25);
             transform: translateY(-8px);
             box-shadow: 0 20px 50px rgba(0,0,0,.3);
+        }
+        
+        [data-theme="dark"] .value-card:hover {
+            box-shadow: 0 20px 50px rgba(0,0,0,.5);
         }
         
         .value-icon {
@@ -560,7 +647,7 @@
         
         .value-card:hover .value-icon {
             background: var(--accent);
-            color: #000;
+            color: #fff;
             transform: scale(1.1) rotate(5deg);
         }
         
@@ -577,9 +664,10 @@
             line-height: 1.7;
         }
 
-        /* Founder Section */
+        /* ============ FOUNDER ============ */
         .founder-section {
             background: var(--bg-secondary);
+            transition: background 0.4s ease;
         }
         
         .founder-card {
@@ -592,6 +680,16 @@
             padding: 50px;
             overflow: hidden;
             position: relative;
+            transition: all 0.3s ease;
+        }
+        
+        .founder-card:hover {
+            border-color: rgba(0,168,255,.25);
+            box-shadow: 0 15px 40px rgba(0,0,0,.15);
+        }
+        
+        [data-theme="dark"] .founder-card:hover {
+            box-shadow: 0 15px 40px rgba(0,0,0,.4);
         }
         
         .founder-card::before {
@@ -679,11 +777,11 @@
         
         .founder-social a:hover {
             background: var(--accent);
-            color: #000;
+            color: #fff;
             border-color: var(--accent);
         }
 
-        /* Team Grid */
+        /* ============ TEAM ============ */
         .team-card {
             background: var(--bg-card);
             border: 1px solid var(--border);
@@ -697,6 +795,10 @@
             border-color: rgba(0,168,255,.25);
             transform: translateY(-8px);
             box-shadow: 0 20px 50px rgba(0,0,0,.4);
+        }
+        
+        [data-theme="dark"] .team-card:hover {
+            box-shadow: 0 20px 50px rgba(0,0,0,.6);
         }
         
         .team-card-img {
@@ -775,12 +877,13 @@
         
         .team-card-social a:hover {
             background: var(--accent);
-            color: #000;
+            color: #fff;
         }
 
-        /* Impact */
+        /* ============ IMPACT ============ */
         .impact-section {
             background: var(--bg-secondary);
+            transition: background 0.4s ease;
         }
         
         .impact-item {
@@ -796,6 +899,11 @@
         .impact-item:hover {
             border-color: rgba(0,168,255,.25);
             transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,.2);
+        }
+        
+        [data-theme="dark"] .impact-item:hover {
+            box-shadow: 0 15px 30px rgba(0,0,0,.4);
         }
         
         .impact-item i {
@@ -819,7 +927,7 @@
             letter-spacing: .5px;
         }
 
-        /* CTA */
+        /* ============ CTA ============ */
         .cta-section {
             padding: 80px 0;
         }
@@ -872,18 +980,19 @@
             margin-right: auto;
         }
 
-        /* Footer */
+        /* ============ FOOTER ============ */
         .footer {
-            background: var(--bg-secondary);
+            background: var(--footer-bg);
             border-top: 1px solid var(--border);
             padding: 70px 0 0;
+            transition: background 0.4s ease;
         }
         
-        .footer-grid {
-            display: grid;
-            grid-template-columns: 2fr 1fr 1fr 1.5fr;
-            gap: 50px;
-            margin-bottom: 50px;
+        .footer .nav-logo-text {
+            color: var(--text-primary);
+            font-size: 24px;
+            font-weight: 800;
+            letter-spacing: 1.5px;
         }
         
         .footer-brand p {
@@ -916,7 +1025,7 @@
         
         .footer-social a:hover {
             background: var(--accent);
-            color: #000;
+            color: #fff;
             border-color: var(--accent);
             transform: translateY(-3px);
         }
@@ -926,11 +1035,14 @@
             font-size: 15px;
             font-weight: 600;
             margin-bottom: 20px;
+            color: var(--text-primary);
             letter-spacing: .5px;
         }
         
         .footer-col ul {
             list-style: none;
+            padding: 0;
+            margin: 0;
         }
         
         .footer-col ul li {
@@ -994,16 +1106,19 @@
             display: flex;
             align-items: center;
             justify-content: space-between;
+            flex-wrap: wrap;
         }
         
         .footer-bottom p {
             font-size: 13px;
             color: var(--text-muted);
+            margin: 0;
         }
         
         .footer-bottom-links {
             display: flex;
             gap: 24px;
+            flex-wrap: wrap;
         }
         
         .footer-bottom-links a {
@@ -1017,7 +1132,7 @@
             color: var(--accent);
         }
 
-        /* Animations */
+        /* ============ ANIMATIONS ============ */
         .anim-up {
             opacity: 0;
             transform: translateY(50px);
@@ -1069,33 +1184,111 @@
         .d5 { transition-delay: .5s !important; }
         .d6 { transition-delay: .6s !important; }
 
-        /* Responsive */
+        /* ============ RESPONSIVE ============ */
+        @media(max-width: 1200px) {
+            .nav-container {
+                padding: 0 30px;
+            }
+            .nav-logo-text {
+                font-size: 26px;
+            }
+        }
+        
         @media(max-width: 1024px) {
-            .footer-grid {
-                grid-template-columns: repeat(2, 1fr);
+            .founder-card {
+                gap: 40px;
+                padding: 40px;
+            }
+        }
+        
+        @media(max-width: 991px) {
+            .page-hero {
+                padding: 160px 0 60px;
+            }
+            
+            /* Mobile navbar */
+            .navbar {
+                padding: 16px 0;
+            }
+            
+            .nav-container {
+                padding: 0 24px;
+            }
+            
+            .nav-logo {
+                gap: 12px;
+            }
+            
+            .nav-logo-icon img {
+                height: 38px;
+            }
+            
+            .nav-logo-text {
+                font-size: 22px;
+            }
+            
+            /* CRITICAL: Mobile menu with scroll support */
+            .nav-links {
+                display: none;
+                position: fixed;
+                top: 80px;
+                left: 0;
+                width: 100%;
+                max-height: calc(100vh - 80px);
+                overflow-y: auto;
+                background: var(--navbar-bg);
+                backdrop-filter: blur(20px);
+                flex-direction: column;
+                padding: 24px 30px;
+                gap: 8px;
+                border-bottom: 2px solid var(--border);
+                box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+                -webkit-overflow-scrolling: touch;
+                z-index: 9998;
+            }
+            
+            .nav-links.open {
+                display: flex;
+            }
+            
+            .nav-links li {
+                width: 100%;
+            }
+            
+            .nav-links a {
+                display: block;
+                width: 100%;
+                padding: 14px 20px;
+                font-size: 17px;
+                font-weight: 600;
+            }
+            
+            .nav-links a.active {
+                color: var(--accent) !important;
+                background: rgba(0,168,255,.15) !important;
+                border-radius: 10px;
+            }
+            
+            .nav-toggle {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+            
+            .nav-right {
+                gap: 12px;
             }
         }
         
         @media(max-width: 768px) {
-            .nav-links {
-                display: none;
-                position: absolute;
-                top: 100%;
-                left: 0;
-                width: 100%;
-                background: rgba(10,10,10,.98);
-                backdrop-filter: blur(20px);
-                flex-direction: column;
-                padding: 20px 30px;
-                gap: 4px;
-                border-bottom: 1px solid var(--border);
+            .page-hero {
+                padding: 140px 0 50px;
             }
-            .nav-links.open {
-                display: flex;
+            
+            .page-hero h1 {
+                font-size: clamp(28px, 6vw, 42px);
             }
-            .nav-toggle {
-                display: block;
-            }
+            
             .founder-card {
                 flex-direction: column;
                 padding: 30px;
@@ -1107,20 +1300,14 @@
                 width: 100%;
                 height: 280px;
             }
-            .footer-grid {
-                grid-template-columns: 1fr;
-                gap: 30px;
-            }
-            .footer-bottom {
-                flex-direction: column;
-                gap: 12px;
-                text-align: center;
-            }
             .cta-box {
                 padding: 40px 24px;
             }
             .story-highlights {
                 grid-template-columns: 1fr;
+            }
+            .story-image img {
+                height: 350px;
             }
             .scroll-to-top {
                 bottom: 20px;
@@ -1129,10 +1316,145 @@
                 height: 40px;
                 font-size: 16px;
             }
+            .section {
+                padding: 60px 0;
+            }
+            .footer-bottom {
+                flex-direction: column;
+                gap: 12px;
+                text-align: center;
+            }
+            .footer-bottom-links {
+                justify-content: center;
+            }
+            
+            /* Navbar adjustments */
+            .navbar {
+                padding: 12px 0;
+            }
+            
+            .nav-container {
+                padding: 0 16px;
+            }
+            
+            .nav-links {
+                top: 64px;
+                max-height: calc(100vh - 64px);
+            }
+        }
+        
+        @media(max-width: 575px) {
+            .page-hero {
+                padding: 130px 0 40px;
+            }
+            
+            .page-hero h1 {
+                font-size: clamp(24px, 7vw, 32px);
+            }
+            
+            .page-hero p {
+                font-size: 14px;
+            }
+
+            /* Navbar tight spacing */
+            .nav-container {
+                padding: 0 12px !important;
+            }
+            
+            .nav-logo {
+                gap: 8px;
+            }
+            
+            .nav-logo-icon img {
+                height: 34px;
+            }
+            
+            .nav-logo-text {
+                font-size: 20px;
+                letter-spacing: 1px;
+            }
+            
+            .nav-right {
+                gap: 8px;
+            }
+            
+            .theme-toggle-nav {
+                width: 40px;
+                height: 40px;
+                font-size: 16px;
+                border-radius: 10px;
+            }
+            
+            .nav-toggle {
+                font-size: 22px;
+                padding: 8px;
+            }
+            
+            .nav-links {
+                top: 60px;
+                max-height: calc(100vh - 60px);
+                padding: 20px 20px;
+            }
+            
+            .nav-links a {
+                font-size: 16px;
+                padding: 12px 16px;
+            }
+            
+            .story-image img {
+                height: 280px;
+            }
+            
+            .story-content h2 {
+                font-size: 28px;
+            }
+            
+            .mv-card {
+                padding: 30px 24px;
+            }
+            
+            .container {
+                padding: 0 15px;
+            }
+        }
+        
+        @media(max-width: 360px) {
+            .nav-logo-text {
+                font-size: 18px;
+                letter-spacing: 0.5px;
+            }
+            
+            .nav-logo-icon img {
+                height: 30px;
+            }
+            
+            .theme-toggle-nav {
+                width: 36px;
+                height: 36px;
+                font-size: 15px;
+            }
+            
+            .nav-toggle {
+                font-size: 20px;
+                padding: 8px;
+            }
+            
+            .nav-links {
+                top: 56px;
+                max-height: calc(100vh - 56px);
+            }
+            
+            .container {
+                padding: 0 12px;
+            }
+            
+            .founder-card {
+                padding: 20px;
+            }
         }
     </style>
 </head>
-<body>
+<body data-theme="dark">
     <div id="scroll-progress"></div>
     
     <!-- Scroll to Top Button -->
@@ -1140,24 +1462,27 @@
         <i class="fas fa-arrow-up"></i>
     </button>
     
-    <!-- Navbar - FULL WIDTH -->
+    <!-- Navbar - INNER PAGE: Always has background -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
                 <div class="nav-logo-icon">
-                    <i class="fas fa-shield-halved"></i>
-                    <i class="fas fa-magnifying-glass"></i>
-                    <i class="fas fa-paw"></i>
+                    <img src="logo/logo.png" alt="LegitPatrol Logo">
                 </div>
                 <div class="nav-logo-text">Legit<span>Patrol</span></div>
             </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html" class="active">About Us</a></li>
-                <li><a href="services-vehicles.html">Services</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-            </ul>
-            <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html" class="active">About Us</a></li>
+                    <li><a href="services-vehicles.html">Services</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+                <button class="theme-toggle-nav d-flex" id="themeToggle" title="Toggle Dark/Light Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+            </div>
         </div>
     </nav>
 
@@ -1175,7 +1500,7 @@
         </div>
     </section>
 
-    <!-- Our Story - BOOTSTRAP RESPONSIVE -->
+    <!-- Our Story -->
     <section class="section">
         <div class="container">
             <div class="row align-items-center g-5">
@@ -1209,7 +1534,7 @@
         </div>
     </section>
 
-    <!-- Mission & Vision - BOOTSTRAP RESPONSIVE -->
+    <!-- Mission & Vision -->
     <section class="section mv-section">
         <div class="container">
             <div class="section-header anim-up">
@@ -1235,7 +1560,7 @@
         </div>
     </section>
 
-    <!-- Values - BOOTSTRAP RESPONSIVE -->
+    <!-- Values -->
     <section class="section grid-bg">
         <div class="container">
             <div class="section-header anim-up">
@@ -1300,7 +1625,7 @@
         </div>
     </section>
 
-    <!-- Team - BOOTSTRAP RESPONSIVE -->
+    <!-- Team -->
     <section class="section grid-bg">
         <div class="container">
             <div class="section-header anim-up">
@@ -1317,7 +1642,6 @@
                         <div class="team-card-body">
                             <h4>Victoria Chen</h4>
                             <p>Head of Investigations</p>
-                            <div class="team-card-social"></div>
                         </div>
                     </div>
                 </div>
@@ -1330,7 +1654,6 @@
                         <div class="team-card-body">
                             <h4>Marcus Thompson</h4>
                             <p>Pet Recovery Director</p>
-                            <div class="team-card-social"></div>
                         </div>
                     </div>
                 </div>
@@ -1343,7 +1666,6 @@
                         <div class="team-card-body">
                             <h4>Sophia Martinez</h4>
                             <p>Vehicle Tracking Lead</p>
-                            <div class="team-card-social"></div>
                         </div>
                     </div>
                 </div>
@@ -1356,7 +1678,6 @@
                         <div class="team-card-body">
                             <h4>Daniel Reese</h4>
                             <p>Field Recovery Lead</p>
-                            <div class="team-card-social"></div>
                         </div>
                     </div>
                 </div>
@@ -1369,7 +1690,6 @@
                         <div class="team-card-body">
                             <h4>Rachel Brooks</h4>
                             <p>Client Relations Manager</p>
-                            <div class="team-card-social"></div>
                         </div>
                     </div>
                 </div>
@@ -1382,7 +1702,6 @@
                         <div class="team-card-body">
                             <h4>Liam Foster</h4>
                             <p>Lead Systems Engineer</p>
-                            <div class="team-card-social"></div>
                         </div>
                     </div>
                 </div>
@@ -1390,7 +1709,7 @@
         </div>
     </section>
 
-    <!-- Impact - BOOTSTRAP RESPONSIVE -->
+    <!-- Impact -->
     <section class="section impact-section">
         <div class="container">
             <div class="section-header anim-up">
@@ -1446,52 +1765,59 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="nav-logo">
-                        <div class="nav-logo-icon">
-                            <i class="fas fa-shield-halved"></i>
-                            <i class="fas fa-magnifying-glass"></i>
-                            <i class="fas fa-paw"></i>
-                        </div>
-                        <div class="nav-logo-text">Legit<span>Patrol</span></div>
-                    </a>
-                    <p>Professional tracking and recovery services for stolen vehicles and missing pets. Trusted by thousands across the country.</p>
-                    <div class="footer-social">
-                        <a href="https://www.facebook.com/share/1DvacHvp3x/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
-                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Services</a></li>
-                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Vehicle Recovery</a></li>
-                        <li><a href="services-pets.html"><i class="fas fa-chevron-right"></i> Pet Recovery</a></li>
-                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Trailer Recovery</a></li>
-                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Motorcycle Tracking</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Contact Info</h4>
-                    <div class="footer-contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <a href="mailto:legitpatrol1@gmail.com?subject=Recovery Assistance Request&body=Hello Legit Patrol,%0D%0A%0D%0AI understand your company specializes in recovery. I would like to request assistance with the following:%0D%0A%0D%0A%0D%0A%0D%0AThank you." target="_blank">
-                            legitpatrol1@gmail.com
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-brand">
+                        <a href="index.html" class="nav-logo">
+                            <div class="nav-logo-icon">
+                                <img src="logo/logo.png" alt="LegitPatrol Logo">
+                            </div>
+                            <div class="nav-logo-text">Legit<span>Patrol</span></div>
                         </a>
+                        <p>Professional tracking and recovery services for stolen vehicles and missing pets. Trusted by thousands across the country.</p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/share/1DvacHvp3x/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/legit__patrol?igsh=aGkxZXl1dHdwZ2t4&utm_source=ig_contact_invite" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://t.me/legitpatrol1" target="_blank"><i class="fab fa-telegram"></i></a>
+                        </div>
                     </div>
-                    <div class="footer-contact-item">
-                        <i class="fas fa-clock"></i>
-                        <span>24/7 — Always Active</span>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                            <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Services</a></li>
+                            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-col">
+                        <h4>Services</h4>
+                        <ul>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Vehicle Recovery</a></li>
+                            <li><a href="services-pets.html"><i class="fas fa-chevron-right"></i> Pet Recovery</a></li>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Trailer Recovery</a></li>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Motorcycle Tracking</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-col">
+                        <h4>Contact Info</h4>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:legitpatrol1@gmail.com?subject=Recovery Assistance Request&body=Hello Legit Patrol,%0D%0A%0D%0AI understand your company specializes in recovery. I would like to request assistance with the following:%0D%0A%0D%0A%0D%0A%0D%0AThank you." target="_blank">
+                                legitpatrol1@gmail.com
+                            </a>
+                        </div>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>24/7 — Always Active</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1505,20 +1831,33 @@
 
     <script>
         $(document).ready(function() {
-            // Scroll handler
+            // ============ THEME MANAGEMENT ============
+            var currentTheme = localStorage.getItem('theme') || 'dark';
+            $('body').attr('data-theme', currentTheme);
+            updateThemeIcon(currentTheme);
+            
+            $('#themeToggle').on('click', function() {
+                var newTheme = $('body').attr('data-theme') === 'dark' ? 'light' : 'dark';
+                $('body').attr('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+            
+            function updateThemeIcon(theme) {
+                if (theme === 'light') {
+                    $('#themeToggle i').removeClass('fa-moon').addClass('fa-sun');
+                } else {
+                    $('#themeToggle i').removeClass('fa-sun').addClass('fa-moon');
+                }
+            }
+            
+            // ============ SCROLL HANDLERS ============
             $(window).on('scroll', function() {
                 var scrollTop = $(window).scrollTop();
                 var docHeight = $(document).height() - $(window).height();
                 var scrollPercent = (scrollTop / docHeight) * 100;
                 $('#scroll-progress').css('width', scrollPercent + '%');
                 
-                if (scrollTop > 80) {
-                    $('.navbar').addClass('scrolled');
-                } else {
-                    $('.navbar').removeClass('scrolled');
-                }
-                
-                // Scroll to top button visibility
                 if (scrollTop > 300) {
                     $('#scrollToTopBtn').addClass('visible');
                 } else {
@@ -1534,21 +1873,39 @@
                 });
             });
             
-            // Scroll to top button click
             $('#scrollToTopBtn').on('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
+                window.scrollTo({ top: 0, behavior: 'smooth' });
             });
             
-            // Mobile menu toggle
-            $('.nav-toggle').on('click', function() {
+            // ============ MOBILE MENU ============
+            $('.nav-toggle').on('click', function(e) {
+                e.stopPropagation();
                 $('.nav-links').toggleClass('open');
                 $(this).find('i').toggleClass('fa-bars fa-times');
             });
             
-            // Initialize
+            // Close menu when clicking a link
+            $('.nav-links a').on('click', function() {
+                $('.nav-links').removeClass('open');
+                $('.nav-toggle i').removeClass('fa-times').addClass('fa-bars');
+            });
+            
+            // Close menu when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.nav-links').length && !$(e.target).closest('.nav-toggle').length) {
+                    $('.nav-links').removeClass('open');
+                    $('.nav-toggle i').removeClass('fa-times').addClass('fa-bars');
+                }
+            });
+            
+            // Keyboard accessibility
+            $('.nav-toggle').on('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    $(this).click();
+                }
+            });
+            
             $(window).trigger('scroll');
         });
     </script>
