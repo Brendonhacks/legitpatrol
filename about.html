@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us — Legit Patrol</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -76,14 +76,6 @@
             overflow-x: hidden;
             line-height: 1.7;
             transition: background 0.4s ease, color 0.4s ease;
-            width: 100%;
-            max-width: 100vw;
-        }
-
-        body.menu-open {
-            overflow: hidden;
-            position: fixed;
-            width: 100%;
         }
         
         #scroll-progress {
@@ -141,167 +133,370 @@
             box-shadow: 0 8px 25px var(--accent-glow);
         }
 
-        /* ============ NAVBAR ============ */
-        .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            z-index: 9999;
-            padding: 24px 0;
-            transition: all .4s ease;
-            background: var(--navbar-bg);
-            backdrop-filter: blur(20px);
-            box-shadow: 0 2px 30px rgba(0,0,0,.15);
-        }
-        
-        [data-theme="dark"] .navbar {
-            box-shadow: 0 2px 30px rgba(0,0,0,.5);
-        }
-        
-        .nav-container {
-            width: 100%;
-            padding: 0 40px;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            max-width: 1400px;
-            margin: 0 auto;
-            box-sizing: border-box;
-        }
-        
-        .nav-logo {
-            display: flex;
-            align-items: center;
-            gap: 14px;
-            text-decoration: none;
-            flex-shrink: 0;
-        }
+        /* ============ NAVBAR - FIXED RESPONSIVE ============ */
+.navbar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 9999;
+    padding: 16px 0;
+    transition: all .4s ease;
+    background: var(--navbar-bg);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 2px 30px rgba(0,0,0,.15);
+}
 
-        .nav-logo-icon {
-            width: auto;
-            height: auto;
-            background: transparent;
-            border-radius: 0;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-shrink: 0;
-        }
+[data-theme="dark"] .navbar {
+    box-shadow: 0 2px 30px rgba(0,0,0,.5);
+}
 
-        .nav-logo-icon img {
-            height: 48px;
-            width: auto;
-            display: block;
-            transition: height 0.4s ease;
-        }
+.nav-container {
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    max-width: 1400px;
+    margin: 0 auto;
+    flex-wrap: nowrap;
+}
 
-        .nav-logo-text {
-            font-family: var(--font-heading);
-            font-size: 28px;
-            font-weight: 800;
-            color: var(--text-primary);
-            letter-spacing: 2px;
-            white-space: nowrap;
-            text-transform: uppercase;
-            transition: font-size 0.4s ease;
-        }
-        
-        .nav-logo-text span {
-            color: var(--accent);
-            font-weight: 800;
-        }
-        
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 24px;
-        }
-        
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            list-style: none;
-            margin: 0;
-            padding: 0;
-        }
-        
-        .nav-links a {
-            text-decoration: none;
-            color: var(--text-secondary);
-            font-size: 16px;
-            font-weight: 600;
-            padding: 10px 22px;
-            border-radius: 10px;
-            transition: all .3s ease;
-            letter-spacing: 1px;
-            font-family: var(--font-heading);
-            position: relative;
-            display: inline-block;
-        }
-        
-        .nav-links a:hover,
-        .nav-links a:focus {
-            color: var(--accent);
-            background: rgba(0,168,255,.1);
-            transform: translateY(-2px);
-            outline: none;
-        }
-        
-        .nav-links a.active {
-            color: var(--accent) !important;
-            background: rgba(0,168,255,.15) !important;
-            font-weight: 700;
-        }
-        
-        .nav-links a.active::after {
-            content: '';
-            position: absolute;
-            bottom: 4px;
-            left: 50%;
-            transform: translateX(-50%);
-            width: 20px;
-            height: 2px;
-            background: var(--accent);
-            border-radius: 1px;
-        }
+.nav-logo {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    flex-shrink: 0;
+    min-width: 0;
+}
 
-        /* Theme Toggle in Navbar */
-        .theme-toggle-nav {
-            background: var(--toggle-bg);
-            border: 2px solid var(--toggle-border);
-            color: var(--text-primary);
-            width: 46px;
-            height: 46px;
-            border-radius: 12px;
-            font-size: 19px;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: all .3s ease;
-            flex-shrink: 0;
-        }
-        
-        .theme-toggle-nav:hover {
-            border-color: var(--accent);
-            color: var(--accent);
-            transform: rotate(15deg);
-        }
-        
-        .nav-toggle {
-            display: none;
-            background: rgba(255,255,255,0.15);
-            border: 2px solid rgba(255,255,255,0.3);
-            color: var(--text-primary);
-            font-size: 26px;
-            cursor: pointer;
-            padding: 10px;
-            flex-shrink: 0;
-            line-height: 1;
-            border-radius: 10px;
-        }
+.nav-logo-icon {
+    width: auto;
+    height: auto;
+    background: transparent;
+    border-radius: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.nav-logo-icon img {
+    height: 38px;
+    width: auto;
+    display: block;
+    transition: height 0.4s ease;
+}
+
+.nav-logo-text {
+    font-family: var(--font-heading);
+    font-size: 22px;
+    font-weight: 800;
+    color: var(--text-primary);
+    letter-spacing: 1px;
+    white-space: nowrap;
+    text-transform: uppercase;
+    transition: font-size 0.4s ease;
+}
+
+.nav-logo-text span {
+    color: var(--accent);
+    font-weight: 800;
+}
+
+.nav-right {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: var(--text-secondary);
+    font-size: 14px;
+    font-weight: 600;
+    padding: 8px 14px;
+    border-radius: 10px;
+    transition: all .3s ease;
+    letter-spacing: 1px;
+    font-family: var(--font-heading);
+    position: relative;
+    display: inline-block;
+    white-space: nowrap;
+}
+
+.nav-links a:hover,
+.nav-links a:focus {
+    color: var(--accent);
+    background: rgba(0,168,255,.1);
+    transform: translateY(-2px);
+    outline: none;
+}
+
+/* ACTIVE STATE */
+.nav-links a.active {
+    color: var(--accent) !important;
+    background: rgba(0,168,255,.15) !important;
+    font-weight: 700;
+}
+
+.nav-links a.active::after {
+    content: '';
+    position: absolute;
+    bottom: 4px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 20px;
+    height: 2px;
+    background: var(--accent);
+    border-radius: 1px;
+}
+
+/* Theme Toggle */
+.theme-toggle-nav {
+    background: var(--toggle-bg);
+    border: 2px solid var(--toggle-border);
+    color: var(--text-primary);
+    width: 38px;
+    height: 38px;
+    border-radius: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all .3s ease;
+    flex-shrink: 0;
+}
+
+.theme-toggle-nav:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+    transform: rotate(15deg);
+}
+
+.nav-toggle {
+    display: none;
+    background: rgba(255,255,255,0.08);
+    border: 1px solid rgba(255,255,255,0.15);
+    color: var(--text-primary);
+    font-size: 20px;
+    cursor: pointer;
+    padding: 8px;
+    flex-shrink: 0;
+    line-height: 1;
+    border-radius: 8px;
+    width: 38px;
+    height: 38px;
+    align-items: center;
+    justify-content: center;
+}
+
+/* ============ RESPONSIVE BREAKPOINTS ============ */
+
+/* Large tablets and below */
+@media(max-width: 991px) {
+    .navbar {
+        padding: 12px 0;
+    }
+    
+    .nav-container {
+        padding: 0 16px;
+    }
+    
+    .nav-logo-icon img {
+        height: 34px;
+    }
+    
+    .nav-logo-text {
+        font-size: 20px;
+    }
+    
+    /* Hide desktop nav, show mobile menu */
+    .nav-links {
+        display: none;
+        position: fixed;
+        top: 62px;
+        left: 0;
+        width: 100%;
+        max-height: calc(100vh - 62px);
+        overflow-y: auto;
+        background: var(--navbar-bg);
+        backdrop-filter: blur(20px);
+        flex-direction: column;
+        padding: 16px 20px;
+        gap: 4px;
+        border-bottom: 2px solid var(--border);
+        box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        -webkit-overflow-scrolling: touch;
+        z-index: 9998;
+    }
+    
+    .nav-links.open {
+        display: flex;
+    }
+    
+    .nav-links li {
+        width: 100%;
+    }
+    
+    .nav-links a {
+        display: block;
+        width: 100%;
+        padding: 12px 16px;
+        font-size: 16px;
+        font-weight: 600;
+        text-align: center;
+    }
+    
+    .nav-links a.active {
+        color: var(--accent) !important;
+        background: rgba(0,168,255,.15) !important;
+        border-radius: 10px;
+    }
+    
+    .nav-toggle {
+        display: flex;
+    }
+    
+    .nav-right {
+        gap: 8px;
+    }
+}
+
+/* Small tablets and large phones */
+@media(max-width: 768px) {
+    .navbar {
+        padding: 10px 0;
+    }
+    
+    .nav-container {
+        padding: 0 12px;
+    }
+    
+    .nav-logo {
+        gap: 6px;
+    }
+    
+    .nav-logo-icon img {
+        height: 30px;
+    }
+    
+    .nav-logo-text {
+        font-size: 18px;
+        letter-spacing: 0.5px;
+    }
+    
+    .nav-links {
+        top: 54px;
+        max-height: calc(100vh - 54px);
+        padding: 12px 16px;
+    }
+    
+    .nav-links a {
+        font-size: 15px;
+        padding: 10px 14px;
+    }
+    
+    .theme-toggle-nav {
+        width: 36px;
+        height: 36px;
+        font-size: 15px;
+    }
+    
+    .nav-toggle {
+        width: 36px;
+        height: 36px;
+        font-size: 18px;
+    }
+    
+    .nav-right {
+        gap: 6px;
+    }
+}
+
+/* Small phones */
+@media(max-width: 480px) {
+    .navbar {
+        padding: 8px 0;
+    }
+    
+    .nav-container {
+        padding: 0 8px;
+    }
+    
+    .nav-logo-icon img {
+        height: 26px;
+    }
+    
+    .nav-logo-text {
+        font-size: 16px;
+        letter-spacing: 0px;
+    }
+    
+    .nav-links {
+        top: 46px;
+        max-height: calc(100vh - 46px);
+        padding: 10px 12px;
+    }
+    
+    .nav-links a {
+        font-size: 14px;
+        padding: 10px 12px;
+    }
+    
+    .theme-toggle-nav {
+        width: 32px;
+        height: 32px;
+        font-size: 14px;
+        border-radius: 8px;
+    }
+    
+    .nav-toggle {
+        width: 32px;
+        height: 32px;
+        font-size: 16px;
+        padding: 6px;
+    }
+    
+    .nav-right {
+        gap: 4px;
+    }
+}
+
+/* Extra small phones */
+@media(max-width: 360px) {
+    .nav-logo-icon img {
+        height: 24px;
+    }
+    
+    .nav-logo-text {
+        font-size: 15px;
+    }
+    
+    .theme-toggle-nav {
+        width: 30px;
+        height: 30px;
+        font-size: 13px;
+    }
+    
+    .nav-toggle {
+        width: 30px;
+        height: 30px;
+        font-size: 15px;
+    }
+}
 
         /* ============ PAGE HERO ============ */
         .page-hero {
@@ -858,6 +1053,34 @@
             font-size: 13px;
             color: var(--text-secondary);
         }
+        
+        .team-card-social {
+            display: flex;
+            justify-content: center;
+            gap: 8px;
+            margin-top: 16px;
+            padding-top: 16px;
+            border-top: 1px solid var(--border);
+        }
+        
+        .team-card-social a {
+            width: 34px;
+            height: 34px;
+            border-radius: 8px;
+            background: rgba(0,168,255,.06);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 13px;
+            transition: all .3s;
+            text-decoration: none;
+        }
+        
+        .team-card-social a:hover {
+            background: var(--accent);
+            color: #fff;
+        }
 
         /* ============ IMPACT ============ */
         .impact-section {
@@ -1206,30 +1429,24 @@
                 font-size: 22px;
             }
             
-            /* FIXED: Mobile menu - stays within screen */
+            /* CRITICAL: Mobile menu with scroll support */
             .nav-links {
                 display: none;
                 position: fixed;
                 top: 80px;
                 left: 0;
-                right: 0;
                 width: 100%;
-                max-width: 100%;
-                margin: 0;
-                max-height: calc(100dvh - 80px);
+                max-height: calc(100vh - 80px);
                 overflow-y: auto;
-                overflow-x: hidden;
                 background: var(--navbar-bg);
                 backdrop-filter: blur(20px);
                 flex-direction: column;
-                padding: 24px 20px;
+                padding: 24px 30px;
                 gap: 8px;
                 border-bottom: 2px solid var(--border);
                 box-shadow: 0 10px 30px rgba(0,0,0,0.3);
                 -webkit-overflow-scrolling: touch;
                 z-index: 9998;
-                box-sizing: border-box;
-                transform: translateX(0);
             }
             
             .nav-links.open {
@@ -1238,7 +1455,6 @@
             
             .nav-links li {
                 width: 100%;
-                box-sizing: border-box;
             }
             
             .nav-links a {
@@ -1247,7 +1463,12 @@
                 padding: 14px 20px;
                 font-size: 17px;
                 font-weight: 600;
-                box-sizing: border-box;
+            }
+            
+            .nav-links a.active {
+                color: var(--accent) !important;
+                background: rgba(0,168,255,.15) !important;
+                border-radius: 10px;
             }
             
             .nav-toggle {
@@ -1309,6 +1530,7 @@
                 justify-content: center;
             }
             
+            /* Navbar adjustments */
             .navbar {
                 padding: 12px 0;
             }
@@ -1319,9 +1541,7 @@
             
             .nav-links {
                 top: 64px;
-                max-height: calc(100dvh - 64px);
-                width: 100%;
-                max-width: 100%;
+                max-height: calc(100vh - 64px);
             }
         }
         
@@ -1338,6 +1558,7 @@
                 font-size: 14px;
             }
 
+            /* Navbar tight spacing */
             .nav-container {
                 padding: 0 12px !important;
             }
@@ -1373,10 +1594,8 @@
             
             .nav-links {
                 top: 60px;
-                max-height: calc(100dvh - 60px);
-                padding: 20px 16px;
-                width: 100%;
-                max-width: 100%;
+                max-height: calc(100vh - 60px);
+                padding: 20px 20px;
             }
             
             .nav-links a {
@@ -1424,9 +1643,7 @@
             
             .nav-links {
                 top: 56px;
-                max-height: calc(100dvh - 56px);
-                width: 100%;
-                max-width: 100%;
+                max-height: calc(100vh - 56px);
             }
             
             .container {
@@ -1442,11 +1659,12 @@
 <body data-theme="dark">
     <div id="scroll-progress"></div>
     
+    <!-- Scroll to Top Button -->
     <button class="scroll-to-top" id="scrollToTopBtn" title="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
     
-    <!-- Navbar -->
+    <!-- Navbar - INNER PAGE: Always has background -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
@@ -1602,7 +1820,8 @@
                     <p>With over 15 years of experience in private investigations and asset recovery, Alexander founded Legit Patrol after personally experiencing the helplessness of vehicle theft and the heartbreak of a missing family pet. His vision was clear: build a team that actually gets results.</p>
                     <p>Under his leadership, Legit Patrol has grown from a three-person operation to a nationwide service with a 99% success rate across vehicle and pet recoveries. Alexander holds certifications in GPS tracking systems, drone operations, and advanced surveillance techniques.</p>
                     <p>He is a frequent speaker at security conferences and a passionate advocate for animal welfare and theft prevention.</p>
-                    <div class="founder-social"></div>
+                    <div class="founder-social">
+                    </div>
                 </div>
             </div>
         </div>
@@ -1622,7 +1841,10 @@
                             <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?auto=format&fit=crop&w=500&q=80" alt="Victoria Chen">
                             <div class="team-card-overlay"><span>INVESTIGATIONS</span></div>
                         </div>
-                        <div class="team-card-body"><h4>Victoria Chen</h4><p>Head of Investigations</p></div>
+                        <div class="team-card-body">
+                            <h4>Victoria Chen</h4>
+                            <p>Head of Investigations</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
@@ -1631,7 +1853,10 @@
                             <img src="https://images.unsplash.com/photo-1506794778202-cad84cf45f1d?auto=format&fit=crop&w=500&q=80" alt="Marcus Thompson">
                             <div class="team-card-overlay"><span>PET RECOVERY</span></div>
                         </div>
-                        <div class="team-card-body"><h4>Marcus Thompson</h4><p>Pet Recovery Director</p></div>
+                        <div class="team-card-body">
+                            <h4>Marcus Thompson</h4>
+                            <p>Pet Recovery Director</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
@@ -1640,7 +1865,10 @@
                             <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?auto=format&fit=crop&w=500&q=80" alt="Sophia Martinez">
                             <div class="team-card-overlay"><span>VEHICLE TRACKING</span></div>
                         </div>
-                        <div class="team-card-body"><h4>Sophia Martinez</h4><p>Vehicle Tracking Lead</p></div>
+                        <div class="team-card-body">
+                            <h4>Sophia Martinez</h4>
+                            <p>Vehicle Tracking Lead</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
@@ -1649,7 +1877,10 @@
                             <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=500&q=80" alt="Daniel Reese">
                             <div class="team-card-overlay"><span>FIELD RECOVERY</span></div>
                         </div>
-                        <div class="team-card-body"><h4>Daniel Reese</h4><p>Field Recovery Lead</p></div>
+                        <div class="team-card-body">
+                            <h4>Daniel Reese</h4>
+                            <p>Field Recovery Lead</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
@@ -1658,7 +1889,10 @@
                             <img src="https://images.unsplash.com/photo-1598550874175-4d0ef436c909?auto=format&fit=crop&w=500&q=80" alt="Rachel Brooks">
                             <div class="team-card-overlay"><span>CLIENT RELATIONS</span></div>
                         </div>
-                        <div class="team-card-body"><h4>Rachel Brooks</h4><p>Client Relations Manager</p></div>
+                        <div class="team-card-body">
+                            <h4>Rachel Brooks</h4>
+                            <p>Client Relations Manager</p>
+                        </div>
                     </div>
                 </div>
                 <div class="col-lg-4 col-md-6">
@@ -1667,7 +1901,10 @@
                             <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=500&q=80" alt="Liam Foster">
                             <div class="team-card-overlay"><span>TECHNOLOGY</span></div>
                         </div>
-                        <div class="team-card-body"><h4>Liam Foster</h4><p>Lead Systems Engineer</p></div>
+                        <div class="team-card-body">
+                            <h4>Liam Foster</h4>
+                            <p>Lead Systems Engineer</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -1682,10 +1919,34 @@
                 <h2 class="section-title">Numbers That <span>Speak</span></h2>
             </div>
             <div class="row g-4">
-                <div class="col-lg-3 col-md-6"><div class="impact-item anim-up d1"><i class="fas fa-users"></i><div class="num">45+</div><div class="label">Team Members</div></div></div>
-                <div class="col-lg-3 col-md-6"><div class="impact-item anim-up d2"><i class="fas fa-map-location-dot"></i><div class="num">120+</div><div class="label">Cities Covered</div></div></div>
-                <div class="col-lg-3 col-md-6"><div class="impact-item anim-up d3"><i class="fas fa-handshake"></i><div class="num">5000+</div><div class="label">Happy Clients</div></div></div>
-                <div class="col-lg-3 col-md-6"><div class="impact-item anim-up d4"><i class="fas fa-award"></i><div class="num">12</div><div class="label">Industry Awards</div></div></div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="impact-item anim-up d1">
+                        <i class="fas fa-users"></i>
+                        <div class="num">45+</div>
+                        <div class="label">Team Members</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="impact-item anim-up d2">
+                        <i class="fas fa-map-location-dot"></i>
+                        <div class="num">120+</div>
+                        <div class="label">Cities Covered</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="impact-item anim-up d3">
+                        <i class="fas fa-handshake"></i>
+                        <div class="num">5000+</div>
+                        <div class="label">Happy Clients</div>
+                    </div>
+                </div>
+                <div class="col-lg-3 col-md-6">
+                    <div class="impact-item anim-up d4">
+                        <i class="fas fa-award"></i>
+                        <div class="num">12</div>
+                        <div class="label">Industry Awards</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -1696,7 +1957,9 @@
             <div class="cta-box anim-scale">
                 <h2>Want to Join Our <span style="color:var(--accent)">Team?</span></h2>
                 <p>We're always looking for talented investigators, pet search specialists, GPS tracking experts, and field operatives.</p>
-                <a href="contact.html" class="btn-primary"><i class="fas fa-paper-plane"></i> Get In Touch</a>
+                <a href="contact.html" class="btn-primary">
+                    <i class="fas fa-paper-plane"></i> Get In Touch
+                </a>
             </div>
         </div>
     </section>
@@ -1708,7 +1971,9 @@
                 <div class="col-lg-4 col-md-6">
                     <div class="footer-brand">
                         <a href="index.html" class="nav-logo">
-                            <div class="nav-logo-icon"><img src="logo/logo.png" alt="LegitPatrol Logo"></div>
+                            <div class="nav-logo-icon">
+                                <img src="logo/logo.png" alt="LegitPatrol Logo">
+                            </div>
                             <div class="nav-logo-text">Legit<span>Patrol</span></div>
                         </a>
                         <p>Professional tracking and recovery services for stolen vehicles and missing pets. Trusted by thousands across the country.</p>
@@ -1720,59 +1985,129 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-2 col-md-6"><div class="footer-col"><h4>Quick Links</h4><ul><li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li><li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li><li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Services</a></li><li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li></ul></div></div>
-                <div class="col-lg-2 col-md-6"><div class="footer-col"><h4>Services</h4><ul><li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Vehicle Recovery</a></li><li><a href="services-pets.html"><i class="fas fa-chevron-right"></i> Pet Recovery</a></li><li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Trailer Recovery</a></li><li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Motorcycle Tracking</a></li></ul></div></div>
-                <div class="col-lg-4 col-md-6"><div class="footer-col"><h4>Contact Info</h4><div class="footer-contact-item"><i class="fas fa-envelope"></i><a href="mailto:legitpatrol1@gmail.com?subject=Recovery Assistance Request&body=Hello Legit Patrol,%0D%0A%0D%0AI understand your company specializes in recovery. I would like to request assistance with the following:%0D%0A%0D%0A%0D%0A%0D%0AThank you." target="_blank">legitpatrol1@gmail.com</a></div><div class="footer-contact-item"><i class="fas fa-clock"></i><span>24/7 — Always Active</span></div></div></div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                            <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Services</a></li>
+                            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-col">
+                        <h4>Services</h4>
+                        <ul>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Vehicle Recovery</a></li>
+                            <li><a href="services-pets.html"><i class="fas fa-chevron-right"></i> Pet Recovery</a></li>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Trailer Recovery</a></li>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Motorcycle Tracking</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-col">
+                        <h4>Contact Info</h4>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:legitpatrol1@gmail.com?subject=Recovery Assistance Request&body=Hello Legit Patrol,%0D%0A%0D%0AI understand your company specializes in recovery. I would like to request assistance with the following:%0D%0A%0D%0A%0D%0A%0D%0AThank you." target="_blank">
+                                legitpatrol1@gmail.com
+                            </a>
+                        </div>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>24/7 — Always Active</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-            <div class="footer-bottom"><p>&copy; 2026 Legit Patrol. All rights reserved.</p><div class="footer-bottom-links"></div></div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Legit Patrol. All rights reserved.</p>
+                <div class="footer-bottom-links">
+                </div>
+            </div>
         </div>
     </footer>
 
     <script>
         $(document).ready(function() {
+            // ============ THEME MANAGEMENT ============
             var currentTheme = localStorage.getItem('theme') || 'dark';
             $('body').attr('data-theme', currentTheme);
             updateThemeIcon(currentTheme);
+            
             $('#themeToggle').on('click', function() {
                 var newTheme = $('body').attr('data-theme') === 'dark' ? 'light' : 'dark';
                 $('body').attr('data-theme', newTheme);
                 localStorage.setItem('theme', newTheme);
                 updateThemeIcon(newTheme);
             });
+            
             function updateThemeIcon(theme) {
-                if (theme === 'light') $('#themeToggle i').removeClass('fa-moon').addClass('fa-sun');
-                else $('#themeToggle i').removeClass('fa-sun').addClass('fa-moon');
+                if (theme === 'light') {
+                    $('#themeToggle i').removeClass('fa-moon').addClass('fa-sun');
+                } else {
+                    $('#themeToggle i').removeClass('fa-sun').addClass('fa-moon');
+                }
             }
+            
+            // ============ SCROLL HANDLERS ============
             $(window).on('scroll', function() {
-                var st = $(window).scrollTop();
-                var dh = $(document).height() - $(window).height();
-                $('#scroll-progress').css('width', (st / dh) * 100 + '%');
-                if (st > 300) $('#scrollToTopBtn').addClass('visible');
-                else $('#scrollToTopBtn').removeClass('visible');
+                var scrollTop = $(window).scrollTop();
+                var docHeight = $(document).height() - $(window).height();
+                var scrollPercent = (scrollTop / docHeight) * 100;
+                $('#scroll-progress').css('width', scrollPercent + '%');
+                
+                if (scrollTop > 300) {
+                    $('#scrollToTopBtn').addClass('visible');
+                } else {
+                    $('#scrollToTopBtn').removeClass('visible');
+                }
+                
                 $('.anim-up, .anim-left, .anim-right, .anim-scale').each(function() {
-                    if ($(this).offset().top < st + $(window).height() - 80) $(this).addClass('animated');
+                    var elementTop = $(this).offset().top;
+                    var windowBottom = scrollTop + $(window).height();
+                    if (elementTop < windowBottom - 80) {
+                        $(this).addClass('animated');
+                    }
                 });
             });
-            $('#scrollToTopBtn').on('click', function() { window.scrollTo({ top: 0, behavior: 'smooth' }); });
+            
+            $('#scrollToTopBtn').on('click', function() {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            
+            // ============ MOBILE MENU ============
             $('.nav-toggle').on('click', function(e) {
                 e.stopPropagation();
                 $('.nav-links').toggleClass('open');
                 $(this).find('i').toggleClass('fa-bars fa-times');
-                if ($('.nav-links').hasClass('open')) $('body').addClass('menu-open');
-                else $('body').removeClass('menu-open');
             });
+            
+            // Close menu when clicking a link
             $('.nav-links a').on('click', function() {
                 $('.nav-links').removeClass('open');
                 $('.nav-toggle i').removeClass('fa-times').addClass('fa-bars');
-                $('body').removeClass('menu-open');
             });
+            
+            // Close menu when clicking outside
             $(document).on('click', function(e) {
                 if (!$(e.target).closest('.nav-links').length && !$(e.target).closest('.nav-toggle').length) {
                     $('.nav-links').removeClass('open');
                     $('.nav-toggle i').removeClass('fa-times').addClass('fa-bars');
-                    $('body').removeClass('menu-open');
                 }
             });
+            
+            // Keyboard accessibility
+            $('.nav-toggle').on('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault();
+                    $(this).click();
+                }
+            });
+            
             $(window).trigger('scroll');
         });
     </script>
