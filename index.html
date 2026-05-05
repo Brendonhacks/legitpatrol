@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
     <title>Legit Patrol — Track. Recover. Return.</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -82,6 +82,15 @@
             overflow-x: hidden;
             line-height: 1.7;
             transition: background 0.4s ease, color 0.4s ease;
+            width: 100%;
+            max-width: 100vw;
+        }
+
+        /* Prevent body scroll when mobile menu is open */
+        body.menu-open {
+            overflow: hidden;
+            position: fixed;
+            width: 100%;
         }
         
         #scroll-progress {
@@ -170,6 +179,7 @@
             justify-content: space-between;
             max-width: 1400px;
             margin: 0 auto;
+            box-sizing: border-box;
         }
         
         .nav-logo {
@@ -1282,28 +1292,30 @@
                 font-size: 22px;
             }
             
-            /* FIXED: Mobile menu - no horizontal scroll */
+            /* FIXED: Mobile menu - stays within screen, no scroll escape */
             .nav-links {
                 display: none;
                 position: fixed;
                 top: 80px;
                 left: 0;
                 right: 0;
-                width: 100vw;
-                max-width: 100vw;
-                max-height: calc(100vh - 80px);
+                width: 100%;
+                max-width: 100%;
+                margin: 0;
+                max-height: calc(100dvh - 80px);
                 overflow-y: auto;
                 overflow-x: hidden;
                 background: var(--navbar-bg);
                 backdrop-filter: blur(20px);
                 flex-direction: column;
-                padding: 24px 30px;
+                padding: 24px 20px;
                 gap: 8px;
                 border-bottom: 2px solid var(--border);
                 box-shadow: 0 10px 30px rgba(0,0,0,0.3);
                 -webkit-overflow-scrolling: touch;
                 z-index: 9998;
                 box-sizing: border-box;
+                transform: translateX(0);
             }
             
             .nav-links.open {
@@ -1425,9 +1437,9 @@
             
             .nav-links {
                 top: 64px;
-                max-height: calc(100vh - 64px);
-                width: 100vw;
-                max-width: 100vw;
+                max-height: calc(100dvh - 64px);
+                width: 100%;
+                max-width: 100%;
             }
         }
         
@@ -1490,10 +1502,10 @@
             
             .nav-links {
                 top: 60px;
-                max-height: calc(100vh - 60px);
-                padding: 20px 20px;
-                width: 100vw;
-                max-width: 100vw;
+                max-height: calc(100dvh - 60px);
+                padding: 20px 16px;
+                width: 100%;
+                max-width: 100%;
             }
             
             .nav-links a {
@@ -1525,9 +1537,9 @@
             
             .nav-links {
                 top: 56px;
-                max-height: calc(100vh - 56px);
-                width: 100vw;
-                max-width: 100vw;
+                max-height: calc(100dvh - 56px);
+                width: 100%;
+                max-width: 100%;
             }
             
             .container {
@@ -1605,7 +1617,6 @@
         
         <!-- Content — clean, left-aligned, neatly stacked like the inspo -->
         <div class="hero-content">
-            <!-- <div class="hero-tagline anim-up">Track. Recover. Return.</div> -->
             <h1 class="hero-title anim-up d1">
                 <span class="line1">Find Your</span>
                 <span class="line2">
@@ -2198,8 +2209,6 @@
             
             startSlideshow();
 
-            // text writing 
-
             // ============ ROTATING TEXT ANIMATION ============
 var rotatingWords = [
     'Lost Pet',
@@ -2225,12 +2234,10 @@ function typeRotatingText() {
     var $rotatingText = $('#rotating-text');
     
     if (!isDeleting) {
-        // Typing
         currentCharIndex++;
         $rotatingText.text(currentWord.substring(0, currentCharIndex));
         
         if (currentCharIndex === currentWord.length) {
-            // Word complete — pause then start deleting
             isDeleting = true;
             setTimeout(typeRotatingText, pauseBetweenWords);
             return;
@@ -2238,12 +2245,10 @@ function typeRotatingText() {
         
         setTimeout(typeRotatingText, typingSpeed);
     } else {
-        // Deleting
         currentCharIndex--;
         $rotatingText.text(currentWord.substring(0, currentCharIndex));
         
         if (currentCharIndex === 0) {
-            // Word deleted — move to next word
             isDeleting = false;
             currentWordIndex = (currentWordIndex + 1) % rotatingWords.length;
             setTimeout(typeRotatingText, 400);
@@ -2254,7 +2259,6 @@ function typeRotatingText() {
     }
 }
 
-// Start the rotating text
 setTimeout(typeRotatingText, 1500);
             
             // ============ REVIEWS DROPDOWN ============
@@ -2342,14 +2346,32 @@ setTimeout(typeRotatingText, 1500);
                 window.scrollTo({ top: 0, behavior: 'smooth' });
             });
             
+            // ============ MOBILE MENU WITH LOCK BODY SCROLL ============
             $('.nav-toggle').on('click', function() {
                 $('.nav-links').toggleClass('open');
                 $(this).find('i').toggleClass('fa-bars fa-times');
+                
+                // Lock body scroll when menu is open
+                if ($('.nav-links').hasClass('open')) {
+                    $('body').addClass('menu-open');
+                } else {
+                    $('body').removeClass('menu-open');
+                }
             });
             
             $('.nav-links a').on('click', function() {
                 $('.nav-links').removeClass('open');
                 $('.nav-toggle i').removeClass('fa-times').addClass('fa-bars');
+                $('body').removeClass('menu-open');
+            });
+            
+            // Close menu when clicking outside
+            $(document).on('click', function(e) {
+                if (!$(e.target).closest('.nav-links').length && !$(e.target).closest('.nav-toggle').length) {
+                    $('.nav-links').removeClass('open');
+                    $('.nav-toggle i').removeClass('fa-times').addClass('fa-bars');
+                    $('body').removeClass('menu-open');
+                }
             });
             
             $(window).trigger('scroll');
