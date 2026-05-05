@@ -6,7 +6,7 @@
     <title>Pet Recovery — Legit Patrol</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
 
@@ -16,58 +16,81 @@
 
     <style>
         *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-        :root{--bg-primary:#0a0a0a;--bg-secondary:#111111;--bg-card:#1a1a1a;--accent:#00a8ff;--accent-dark:#0088cc;--accent-glow:rgba(0,168,255,.25);--alert:#ff6d00;--alert-glow:rgba(255,109,0,.3);--pet-purple:#a855f7;--pet-pink:#ec4899;--pet-green:#22c55e;--pet-orange:#f97316;--text-primary:#f0f0f0;--text-secondary:#888888;--text-muted:#555555;--border:#2a2a2a;--font-heading:'Chakra Petch',sans-serif;--font-body:'Inter',sans-serif}
-        html{scroll-behavior:smooth}body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;line-height:1.7}
+        
+        /* ============ DARK MODE (Default) ============ */
+        :root{--bg-primary:#0a0a0a;--bg-secondary:#111111;--bg-card:#1a1a1a;--accent:#00a8ff;--accent-dark:#0088cc;--accent-glow:rgba(0,168,255,.25);--alert:#ff6d00;--alert-glow:rgba(255,109,0,.3);--pet-purple:#a855f7;--pet-pink:#ec4899;--pet-green:#22c55e;--pet-orange:#f97316;--text-primary:#f0f0f0;--text-secondary:#888888;--text-muted:#555555;--border:#2a2a2a;--font-heading:'Chakra Petch',sans-serif;--font-body:'Inter',sans-serif;--navbar-bg:rgba(10,10,10,0.95);--footer-bg:#111111;--toggle-bg:rgba(255,255,255,0.08);--toggle-border:rgba(255,255,255,0.15)}
+        
+        /* ============ LIGHT MODE ============ */
+        [data-theme="light"]{--bg-primary:#ffffff;--bg-secondary:#f8f9fa;--bg-card:#ffffff;--accent:#0077cc;--accent-dark:#005fa3;--accent-glow:rgba(0,119,204,0.2);--alert:#e65c00;--alert-glow:rgba(230,92,0,0.2);--pet-purple:#a855f7;--pet-pink:#ec4899;--pet-green:#22c55e;--pet-orange:#f97316;--text-primary:#1a1a1a;--text-secondary:#555555;--text-muted:#999999;--border:#e0e0e0;--navbar-bg:rgba(255,255,255,0.95);--footer-bg:#f8f9fa;--toggle-bg:rgba(0,0,0,0.06);--toggle-border:rgba(0,0,0,0.15)}
+        
+        html{scroll-behavior:smooth}
+        body{font-family:var(--font-body);background:var(--bg-primary);color:var(--text-primary);overflow-x:hidden;line-height:1.7;transition:background 0.4s ease,color 0.4s ease}
         #scroll-progress{position:fixed;top:0;left:0;height:3px;background:linear-gradient(90deg,var(--accent),var(--pet-pink));z-index:10000;width:0;transition:width .1s linear}
         .grid-bg{background-image:radial-gradient(circle,rgba(0,168,255,.07) 1px,transparent 1px);background-size:32px 32px}
+        [data-theme="light"] .grid-bg{background-image:radial-gradient(circle,rgba(0,119,204,.05) 1px,transparent 1px)}
 
         /* Scroll to Top */
-        .scroll-to-top{position:fixed;bottom:30px;left:30px;width:46px;height:46px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#000;border:none;border-radius:12px;font-size:18px;cursor:pointer;z-index:9990;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(20px);transition:all .4s cubic-bezier(.16,1,.3,1);box-shadow:0 4px 15px rgba(0,0,0,.3)}
+        .scroll-to-top{position:fixed;bottom:30px;left:30px;width:46px;height:46px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;border:none;border-radius:12px;font-size:18px;cursor:pointer;z-index:9990;display:flex;align-items:center;justify-content:center;opacity:0;visibility:hidden;transform:translateY(20px);transition:all .4s cubic-bezier(.16,1,.3,1);box-shadow:0 4px 15px rgba(0,0,0,.3)}
         .scroll-to-top.visible{opacity:1;visibility:visible;transform:translateY(0)}
         .scroll-to-top:hover{transform:translateY(-4px);box-shadow:0 8px 25px var(--accent-glow)}
 
-        /* Navbar */
-        .navbar{position:fixed;top:0;left:0;width:100%;z-index:9999;padding:18px 0;transition:all .4s ease}
-        .navbar.scrolled{background:rgba(10,10,10,.95);backdrop-filter:blur(20px);padding:12px 0;box-shadow:0 2px 30px rgba(0,0,0,.5)}
-        .nav-container{width:100%;padding:0 30px;display:flex;align-items:center;justify-content:space-between}
-        .nav-logo{display:flex;align-items:center;gap:12px;text-decoration:none}
-        .nav-logo-icon{width:42px;height:42px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;color:#000;position:relative}
-        .nav-logo-icon .fa-shield-halved{font-size:24px}
-        .nav-logo-icon .fa-magnifying-glass{position:absolute;font-size:10px;bottom:6px;right:6px;color:#000}
-        .nav-logo-icon .fa-paw{position:absolute;font-size:8px;top:50%;left:50%;transform:translate(-50%,-50%);color:#000}
-        .nav-logo-text{font-family:var(--font-heading);font-size:22px;font-weight:700;color:var(--text-primary);letter-spacing:1px}.nav-logo-text span{color:var(--accent)}
-        .nav-links{display:flex;align-items:center;gap:8px;list-style:none}
-        .nav-links a{text-decoration:none;color:var(--text-secondary);font-size:14px;font-weight:500;padding:8px 18px;border-radius:8px;transition:all .3s ease;letter-spacing:.5px;font-family:var(--font-heading)}
-        .nav-links a:hover{color:var(--accent);background:rgba(0,168,255,.08)}
-        .nav-links a.active{color:var(--accent);background:rgba(0,168,255,.12)}
-        .nav-toggle{display:none;background:none;border:none;color:var(--text-primary);font-size:24px;cursor:pointer}
+        /* ============ NAVBAR ============ */
+        .navbar{position:fixed;top:0;left:0;width:100%;z-index:9999;padding:24px 0;transition:all .4s ease;background:var(--navbar-bg);backdrop-filter:blur(20px);box-shadow:0 2px 30px rgba(0,0,0,.15)}
+        [data-theme="dark"] .navbar{box-shadow:0 2px 30px rgba(0,0,0,.5)}
+        .nav-container{width:100%;padding:0 40px;display:flex;align-items:center;justify-content:space-between;max-width:1400px;margin:0 auto}
+        .nav-logo{display:flex;align-items:center;gap:14px;text-decoration:none;flex-shrink:0}
+        .nav-logo-icon{width:auto;height:auto;background:transparent;border-radius:0;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+        .nav-logo-icon img{height:48px;width:auto;display:block;transition:height 0.4s ease}
+        .nav-logo-text{font-family:var(--font-heading);font-size:28px;font-weight:800;color:var(--text-primary);letter-spacing:2px;white-space:nowrap;text-transform:uppercase;transition:font-size 0.4s ease}
+        .nav-logo-text span{color:var(--accent);font-weight:800}
+        .nav-right{display:flex;align-items:center;gap:24px}
+        .nav-links{display:flex;align-items:center;gap:12px;list-style:none;margin:0;padding:0}
+        .nav-links a{text-decoration:none;color:var(--text-secondary);font-size:16px;font-weight:600;padding:10px 22px;border-radius:10px;transition:all .3s ease;letter-spacing:1px;font-family:var(--font-heading);position:relative;display:inline-block}
+        .nav-links a:hover,.nav-links a:focus{color:var(--accent);background:rgba(0,168,255,.1);transform:translateY(-2px);outline:none}
+        .nav-links a.active{color:var(--accent)!important;background:rgba(0,168,255,.15)!important;font-weight:700}
+        .nav-links a.active::after{content:'';position:absolute;bottom:4px;left:50%;transform:translateX(-50%);width:20px;height:2px;background:var(--accent);border-radius:1px}
+        .theme-toggle-nav{background:var(--toggle-bg);border:2px solid var(--toggle-border);color:var(--text-primary);width:46px;height:46px;border-radius:12px;font-size:19px;cursor:pointer;display:flex;align-items:center;justify-content:center;transition:all .3s ease;flex-shrink:0}
+        .theme-toggle-nav:hover{border-color:var(--accent);color:var(--accent);transform:rotate(15deg)}
+        .nav-toggle{display:none;background:rgba(255,255,255,0.15);border:2px solid rgba(255,255,255,0.3);color:var(--text-primary);font-size:26px;cursor:pointer;padding:10px;flex-shrink:0;line-height:1;border-radius:10px}
 
-        /* Responsive Service Tabs */
-        .service-tabs-wrapper{background:var(--bg-secondary);border-bottom:1px solid var(--border);position:sticky;top:64px;z-index:10;padding:0}
+        /* Service Tabs */
+        .service-tabs-wrapper{background:var(--bg-secondary);border-bottom:1px solid var(--border);position:sticky;top:84px;z-index:10;padding:0;transition:background 0.4s ease}
         .service-tabs{display:flex;width:100%}
-        .service-tab{flex:1;padding:18px 20px;font-family:var(--font-heading);font-size:clamp(13px, 2vw, 16px);font-weight:600;color:var(--text-muted);text-decoration:none;transition:all .3s;border-bottom:3px solid transparent;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;white-space:nowrap}
+        .service-tab{flex:1;padding:18px 20px;font-family:var(--font-heading);font-size:clamp(13px,2vw,16px);font-weight:600;color:var(--text-muted);text-decoration:none;transition:all .3s;border-bottom:3px solid transparent;display:flex;align-items:center;justify-content:center;gap:10px;text-align:center;white-space:nowrap}
         .service-tab:hover{color:var(--accent);background:rgba(0,168,255,.03)}
         .service-tab.active{color:var(--pet-pink);border-bottom-color:var(--pet-pink);background:rgba(236,72,153,.08)}
-        .service-tab i{font-size:clamp(14px, 2vw, 18px)}
+        .service-tab i{font-size:clamp(14px,2vw,18px)}
 
         /* Page Hero */
-        .page-hero{padding:160px 0 80px;text-align:center;position:relative;overflow:hidden}
+        .page-hero{padding:180px 0 80px;text-align:center;position:relative;overflow:hidden;transition:background 0.4s ease}
         .page-hero::before{content:'';position:absolute;top:-200px;left:50%;transform:translateX(-50%);width:600px;height:600px;background:radial-gradient(circle,rgba(168,85,247,.2),transparent 70%);opacity:.4}
-        .page-hero .section-tag{margin-bottom:16px}.page-hero h1{font-family:var(--font-heading);font-size:clamp(36px,5vw,56px);font-weight:700;margin-bottom:16px;position:relative}.page-hero h1 span{color:var(--pet-pink)}.page-hero p{font-size:17px;color:var(--text-secondary);max-width:620px;margin:0 auto;position:relative;line-height:1.8}
-        .page-hero-breadcrumb{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:24px;font-size:13px;color:var(--text-muted);font-family:var(--font-heading);position:relative}.page-hero-breadcrumb a{color:var(--accent);text-decoration:none}
+        .page-hero .section-tag{margin-bottom:16px}
+        .page-hero h1{font-family:var(--font-heading);font-size:clamp(36px,5vw,56px);font-weight:700;margin-bottom:16px;position:relative}
+        .page-hero h1 span{color:var(--pet-pink)}
+        .page-hero p{font-size:17px;color:var(--text-secondary);max-width:620px;margin:0 auto;position:relative;line-height:1.8}
+        .page-hero-breadcrumb{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:24px;font-size:13px;color:var(--text-muted);font-family:var(--font-heading);position:relative}
+        .page-hero-breadcrumb a{color:var(--accent);text-decoration:none}
 
-        .section{padding:100px 0}.section-header{text-align:center;max-width:700px;margin:0 auto 60px}
-        .section-tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--pet-pink);font-weight:600;letter-spacing:2px;text-transform:uppercase;font-family:var(--font-heading);margin-bottom:16px}.section-tag i{font-size:10px}
-        .section-title{font-family:var(--font-heading);font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.2;margin-bottom:16px}.section-title span{color:var(--pet-pink)}
+        /* Sections */
+        .section{padding:100px 0;transition:background 0.4s ease}
+        .section-header{text-align:center;max-width:700px;margin:0 auto 60px}
+        .section-tag{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--pet-pink);font-weight:600;letter-spacing:2px;text-transform:uppercase;font-family:var(--font-heading);margin-bottom:16px}
+        .section-tag i{font-size:10px}
+        .section-title{font-family:var(--font-heading);font-size:clamp(28px,4vw,44px);font-weight:700;line-height:1.2;margin-bottom:16px}
+        .section-title span{color:var(--pet-pink)}
         .section-desc{font-size:16px;color:var(--text-secondary);line-height:1.8}
         .container{max-width:1280px;margin:0 auto;padding:0 30px}
 
-        .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#000;font-family:var(--font-heading);font-weight:600;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;transition:all .3s ease;border:none;cursor:pointer}.btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 35px var(--accent-glow)}
-        .btn-pet{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--pet-pink),var(--pet-purple));color:#fff;font-family:var(--font-heading);font-weight:600;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;transition:all .3s ease;border:none;cursor:pointer}.btn-pet:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(236,72,153,.3)}
+        /* Buttons */
+        .btn-primary{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--accent),var(--accent-dark));color:#fff;font-family:var(--font-heading);font-weight:600;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;transition:all .3s ease;border:none;cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,0.3)}
+        .btn-primary:hover{transform:translateY(-3px);box-shadow:0 12px 35px var(--accent-glow);color:#fff}
+        .btn-pet{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(135deg,var(--pet-pink),var(--pet-purple));color:#fff;font-family:var(--font-heading);font-weight:600;font-size:15px;padding:14px 32px;border-radius:10px;text-decoration:none;transition:all .3s ease;border:none;cursor:pointer;box-shadow:0 8px 25px rgba(0,0,0,0.3)}
+        .btn-pet:hover{transform:translateY(-3px);box-shadow:0 12px 35px rgba(236,72,153,.3);color:#fff}
 
         /* Pet Cards */
         .pet-card{background:var(--bg-card);border:1px solid var(--border);border-radius:20px;overflow:hidden;transition:all .5s cubic-bezier(.16,1,.3,1);position:relative;height:100%}
         .pet-card:hover{border-color:rgba(236,72,153,.3);transform:translateY(-10px);box-shadow:0 25px 60px rgba(0,0,0,.4)}
+        [data-theme="dark"] .pet-card:hover{box-shadow:0 25px 60px rgba(0,0,0,.6)}
         .pet-card-color{height:6px}
         .pet-card-body{padding:30px}
         .pet-card-icon{width:80px;height:80px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:34px;margin-bottom:20px;transition:all .4s}
@@ -77,15 +100,16 @@
         .pet-card-body .pet-desc{font-size:14px;color:var(--text-secondary);line-height:1.7;margin-bottom:18px}
         .pet-breeds{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:20px}
         .pet-breeds span{font-size:11px;padding:4px 12px;border-radius:50px;font-family:var(--font-heading);font-weight:500}
-        .pet-methods{list-style:none;margin-bottom:20px}
+        .pet-methods{list-style:none;margin-bottom:20px;padding:0}
         .pet-methods li{display:flex;align-items:center;gap:8px;padding:8px 0;font-size:13px;color:var(--text-secondary);border-top:1px solid var(--border)}
         .pet-methods li i{font-size:10px;min-width:14px}
         .pet-cta{text-align:center}
 
         /* Methods */
-        .methods-section{background:var(--bg-secondary)}
+        .methods-section{background:var(--bg-secondary);transition:background 0.4s ease}
         .method-card{display:flex;gap:20px;padding:30px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;transition:all .4s;height:100%}
-        .method-card:hover{border-color:rgba(236,72,153,.2);transform:translateY(-4px)}
+        .method-card:hover{border-color:rgba(236,72,153,.2);transform:translateY(-4px);box-shadow:0 15px 40px rgba(0,0,0,.2)}
+        [data-theme="dark"] .method-card:hover{box-shadow:0 15px 40px rgba(0,0,0,.4)}
         .method-icon{width:60px;height:60px;min-width:60px;border-radius:16px;display:flex;align-items:center;justify-content:center;font-size:24px;transition:all .3s}
         .method-card:hover .method-icon{transform:scale(1.1)}
         .method-card h4{font-family:var(--font-heading);font-size:17px;font-weight:600;margin-bottom:6px}
@@ -100,18 +124,21 @@
 
         /* Need Cards */
         .need-card{text-align:center;padding:36px 24px;background:var(--bg-card);border:1px solid var(--border);border-radius:16px;transition:all .4s;height:100%}
-        .need-card:hover{border-color:rgba(236,72,153,.25);transform:translateY(-6px)}
+        .need-card:hover{border-color:rgba(236,72,153,.25);transform:translateY(-6px);box-shadow:0 15px 40px rgba(0,0,0,.2)}
+        [data-theme="dark"] .need-card:hover{box-shadow:0 15px 40px rgba(0,0,0,.4)}
         .need-card i{font-size:32px;color:var(--pet-pink);margin-bottom:16px;display:block}
         .need-card h4{font-family:var(--font-heading);font-size:16px;font-weight:600;margin-bottom:10px}
-        .need-card ul{list-style:none;text-align:left}
+        .need-card ul{list-style:none;text-align:left;padding:0}
         .need-card ul li{font-size:13px;color:var(--text-secondary);padding:5px 0;display:flex;align-items:center;gap:8px}
-        .need-card ul li i{color:var(--pet-pink);font-size:10px}
+        .need-card ul li i{color:var(--pet-pink);font-size:10px;margin-bottom:0}
 
         /* Testimonials */
         .testimonial-card{background:var(--bg-card);border:1px solid var(--border);border-radius:16px;padding:30px;transition:all .4s;height:100%}
-        .testimonial-card:hover{border-color:rgba(236,72,153,.2);transform:translateY(-5px)}
+        .testimonial-card:hover{border-color:rgba(236,72,153,.2);transform:translateY(-5px);box-shadow:0 15px 40px rgba(0,0,0,.2)}
+        [data-theme="dark"] .testimonial-card:hover{box-shadow:0 15px 40px rgba(0,0,0,.4)}
         .testimonial-card .tq{font-size:28px;color:rgba(236,72,153,.12);margin-bottom:10px}
-        .testimonial-stars{display:flex;gap:3px;margin-bottom:14px}.testimonial-stars i{font-size:13px;color:#ffc107}
+        .testimonial-stars{display:flex;gap:3px;margin-bottom:14px}
+        .testimonial-stars i{font-size:13px;color:#ffc107}
         .testimonial-text{font-size:14px;color:var(--text-secondary);line-height:1.8;margin-bottom:18px;font-style:italic}
         .testimonial-author{display:flex;align-items:center;gap:12px}
         .testimonial-avatar{width:42px;height:42px;border-radius:50%;object-fit:cover;border:2px solid var(--border)}
@@ -119,7 +146,8 @@
         .testimonial-role{font-size:11px;color:var(--text-muted)}
 
         /* FAQ */
-        .faq-section{background:var(--bg-secondary)}.faq-list{max-width:800px;margin:0 auto}
+        .faq-section{background:var(--bg-secondary);transition:background 0.4s ease}
+        .faq-list{max-width:800px;margin:0 auto}
         .faq-item{background:var(--bg-card);border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;transition:border-color .3s}
         .faq-item.active{border-color:rgba(236,72,153,.3)}
         .faq-question{padding:20px 24px;cursor:pointer;display:flex;align-items:center;justify-content:space-between;font-family:var(--font-heading);font-size:15px;font-weight:600;transition:color .3s}
@@ -131,61 +159,140 @@
         .faq-answer p{font-size:14px;color:var(--text-secondary);line-height:1.8}
 
         /* CTA */
-        .cta-section{padding:80px 0}.cta-box{background:linear-gradient(135deg,rgba(236,72,153,.1),rgba(168,85,247,.05));border:1px solid rgba(236,72,153,.2);border-radius:24px;padding:60px;text-align:center;position:relative;overflow:hidden}
-        .cta-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(236,72,153,.15),transparent 50%);opacity:.4;animation:ctaG 6s ease-in-out infinite}@keyframes ctaG{0%,100%{transform:translate(0,0)}50%{transform:translate(5%,-5%)}}
-        .cta-box>*{position:relative;z-index:2}.cta-box h2{font-family:var(--font-heading);font-size:clamp(24px,3.5vw,38px);font-weight:700;margin-bottom:16px}
+        .cta-section{padding:80px 0}
+        .cta-box{background:linear-gradient(135deg,rgba(236,72,153,.1),rgba(168,85,247,.05));border:1px solid rgba(236,72,153,.2);border-radius:24px;padding:60px;text-align:center;position:relative;overflow:hidden}
+        .cta-box::before{content:'';position:absolute;top:-50%;left:-50%;width:200%;height:200%;background:radial-gradient(circle at 30% 50%,rgba(236,72,153,.15),transparent 50%);opacity:.4;animation:ctaG 6s ease-in-out infinite}
+        @keyframes ctaG{0%,100%{transform:translate(0,0)}50%{transform:translate(5%,-5%)}}
+        .cta-box>*{position:relative;z-index:2}
+        .cta-box h2{font-family:var(--font-heading);font-size:clamp(24px,3.5vw,38px);font-weight:700;margin-bottom:16px}
         .cta-box p{font-size:16px;color:var(--text-secondary);margin-bottom:30px;max-width:500px;margin-left:auto;margin-right:auto}
 
         /* Footer */
-        .footer{background:var(--bg-secondary);border-top:1px solid var(--border);padding:70px 0 0}
-        .footer-grid{display:grid;grid-template-columns:2fr 1fr 1fr 1.5fr;gap:50px;margin-bottom:50px}
+        .footer{background:var(--footer-bg);border-top:1px solid var(--border);padding:70px 0 0;transition:background 0.4s ease}
+        .footer .nav-logo-text{color:var(--text-primary);font-size:24px;font-weight:800;letter-spacing:1.5px}
         .footer-brand p{font-size:14px;color:var(--text-secondary);line-height:1.8;margin-top:16px}
-        .footer-social{display:flex;gap:12px;margin-top:24px}.footer-social a{width:40px;height:40px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:16px;transition:all .3s ease;text-decoration:none}.footer-social a:hover{background:var(--accent);color:#000;border-color:var(--accent);transform:translateY(-3px)}
-        .footer-col h4{font-family:var(--font-heading);font-size:15px;font-weight:600;margin-bottom:20px;letter-spacing:.5px}.footer-col ul{list-style:none}.footer-col ul li{margin-bottom:12px}.footer-col ul a{text-decoration:none;color:var(--text-secondary);font-size:14px;transition:all .3s ease;display:flex;align-items:center;gap:8px}.footer-col ul a:hover{color:var(--accent);transform:translateX(4px)}.footer-col ul a i{font-size:10px;color:var(--accent);opacity:0;transition:opacity .3s}.footer-col ul a:hover i{opacity:1}
-        .footer-contact-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}.footer-contact-item i{color:var(--accent);font-size:14px;margin-top:4px}.footer-contact-item span,.footer-contact-item a{font-size:14px;color:var(--text-secondary);text-decoration:none;transition:color .3s}.footer-contact-item a:hover{color:var(--accent)}
-        .footer-bottom{border-top:1px solid var(--border);padding:24px 0;display:flex;align-items:center;justify-content:space-between}.footer-bottom p{font-size:13px;color:var(--text-muted)}.footer-bottom-links{display:flex;gap:24px}.footer-bottom-links a{font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .3s}.footer-bottom-links a:hover{color:var(--accent)}
+        .footer-social{display:flex;gap:12px;margin-top:24px}
+        .footer-social a{width:40px;height:40px;border-radius:10px;background:var(--bg-card);border:1px solid var(--border);display:flex;align-items:center;justify-content:center;color:var(--text-secondary);font-size:16px;transition:all .3s ease;text-decoration:none}
+        .footer-social a:hover{background:var(--accent);color:#fff;border-color:var(--accent);transform:translateY(-3px)}
+        .footer-col h4{font-family:var(--font-heading);font-size:15px;font-weight:600;margin-bottom:20px;color:var(--text-primary);letter-spacing:.5px}
+        .footer-col ul{list-style:none;padding:0;margin:0}
+        .footer-col ul li{margin-bottom:12px}
+        .footer-col ul a{text-decoration:none;color:var(--text-secondary);font-size:14px;transition:all .3s ease;display:flex;align-items:center;gap:8px}
+        .footer-col ul a:hover{color:var(--accent);transform:translateX(4px)}
+        .footer-col ul a i{font-size:10px;color:var(--accent);opacity:0;transition:opacity .3s}
+        .footer-col ul a:hover i{opacity:1}
+        .footer-contact-item{display:flex;align-items:flex-start;gap:12px;margin-bottom:16px}
+        .footer-contact-item i{color:var(--accent);font-size:14px;margin-top:4px}
+        .footer-contact-item span,.footer-contact-item a{font-size:14px;color:var(--text-secondary);text-decoration:none;transition:color .3s}
+        .footer-contact-item a:hover{color:var(--accent)}
+        .footer-bottom{border-top:1px solid var(--border);padding:24px 0;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap}
+        .footer-bottom p{font-size:13px;color:var(--text-muted);margin:0}
+        .footer-bottom-links{display:flex;gap:24px;flex-wrap:wrap}
+        .footer-bottom-links a{font-size:13px;color:var(--text-muted);text-decoration:none;transition:color .3s}
+        .footer-bottom-links a:hover{color:var(--accent)}
 
         /* Animations */
-        .anim-up{opacity:0;transform:translateY(50px);transition:all .8s cubic-bezier(.16,1,.3,1)}.anim-up.animated{opacity:1;transform:translateY(0)}
-        .anim-left{opacity:0;transform:translateX(-50px);transition:all .8s cubic-bezier(.16,1,.3,1)}.anim-left.animated{opacity:1;transform:translateX(0)}
-        .anim-right{opacity:0;transform:translateX(50px);transition:all .8s cubic-bezier(.16,1,.3,1)}.anim-right.animated{opacity:1;transform:translateX(0)}
-        .anim-scale{opacity:0;transform:scale(.85);transition:all .8s cubic-bezier(.16,1,.3,1)}.anim-scale.animated{opacity:1;transform:scale(1)}
+        .anim-up{opacity:0;transform:translateY(50px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .anim-up.animated{opacity:1;transform:translateY(0)}
+        .anim-left{opacity:0;transform:translateX(-50px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .anim-left.animated{opacity:1;transform:translateX(0)}
+        .anim-right{opacity:0;transform:translateX(50px);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .anim-right.animated{opacity:1;transform:translateX(0)}
+        .anim-scale{opacity:0;transform:scale(.85);transition:all .8s cubic-bezier(.16,1,.3,1)}
+        .anim-scale.animated{opacity:1;transform:scale(1)}
         .d1{transition-delay:.1s!important}.d2{transition-delay:.2s!important}.d3{transition-delay:.3s!important}.d4{transition-delay:.4s!important}.d5{transition-delay:.5s!important}.d6{transition-delay:.6s!important}
 
-        @media(max-width:1024px){.footer-grid{grid-template-columns:repeat(2,1fr)}}
-        @media(max-width:768px){.nav-links{display:none;position:absolute;top:100%;left:0;width:100%;background:rgba(10,10,10,.98);backdrop-filter:blur(20px);flex-direction:column;padding:20px 30px;gap:4px;border-bottom:1px solid var(--border)}.nav-links.open{display:flex}.nav-toggle{display:block}.footer-grid{grid-template-columns:1fr;gap:30px}.footer-bottom{flex-direction:column;gap:12px;text-align:center}.cta-box{padding:40px 24px}.scroll-to-top{bottom:20px;left:20px;width:40px;height:40px;font-size:16px}.service-tab{padding:14px 12px;font-size:12px;gap:6px}}
+        /* ============ RESPONSIVE ============ */
+        @media(max-width:1200px){
+            .nav-container{padding:0 30px}
+            .nav-logo-text{font-size:26px}
+        }
+        @media(max-width:991px){
+            .page-hero{padding:160px 0 60px}
+            .navbar{padding:16px 0}
+            .nav-container{padding:0 24px}
+            .nav-logo{gap:12px}
+            .nav-logo-icon img{height:38px}
+            .nav-logo-text{font-size:22px}
+            .nav-links{display:none;position:fixed;top:80px;left:0;width:100%;max-height:calc(100vh - 80px);overflow-y:auto;background:var(--navbar-bg);backdrop-filter:blur(20px);flex-direction:column;padding:24px 30px;gap:8px;border-bottom:2px solid var(--border);box-shadow:0 10px 30px rgba(0,0,0,0.3);-webkit-overflow-scrolling:touch;z-index:9998}
+            .nav-links.open{display:flex}
+            .nav-links li{width:100%}
+            .nav-links a{display:block;width:100%;padding:14px 20px;font-size:17px;font-weight:600}
+            .nav-toggle{display:flex;align-items:center;justify-content:center}
+            .nav-right{gap:12px}
+            .service-tabs-wrapper{top:72px}
+        }
+        @media(max-width:768px){
+            .page-hero{padding:140px 0 50px}
+            .page-hero h1{font-size:clamp(28px,6vw,42px)}
+            .cta-box{padding:40px 24px}
+            .scroll-to-top{bottom:20px;left:20px;width:40px;height:40px;font-size:16px}
+            .section{padding:60px 0}
+            .service-tab{padding:14px 12px;font-size:12px;gap:6px}
+            .footer-bottom{flex-direction:column;gap:12px;text-align:center}
+            .footer-bottom-links{justify-content:center}
+            .navbar{padding:12px 0}
+            .nav-container{padding:0 16px}
+            .nav-links{top:64px;max-height:calc(100vh - 64px)}
+        }
+        @media(max-width:575px){
+            .page-hero{padding:130px 0 40px}
+            .page-hero h1{font-size:clamp(24px,7vw,32px)}
+            .page-hero p{font-size:14px}
+            .nav-container{padding:0 12px!important}
+            .nav-logo{gap:8px}
+            .nav-logo-icon img{height:34px}
+            .nav-logo-text{font-size:20px;letter-spacing:1px}
+            .nav-right{gap:8px}
+            .theme-toggle-nav{width:40px;height:40px;font-size:16px;border-radius:10px}
+            .nav-toggle{font-size:22px;padding:8px}
+            .nav-links{top:60px;max-height:calc(100vh - 60px);padding:20px 20px}
+            .nav-links a{font-size:16px;padding:12px 16px}
+            .container{padding:0 15px}
+            .pet-card-body{padding:20px}
+        }
+        @media(max-width:360px){
+            .nav-logo-text{font-size:18px;letter-spacing:0.5px}
+            .nav-logo-icon img{height:30px}
+            .theme-toggle-nav{width:36px;height:36px;font-size:15px}
+            .nav-toggle{font-size:20px;padding:8px}
+            .nav-links{top:56px;max-height:calc(100vh - 56px)}
+            .container{padding:0 12px}
+        }
     </style>
 </head>
-<body>
+<body data-theme="dark">
     <div id="scroll-progress"></div>
     
-    <!-- Scroll to Top Button -->
     <button class="scroll-to-top" id="scrollToTopBtn" title="Back to top">
         <i class="fas fa-arrow-up"></i>
     </button>
     
-    <!-- Navbar - FULL WIDTH -->
+    <!-- Navbar -->
     <nav class="navbar">
         <div class="nav-container">
             <a href="index.html" class="nav-logo">
                 <div class="nav-logo-icon">
-                    <i class="fas fa-shield-halved"></i>
-                    <i class="fas fa-magnifying-glass"></i>
-                    <i class="fas fa-paw"></i>
+                    <img src="logo/logo.png" alt="LegitPatrol Logo">
                 </div>
                 <div class="nav-logo-text">Legit<span>Patrol</span></div>
             </a>
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="about.html">About Us</a></li>
-                <li><a href="services-vehicles.html" class="active">Services</a></li>
-                <li><a href="contact.html">Contact Us</a></li>
-            </ul>
-            <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+            <div class="nav-right">
+                <ul class="nav-links">
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About Us</a></li>
+                    <li><a href="services-vehicles.html" class="active">Services</a></li>
+                    <li><a href="contact.html">Contact Us</a></li>
+                </ul>
+                <button class="theme-toggle-nav d-flex" id="themeToggle" title="Toggle Dark/Light Mode">
+                    <i class="fas fa-moon"></i>
+                </button>
+                <button class="nav-toggle"><i class="fas fa-bars"></i></button>
+            </div>
         </div>
     </nav>
 
-    <!-- Responsive Service Tabs -->
+    <!-- Service Tabs -->
     <div class="service-tabs-wrapper">
         <div class="container p-0">
             <div class="service-tabs">
@@ -208,14 +315,12 @@
             <div class="page-hero-breadcrumb anim-up d3">
                 <a href="index.html">Home</a> 
                 <i class="fas fa-chevron-right" style="font-size:10px"></i> 
-                <a href="services.html">Services</a> 
-                <i class="fas fa-chevron-right" style="font-size:10px"></i> 
-                Pet Recovery
+                Services
             </div>
         </div>
     </section>
 
-    <!-- Pet Type Cards - BOOTSTRAP RESPONSIVE -->
+    <!-- Pet Type Cards -->
     <section class="section">
         <div class="container">
             <div class="section-header anim-up">
@@ -335,7 +440,7 @@
         </div>
     </section>
 
-    <!-- Search Methods - BOOTSTRAP RESPONSIVE -->
+    <!-- Search Methods -->
     <section class="section methods-section">
         <div class="container">
             <div class="section-header anim-up">
@@ -371,7 +476,7 @@
         </div>
     </section>
 
-    <!-- Search Steps - BOOTSTRAP RESPONSIVE -->
+    <!-- Search Steps -->
     <section class="section grid-bg">
         <div class="container">
             <div class="section-header anim-up">
@@ -418,7 +523,7 @@
         </div>
     </section>
 
-    <!-- What We Need - BOOTSTRAP RESPONSIVE -->
+    <!-- What We Need -->
     <section class="section" style="background:var(--bg-secondary)">
         <div class="container">
             <div class="section-header anim-up">
@@ -469,7 +574,7 @@
         </div>
     </section>
 
-    <!-- Testimonials - BOOTSTRAP RESPONSIVE -->
+    <!-- Testimonials -->
     <section class="section">
         <div class="container">
             <div class="section-header anim-up">
@@ -483,7 +588,7 @@
                         <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                         <p class="testimonial-text">"Our golden retriever went missing for 5 days. Legit Patrol used drone surveillance to find him 30 miles away."</p>
                         <div class="testimonial-author">
-                            <img src="https://picsum.photos/seed/emmaw5/100/100.jpg" alt="" class="testimonial-avatar">
+                            <img src="https://i.pravatar.cc/100?img=5" alt="Emma Wallace" class="testimonial-avatar">
                             <div><div class="testimonial-name">Emma Wallace</div><div class="testimonial-role">Golden Retriever — Found in 5 days</div></div>
                         </div>
                     </div>
@@ -494,7 +599,7 @@
                         <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                         <p class="testimonial-text">"My Bengal cat disappeared. They found her being kept by someone two neighborhoods away. Absolute heroes."</p>
                         <div class="testimonial-author">
-                            <img src="https://picsum.photos/seed/lisap5/100/100.jpg" alt="" class="testimonial-avatar">
+                            <img src="https://i.pravatar.cc/100?img=16" alt="Lisa Park" class="testimonial-avatar">
                             <div><div class="testimonial-name">Lisa Park</div><div class="testimonial-role">Bengal Cat — Found in 2 days</div></div>
                         </div>
                     </div>
@@ -505,7 +610,7 @@
                         <div class="testimonial-stars"><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
                         <p class="testimonial-text">"Our African Grey parrot flew out. Their avian specialist located him 3 miles away. Incredible service."</p>
                         <div class="testimonial-author">
-                            <img src="https://picsum.photos/seed/karenw5/100/100.jpg" alt="" class="testimonial-avatar">
+                            <img src="https://i.pravatar.cc/100?img=23" alt="Karen Williams" class="testimonial-avatar">
                             <div><div class="testimonial-name">Karen Williams</div><div class="testimonial-role">African Grey — Found in 1 day</div></div>
                         </div>
                     </div>
@@ -556,52 +661,59 @@
     <!-- Footer -->
     <footer class="footer">
         <div class="container">
-            <div class="footer-grid">
-                <div class="footer-brand">
-                    <a href="index.html" class="nav-logo">
-                        <div class="nav-logo-icon">
-                            <i class="fas fa-shield-halved"></i>
-                            <i class="fas fa-magnifying-glass"></i>
-                            <i class="fas fa-paw"></i>
-                        </div>
-                        <div class="nav-logo-text">Legit<span>Patrol</span></div>
-                    </a>
-                    <p>Professional tracking and recovery services for stolen vehicles and missing pets. Trusted by thousands across the country.</p>
-                    <div class="footer-social">
-                        <a href="https://www.facebook.com/share/1DvacHvp3x/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
-                    </div>
-                </div>
-                <div class="footer-col">
-                    <h4>Quick Links</h4>
-                    <ul>
-                        <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
-                        <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
-                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Services</a></li>
-                        <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Services</h4>
-                    <ul>
-                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Vehicle Recovery</a></li>
-                        <li><a href="services-pets.html"><i class="fas fa-chevron-right"></i> Pet Recovery</a></li>
-                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Trailer Recovery</a></li>
-                        <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Motorcycle Tracking</a></li>
-                    </ul>
-                </div>
-                <div class="footer-col">
-                    <h4>Contact Info</h4>
-                    <div class="footer-contact-item">
-                        <i class="fas fa-envelope"></i>
-                        <a href="mailto:legitpatrol1@gmail.com?subject=Recovery Assistance Request&body=Hello Legit Patrol,%0D%0A%0D%0AI understand your company specializes in recovery. I would like to request assistance with the following:%0D%0A%0D%0A%0D%0A%0D%0AThank you." target="_blank">
-                            legitpatrol1@gmail.com
+            <div class="row g-4 mb-5">
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-brand">
+                        <a href="index.html" class="nav-logo">
+                            <div class="nav-logo-icon">
+                                <img src="logo/logo.png" alt="LegitPatrol Logo">
+                            </div>
+                            <div class="nav-logo-text">Legit<span>Patrol</span></div>
                         </a>
+                        <p>Professional tracking and recovery services for stolen vehicles and missing pets. Trusted by thousands across the country.</p>
+                        <div class="footer-social">
+                            <a href="https://www.facebook.com/share/1DvacHvp3x/?mibextid=wwXIfr" target="_blank"><i class="fab fa-facebook-f"></i></a>
+                            <a href="https://www.instagram.com/legit__patrol?igsh=aGkxZXl1dHdwZ2t4&utm_source=ig_contact_invite" target="_blank"><i class="fab fa-instagram"></i></a>
+                            <a href="#" target="_blank"><i class="fab fa-whatsapp"></i></a>
+                            <a href="https://t.me/legitpatrol1" target="_blank"><i class="fab fa-telegram"></i></a>
+                        </div>
                     </div>
-                    <div class="footer-contact-item">
-                        <i class="fas fa-clock"></i>
-                        <span>24/7 — Always Active</span>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-col">
+                        <h4>Quick Links</h4>
+                        <ul>
+                            <li><a href="index.html"><i class="fas fa-chevron-right"></i> Home</a></li>
+                            <li><a href="about.html"><i class="fas fa-chevron-right"></i> About Us</a></li>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Services</a></li>
+                            <li><a href="contact.html"><i class="fas fa-chevron-right"></i> Contact Us</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-2 col-md-6">
+                    <div class="footer-col">
+                        <h4>Services</h4>
+                        <ul>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Vehicle Recovery</a></li>
+                            <li><a href="services-pets.html"><i class="fas fa-chevron-right"></i> Pet Recovery</a></li>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Trailer Recovery</a></li>
+                            <li><a href="services-vehicles.html"><i class="fas fa-chevron-right"></i> Motorcycle Tracking</a></li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6">
+                    <div class="footer-col">
+                        <h4>Contact Info</h4>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-envelope"></i>
+                            <a href="mailto:legitpatrol1@gmail.com?subject=Recovery Assistance Request&body=Hello Legit Patrol,%0D%0A%0D%0AI understand your company specializes in recovery. I would like to request assistance with the following:%0D%0A%0D%0A%0D%0A%0D%0AThank you." target="_blank">
+                                legitpatrol1@gmail.com
+                            </a>
+                        </div>
+                        <div class="footer-contact-item">
+                            <i class="fas fa-clock"></i>
+                            <span>24/7 — Always Active</span>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -614,21 +726,65 @@
 
     <script>
         $(document).ready(function(){
+            // ============ THEME MANAGEMENT ============
+            var currentTheme = localStorage.getItem('theme') || 'dark';
+            $('body').attr('data-theme', currentTheme);
+            updateThemeIcon(currentTheme);
+            
+            $('#themeToggle').on('click', function(){
+                var newTheme = $('body').attr('data-theme') === 'dark' ? 'light' : 'dark';
+                $('body').attr('data-theme', newTheme);
+                localStorage.setItem('theme', newTheme);
+                updateThemeIcon(newTheme);
+            });
+            
+            function updateThemeIcon(theme){
+                if(theme === 'light'){
+                    $('#themeToggle i').removeClass('fa-moon').addClass('fa-sun');
+                } else {
+                    $('#themeToggle i').removeClass('fa-sun').addClass('fa-moon');
+                }
+            }
+            
+            // ============ SCROLL HANDLERS ============
             $(window).on('scroll',function(){
                 var st=$(window).scrollTop(),dh=$(document).height()-$(window).height();
                 $('#scroll-progress').css('width',(st/dh)*100+'%');
-                if(st>80) $('.navbar').addClass('scrolled');
-                else $('.navbar').removeClass('scrolled');
                 if(st>300) $('#scrollToTopBtn').addClass('visible');
                 else $('#scrollToTopBtn').removeClass('visible');
                 $('.anim-up,.anim-left,.anim-right,.anim-scale').each(function(){
                     if($(this).offset().top<st+$(window).height()-80) $(this).addClass('animated')
                 })
             });
+            
             $('#scrollToTopBtn').on('click',function(){window.scrollTo({top:0,behavior:'smooth'})});
-            $('.nav-toggle').on('click',function(){$('.nav-links').toggleClass('open');$(this).find('i').toggleClass('fa-bars fa-times')});
-            $('.faq-question').on('click',function(){var i=$(this).parent('.faq-item');i.hasClass('active')?i.removeClass('active'):($('.faq-item').removeClass('active'),i.addClass('active'))});
-            $(window).trigger('scroll')
+            
+            // ============ MOBILE MENU ============
+            $('.nav-toggle').on('click',function(e){
+                e.stopPropagation();
+                $('.nav-links').toggleClass('open');
+                $(this).find('i').toggleClass('fa-bars fa-times');
+            });
+            
+            $('.nav-links a').on('click',function(){
+                $('.nav-links').removeClass('open');
+                $('.nav-toggle i').removeClass('fa-times').addClass('fa-bars');
+            });
+            
+            $(document).on('click',function(e){
+                if(!$(e.target).closest('.nav-links').length && !$(e.target).closest('.nav-toggle').length){
+                    $('.nav-links').removeClass('open');
+                    $('.nav-toggle i').removeClass('fa-times').addClass('fa-bars');
+                }
+            });
+            
+            // ============ FAQ ACCORDION ============
+            $('.faq-question').on('click',function(){
+                var i=$(this).parent('.faq-item');
+                i.hasClass('active')?i.removeClass('active'):($('.faq-item').removeClass('active'),i.addClass('active'));
+            });
+            
+            $(window).trigger('scroll');
         });
     </script>
 
