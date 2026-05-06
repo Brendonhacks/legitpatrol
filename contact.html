@@ -436,6 +436,12 @@
             box-shadow: 0 12px 35px var(--accent-glow);
             color: #fff;
         }
+        
+        .btn-primary:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+            transform: none;
+        }
 
         /* ============ CONTACT GRID ============ */
         .contact-grid {
@@ -1296,21 +1302,32 @@
                             <p>Fill in the form and we'll respond within 15 minutes</p>
                         </div>
                     </div>
+                    
+                    <!-- ============ FORM WITH FORMSUBMIT INTEGRATION ============ -->
                     <form id="contactForm">
+                        <!-- Honeypot anti-spam -->
+                        <input type="text" name="_honey" style="display:none">
+                        
+                        <!-- Email subject -->
+                        <input type="hidden" name="_subject" value="New Contact Form Submission - Legit Patrol">
+                        
+                        <!-- Email template -->
+                        <input type="hidden" name="_template" value="table">
+
                         <div class="form-row">
                             <div class="form-group">
                                 <label>
                                     <i class="fas fa-user" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
                                     Full Name
                                 </label>
-                                <input type="text" placeholder="John Doe" required>
+                                <input type="text" name="Full Name" placeholder="John Doe" required>
                             </div>
                             <div class="form-group">
                                 <label>
                                     <i class="fas fa-phone" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
                                     Phone Number
                                 </label>
-                                <input type="tel" placeholder="+44 xxx xxx xxxx">
+                                <input type="tel" name="Phone Number" placeholder="+44 xxx xxx xxxx">
                             </div>
                         </div>
                         <div class="form-group">
@@ -1318,34 +1335,29 @@
                                 <i class="fas fa-envelope" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
                                 Email Address
                             </label>
-                            <input type="email" placeholder="john@example.com" required>
+                            <input type="email" name="Email Address" placeholder="john@example.com" required>
                         </div>
                         <div class="form-group">
                             <label>
                                 <i class="fas fa-tag" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
                                 Service Needed
                             </label>
-                            <select required>
+                            <select name="Service Needed" required>
                                 <option value="" disabled selected>Select a service...</option>
                                 <optgroup label="Vehicle Recovery">
-                                    <option value="car">Car Recovery</option>
-                                    <option value="bike">Bike / Scooter / Moped Recovery</option>
-                                    <option value="trailer">Trailer / Caravan Recovery</option>
+                                    <option value="Car Recovery">Car Recovery</option>
+                                    <option value="Bike/Scooter/Moped Recovery">Bike / Scooter / Moped Recovery</option>
+                                    <option value="Trailer/Caravan Recovery">Trailer / Caravan Recovery</option>
                                 </optgroup>
                                 <optgroup label="Pet Recovery">
-                                    <option value="dog">Dog Recovery</option>
-                                    <option value="cat">Cat Recovery</option>
-                                    <option value="bird">Bird Recovery</option>
-                                    <option value="rabbit">Rabbit / Small Mammal Recovery</option>
-                                    <option value="horse">Horse / Equine Recovery</option>
-                                    <option value="exotic">Exotic Pet Recovery</option>
+                                    <option value="Dog Recovery">Dog Recovery</option>
+                                    <option value="Cat Recovery">Cat Recovery</option>
+                                    <option value="Bird Recovery">Bird Recovery</option>
+                                    <option value="Rabbit/Small Mammal Recovery">Rabbit / Small Mammal Recovery</option>
+                                    <option value="Horse/Equine Recovery">Horse / Equine Recovery</option>
+                                    <option value="Exotic Pet Recovery">Exotic Pet Recovery</option>
                                 </optgroup>
-                                <optgroup label="Digital Recovery">
-                                    <option value="meta">Meta (Facebook / Instagram) Account Recovery</option>
-                                    <option value="x">X (Twitter) Account Recovery</option>
-                                    <option value="other-digital">Other Digital Account Recovery</option>
-                                </optgroup>
-                                <option value="general">General Inquiry</option>
+                                <option value="General Inquiry">General Inquiry</option>
                             </select>
                         </div>
                         <div class="form-group">
@@ -1353,16 +1365,18 @@
                                 <i class="fas fa-message" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
                                 Message
                             </label>
-                            <textarea placeholder="Describe your situation in detail — include dates, locations, registration numbers, pet description, or account details..." required></textarea>
+                            <textarea name="Message" placeholder="Describe your situation in detail — include dates, locations, registration numbers, pet description, or account details..." required></textarea>
                         </div>
                         <button type="submit" class="btn-primary form-submit">
                             <i class="fas fa-paper-plane"></i> Send Message
                         </button>
                     </form>
+                    <!-- ============ END FORM ============ -->
+                    
                     <div class="form-success" id="formSuccess">
                         <i class="fas fa-circle-check"></i>
-                        <h4>Message Sent Successfully</h4>
-                        <p>Our team has received your message and will respond within 15 minutes. Check your email for confirmation.</p>
+                        <h4>Message Sent Successfully!</h4>
+                        <p>Our team has received your message and will respond within 15 minutes. Check your email for a confirmation.</p>
                     </div>
                 </div>
 
@@ -1390,13 +1404,6 @@
                         <div>
                             <h4>Pet Recovery Team</h4>
                             <p>For missing dogs, cats, birds, rabbits, horses, and exotic pets. Include photos, breed, and last known location.</p>
-                        </div>
-                    </div>
-                    <div class="email-feature">
-                        <div class="email-feature-icon"><i class="fas fa-laptop-code"></i></div>
-                        <div>
-                            <h4>Digital Account Recovery</h4>
-                            <p>For hacked Meta, X, TikTok, Snapchat, email, and other accounts. Include screenshots if available.</p>
                         </div>
                     </div>
                     <div class="email-feature">
@@ -1467,10 +1474,10 @@
                     <span>Monday — Sunday</span>
                     <span class="time">24HRS</span>
                 </div>
-                <div class="hours-row hours-emergency anim-up d4">
+                <!-- <div class="hours-row hours-emergency anim-up d4">
                     <span><i class="fas fa-bolt" style="margin-right:8px"></i>Emergency Line</span>
                     <span class="time">24/7 — Always Active</span>
-                </div>
+                </div> -->
             </div>
         </div>
     </section>
@@ -1609,17 +1616,44 @@
                 }
             });
             
-            // ============ CONTACT FORM ============
+            // ============ CONTACT FORM - FORMSUBMIT AJAX ============
             $('#contactForm').on('submit', function(e) {
                 e.preventDefault();
-                $(this).hide();
-                $('#formSuccess').show();
                 
-                setTimeout(function() {
-                    $('#contactForm')[0].reset();
-                    $('#contactForm').show();
-                    $('#formSuccess').hide();
-                }, 5000);
+                var form = $(this);
+                var formData = new FormData(this);
+                var submitBtn = form.find('button[type="submit"]');
+                var originalBtnHtml = submitBtn.html();
+                
+                // Show loading state
+                submitBtn.html('<i class="fas fa-spinner fa-spin"></i> Sending...').prop('disabled', true);
+                
+                $.ajax({
+                    url: 'https://formsubmit.co/ajax/legitpatrol1@gmail.com',
+                    method: 'POST',
+                    data: formData,
+                    dataType: 'json',
+                    processData: false,
+                    contentType: false,
+                    success: function(response) {
+                        // Hide form, show success
+                        form.hide();
+                        $('#formSuccess').show();
+                        
+                        // Reset after 5 seconds
+                        setTimeout(function() {
+                            form[0].reset();
+                            form.show();
+                            $('#formSuccess').hide();
+                            submitBtn.html(originalBtnHtml).prop('disabled', false);
+                        }, 5000);
+                    },
+                    error: function(xhr, status, error) {
+                        // Show error and re-enable form
+                        alert('Something went wrong. Please try again or email us directly at legitpatrol1@gmail.com');
+                        submitBtn.html(originalBtnHtml).prop('disabled', false);
+                    }
+                });
             });
             
             // ============ LIVE CHAT ============
