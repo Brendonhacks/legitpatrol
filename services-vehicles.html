@@ -907,20 +907,20 @@
         
         .footer-social {
             display: flex;
-            gap: 12px;
+            gap: 16px;
             margin-top: 24px;
         }
         
         .footer-social a {
-            width: 40px; height: 40px;
-            border-radius: 10px;
+            width: 60px; height: 60px;
+            border-radius: 14px;
             background: var(--bg-card);
-            border: 1px solid var(--border);
+            border: 2px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-secondary);
-            font-size: 16px;
+            font-size: 22px;
             transition: all .3s ease;
             text-decoration: none;
         }
@@ -1150,6 +1150,13 @@
                 top: 64px;
                 max-height: calc(100vh - 64px);
             }
+            
+            .footer-social a {
+                width: 60px;
+                height: 60px;
+                font-size: 22px;
+                border-radius: 14px;
+            }
         }
         
         @media(max-width: 575px) {
@@ -1187,6 +1194,13 @@
             
             .container { padding: 0 15px; }
             .vehicle-card-body { padding: 20px; }
+            
+            .footer-social a {
+                width: 60px;
+                height: 60px;
+                font-size: 22px;
+                border-radius: 14px;
+            }
         }
         
         @media(max-width: 360px) {
@@ -1207,6 +1221,13 @@
             }
             
             .container { padding: 0 12px; }
+            
+            .footer-social a {
+                width: 55px;
+                height: 55px;
+                font-size: 20px;
+                border-radius: 13px;
+            }
         }
     </style>
 </head>
