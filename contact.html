@@ -832,21 +832,21 @@
         
         .footer-social {
             display: flex;
-            gap: 16px;
+            gap: 12px;
             margin-top: 24px;
         }
         
         .footer-social a {
-            width: 60px;
-            height: 60px;
-            border-radius: 14px;
+            width: 40px;
+            height: 40px;
+            border-radius: 10px;
             background: var(--bg-card);
-            border: 2px solid var(--border);
+            border: 1px solid var(--border);
             display: flex;
             align-items: center;
             justify-content: center;
             color: var(--text-secondary);
-            font-size: 22px;
+            font-size: 16px;
             transition: all .3s ease;
             text-decoration: none;
         }
@@ -1142,13 +1142,6 @@
                 top: 64px;
                 max-height: calc(100vh - 64px);
             }
-            
-            .footer-social a {
-                width: 60px;
-                height: 60px;
-                font-size: 20px;
-                border-radius: 13px;
-            }
         }
         
         @media(max-width: 575px) {
@@ -1215,13 +1208,6 @@
             .contact-card {
                 padding: 24px 20px;
             }
-            
-            .footer-social a {
-                width: 60px;
-                height: 60px;
-                font-size: 18px;
-                border-radius: 12px;
-            }
         }
         
         @media(max-width: 360px) {
@@ -1252,13 +1238,6 @@
             
             .container {
                 padding: 0 12px;
-            }
-            
-            .footer-social a {
-                width: 56px;
-                height: 56px;
-                font-size: 17px;
-                border-radius: 11px;
             }
         }
     </style>
@@ -1330,7 +1309,7 @@
                         <input type="text" name="_honey" style="display:none">
                         
                         <!-- Email subject -->
-                        <input type="hidden" name="_subject" value="New Contact Form Submission - Legit Patrol">
+                        <input type="hidden" name="_subject" value="New Contact Form - Legit Patrol">
                         
                         <!-- Email template -->
                         <input type="hidden" name="_template" value="table">
@@ -1341,14 +1320,14 @@
                                     <i class="fas fa-user" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
                                     Full Name
                                 </label>
-                                <input type="text" name="Full Name" placeholder="John Doe" required>
+                                <input type="text" name="Full_Name" placeholder="John Doe" required>
                             </div>
                             <div class="form-group">
                                 <label>
                                     <i class="fas fa-phone" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
                                     Phone Number
                                 </label>
-                                <input type="tel" name="Phone Number" placeholder="+44 xxx xxx xxxx">
+                                <input type="tel" name="Phone_Number" placeholder="+44 xxx xxx xxxx">
                             </div>
                         </div>
                         <div class="form-group">
@@ -1356,17 +1335,17 @@
                                 <i class="fas fa-envelope" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
                                 Email Address
                             </label>
-                            <input type="email" name="Email Address" placeholder="john@example.com" required>
+                            <input type="email" name="Email" placeholder="john@example.com" required>
                         </div>
                         <div class="form-group">
                             <label>
                                 <i class="fas fa-tag" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
                                 Service Needed
                             </label>
-                            <select name="Service Needed" required>
+                            <select name="Service_Needed" required>
                                 <option value="" disabled selected>Select a service...</option>
                                 <optgroup label="Vehicle Recovery">
-                                    <option value="Car Recovery">Car Recovery</option>
+                                    <option value="Vehicle Recovery (Car, Bike, Scooter, Moped)">Car Recovery</option>
                                     <option value="Bike/Scooter/Moped Recovery">Bike / Scooter / Moped Recovery</option>
                                     <option value="Trailer/Caravan Recovery">Trailer / Caravan Recovery</option>
                                 </optgroup>
@@ -1383,10 +1362,17 @@
                         </div>
                         <div class="form-group">
                             <label>
-                                <i class="fas fa-message" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
-                                Message
+                                <i class="fas fa-heading" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
+                                Subject
                             </label>
-                            <textarea name="Message" placeholder="Describe your situation in detail — include dates, locations, registration numbers, pet description, or account details..." required></textarea>
+                            <input type="text" name="Subject" placeholder="Brief subject of your inquiry" required>
+                        </div>
+                        <div class="form-group">
+                            <label>
+                                <i class="fas fa-message" style="margin-right:6px;color:var(--accent);font-size:11px"></i> 
+                                Details
+                            </label>
+                            <textarea name="Details" placeholder="Describe your situation in detail — include dates, locations, registration numbers, pet description, or account details..." required></textarea>
                         </div>
                         <button type="submit" class="btn-primary form-submit">
                             <i class="fas fa-paper-plane"></i> Send Message
