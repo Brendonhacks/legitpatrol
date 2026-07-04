@@ -68,7 +68,6 @@ body{
     min-height:100vh;
 }
 
-/* Theme Toggle */
 .theme-toggle-page{
     position:fixed;
     top:20px;
@@ -99,7 +98,6 @@ body{
     transform:rotate(15deg);
 }
 
-/* Top Bar */
 .top-bar{
     background:linear-gradient(135deg,rgba(0,168,255,0.1),rgba(255,109,0,0.05));
     border-bottom:1px solid var(--border);
@@ -130,9 +128,7 @@ body{
     color:var(--text-primary);
 }
 
-.top-bar h1 span{
-    color:var(--accent);
-}
+.top-bar h1 span{color:var(--accent);}
 
 .top-bar p{
     color:var(--text-secondary);
@@ -140,17 +136,9 @@ body{
     position:relative;
 }
 
-/* Page Content */
-.page-content{
-    padding:40px 24px 80px;
-}
+.page-content{padding:40px 24px 80px;}
+.container{max-width:900px;margin:0 auto;}
 
-.container{
-    max-width:900px;
-    margin:0 auto;
-}
-
-/* Tabs */
 .case-tabs{
     display:flex;
     gap:0;
@@ -187,17 +175,13 @@ body{
     background:rgba(0,168,255,.08);
 }
 
-.case-tab i{
-    margin-right:8px;
-}
+.case-tab i{margin-right:8px;}
 
-/* Panels */
 .search-panel{display:none;}
 .search-panel.active{display:block;}
 .open-panel{display:none;}
 .open-panel.active{display:block;}
 
-/* Search Box */
 .search-box{
     background:var(--bg-card);
     border:1px solid var(--border);
@@ -262,9 +246,7 @@ body{
     outline:none;
 }
 
-.search-input-wrap input::placeholder{
-    color:var(--text-muted);
-}
+.search-input-wrap input::placeholder{color:var(--text-muted);}
 
 .search-input-wrap button{
     padding:16px 24px;
@@ -295,7 +277,6 @@ body{
     color:var(--accent);
 }
 
-/* Case Result */
 .case-result{
     display:none;
     max-width:620px;
@@ -368,9 +349,7 @@ body{
     border:1px solid rgba(34,197,94,.3);
 }
 
-.result-body{
-    padding:24px 28px;
-}
+.result-body{padding:24px 28px;}
 
 .result-row{
     display:flex;
@@ -379,9 +358,7 @@ body{
     border-bottom:1px solid var(--border);
 }
 
-.result-row:last-child{
-    border-bottom:none;
-}
+.result-row:last-child{border-bottom:none;}
 
 .result-label{
     font-size:.85rem;
@@ -424,9 +401,7 @@ body{
     color:var(--text-secondary);
 }
 
-.timeline-item:last-child{
-    margin-bottom:0;
-}
+.timeline-item:last-child{margin-bottom:0;}
 
 .timeline-dot{
     width:10px;
@@ -443,7 +418,6 @@ body{
     min-width:100px;
 }
 
-/* Error Result */
 .error-result{
     display:none;
     max-width:500px;
@@ -474,7 +448,6 @@ body{
     color:var(--text-secondary);
 }
 
-/* Panel (Form) */
 .panel{
     background:var(--bg-card);
     border:1px solid var(--border);
@@ -499,11 +472,8 @@ body{
     gap:8px;
 }
 
-.panel-body{
-    padding:36px 32px;
-}
+.panel-body{padding:36px 32px;}
 
-/* Form Section Title */
 .form-section-title{
     font-family:var(--font-heading);
     font-size:1.05rem;
@@ -516,11 +486,8 @@ body{
     display:inline-block;
 }
 
-.form-section-title:first-child{
-    margin-top:0;
-}
+.form-section-title:first-child{margin-top:0;}
 
-/* Form Grid */
 .form-grid{
     display:grid;
     grid-template-columns:repeat(2,1fr);
@@ -533,9 +500,7 @@ body{
     flex-direction:column;
 }
 
-.form-group.full{
-    grid-column:span 2;
-}
+.form-group.full{grid-column:span 2;}
 
 .form-label{
     font-size:.84rem;
@@ -546,9 +511,7 @@ body{
     letter-spacing:.3px;
 }
 
-.form-label .required{
-    color:var(--error);
-}
+.form-label .required{color:var(--error);}
 
 .form-label .optional{
     color:var(--text-muted);
@@ -574,9 +537,7 @@ body{
     box-shadow:0 0 0 3px var(--accent-glow);
 }
 
-.form-input::placeholder,.form-textarea::placeholder{
-    color:var(--text-muted);
-}
+.form-input::placeholder,.form-textarea::placeholder{color:var(--text-muted);}
 
 .form-textarea{
     resize:vertical;
@@ -596,7 +557,6 @@ body{
     color:var(--text-primary);
 }
 
-/* Category Selector (Vehicle/Pet) */
 .category-selector{
     display:grid;
     grid-template-columns:1fr 1fr;
@@ -638,17 +598,10 @@ body{
     transition:transform .3s;
 }
 
-.category-btn:hover i{
-    transform:scale(1.1);
-}
+.category-btn:hover i{transform:scale(1.1);}
 
-.category-btn.vehicle-icon{
-    color:var(--accent);
-}
-
-.category-btn.pet-icon{
-    color:var(--pet-pink);
-}
+.category-btn.vehicle-icon{color:var(--accent);}
+.category-btn.pet-icon{color:var(--pet-pink);}
 
 .category-btn span{
     font-size:1rem;
@@ -664,7 +617,6 @@ body{
     color:var(--text-muted);
 }
 
-/* Sub-type Selector */
 .subtype-selector{
     display:grid;
     grid-template-columns:repeat(3,1fr);
@@ -705,13 +657,9 @@ body{
     transition:transform .3s;
 }
 
-.subtype-btn.pet-sub i{
-    color:var(--pet-pink);
-}
+.subtype-btn.pet-sub i{color:var(--pet-pink);}
 
-.subtype-btn:hover i{
-    transform:scale(1.1);
-}
+.subtype-btn:hover i{transform:scale(1.1);}
 
 .subtype-btn span{
     font-size:.82rem;
@@ -727,24 +675,12 @@ body{
     padding-left:2px;
 }
 
-.subtype-hint strong{
-    color:var(--accent);
-}
+.subtype-hint strong{color:var(--accent);}
+.subtype-hint strong.pet-color{color:var(--pet-pink);}
 
-.subtype-hint strong.pet-color{
-    color:var(--pet-pink);
-}
+.dynamic-section{display:none;}
+.dynamic-section.visible{display:block;}
 
-/* Dynamic Sections */
-.dynamic-section{
-    display:none;
-}
-
-.dynamic-section.visible{
-    display:block;
-}
-
-/* Buttons */
 .btn{
     display:inline-flex;
     align-items:center;
@@ -773,18 +709,6 @@ body{
     color:#fff;
 }
 
-.btn-pet{
-    background:linear-gradient(135deg,var(--pet-pink),var(--pet-purple));
-    color:#fff;
-    box-shadow:0 8px 25px rgba(0,0,0,.3);
-}
-
-.btn-pet:hover{
-    transform:translateY(-3px);
-    box-shadow:0 12px 35px rgba(236,72,153,.3);
-    color:#fff;
-}
-
 .btn-ghost{
     background:transparent;
     color:var(--text-secondary);
@@ -797,7 +721,6 @@ body{
     color:var(--accent);
 }
 
-/* Case Number Box */
 .case-number-box{
     background:var(--input-bg);
     border:2px dashed var(--accent);
@@ -810,9 +733,7 @@ body{
     gap:20px;
 }
 
-.case-number-box .case-text{
-    text-align:left;
-}
+.case-number-box .case-text{text-align:left;}
 
 .case-number-box .case-text span{
     display:block;
@@ -849,11 +770,7 @@ body{
     color:#fff;
 }
 
-/* Success UI */
-.success-container{
-    text-align:center;
-    padding:20px 0;
-}
+.success-container{text-align:center;padding:20px 0;}
 
 .success-icon{
     margin:0 auto 20px;
@@ -879,9 +796,7 @@ body{
     color:var(--text-primary);
 }
 
-.success-container h3 span{
-    color:var(--accent);
-}
+.success-container h3 span{color:var(--accent);}
 
 .success-container>p{
     color:var(--text-secondary);
@@ -889,7 +804,6 @@ body{
     line-height:1.6;
 }
 
-/* Info Notes */
 .info-note{
     background:rgba(59,130,246,.08);
     color:var(--info);
@@ -922,72 +836,30 @@ body{
     font-family:var(--font-heading);
 }
 
-/* Responsive */
 @media(max-width:768px){
-    .form-grid{
-        grid-template-columns:1fr;
-    }
-    .form-group.full{
-        grid-column:span 1;
-    }
-    .panel-body{
-        padding:24px 20px;
-    }
-    .subtype-selector{
-        grid-template-columns:repeat(2,1fr);
-    }
-    .case-tabs{
-        flex-direction:column;
-    }
-    .case-tab{
-        border-bottom:none;
-        border-right:3px solid transparent;
-        padding:14px 20px;
-    }
-    .case-tab.active{
-        border-right-color:var(--accent);
-        border-bottom:none;
-    }
-    .search-box{
-        padding:32px 24px;
-    }
-    .result-header{
-        flex-direction:column;
-        gap:10px;
-        text-align:center;
-    }
-    .case-number-box{
-        flex-direction:column;
-        text-align:center;
-    }
+    .form-grid{grid-template-columns:1fr;}
+    .form-group.full{grid-column:span 1;}
+    .panel-body{padding:24px 20px;}
+    .subtype-selector{grid-template-columns:repeat(2,1fr);}
+    .case-tabs{flex-direction:column;}
+    .case-tab{border-bottom:none;border-right:3px solid transparent;padding:14px 20px;}
+    .case-tab.active{border-right-color:var(--accent);border-bottom:none;}
+    .search-box{padding:32px 24px;}
+    .result-header{flex-direction:column;gap:10px;text-align:center;}
+    .case-number-box{flex-direction:column;text-align:center;}
 }
 
 @media(max-width:480px){
-    .page-content{
-        padding:24px 16px 60px;
-    }
-    .subtype-selector{
-        grid-template-columns:1fr 1fr;
-    }
-    .category-selector{
-        grid-template-columns:1fr 1fr;
-        gap:12px;
-    }
-    .category-btn{
-        padding:18px 14px;
-    }
-    .category-btn i{
-        font-size:1.8rem;
-    }
+    .page-content{padding:24px 16px 60px;}
+    .subtype-selector{grid-template-columns:1fr 1fr;}
+    .category-selector{grid-template-columns:1fr 1fr;gap:12px;}
+    .category-btn{padding:18px 14px;}
+    .category-btn i{font-size:1.8rem;}
 }
 
 @media(max-width:360px){
-    .panel-body{
-        padding:20px 16px;
-    }
-    .subtype-selector{
-        grid-template-columns:1fr;
-    }
+    .panel-body{padding:20px 16px;}
+    .subtype-selector{grid-template-columns:1fr;}
 }
 </style>
 </head>
@@ -1077,7 +949,6 @@ body{
                 </div>
                 <div class="panel-body">
 
-                    <!-- SUCCESS UI -->
                     <div id="successUI" style="display:none;">
                         <div class="success-container">
                             <div class="success-icon"><i class="fas fa-check"></i></div>
@@ -1092,7 +963,6 @@ body{
                         </div>
                     </div>
 
-                    <!-- FORM -->
                     <form id="report-form">
                         <input type="hidden" name="access_key" value="447acc7a-a646-4999-86a5-a96a11f3a5b9">
                         <input type="hidden" name="subject" value="New Recovery Case - Legit Patrol">
@@ -1100,6 +970,7 @@ body{
                         <input type="hidden" name="Generated Case Number" id="caseNumField">
                         <input type="hidden" name="Case Type" id="caseTypeField" value="Vehicle">
                         <input type="hidden" name="Sub Category" id="subCatField" value="Car">
+                        <input type="hidden" name="_replyto" id="replyToField">
 
                         <!-- REPORTER INFO -->
                         <div class="form-section-title">Your Information</div>
@@ -1136,24 +1007,12 @@ body{
                         <!-- VEHICLE SUB-TYPES -->
                         <div class="dynamic-section visible" id="vehicleSubtypes">
                             <div class="subtype-selector">
-                                <div class="subtype-btn active" data-sub="Car" onclick="selectSubType(this)">
-                                    <i class="fas fa-car"></i><span>Car</span>
-                                </div>
-                                <div class="subtype-btn" data-sub="Motorcycle" onclick="selectSubType(this)">
-                                    <i class="fas fa-motorcycle"></i><span>Motorcycle</span>
-                                </div>
-                                <div class="subtype-btn" data-sub="Scooter/Moped" onclick="selectSubType(this)">
-                                    <i class="fas fa-bicycle"></i><span>Scooter</span>
-                                </div>
-                                <div class="subtype-btn" data-sub="Trailer/Caravan" onclick="selectSubType(this)">
-                                    <i class="fas fa-trailer"></i><span>Trailer</span>
-                                </div>
-                                <div class="subtype-btn" data-sub="Truck" onclick="selectSubType(this)">
-                                    <i class="fas fa-truck"></i><span>Truck</span>
-                                </div>
-                                <div class="subtype-btn" data-sub="Other Vehicle" onclick="selectSubType(this)">
-                                    <i class="fas fa-ellipsis"></i><span>Other</span>
-                                </div>
+                                <div class="subtype-btn active" data-sub="Car" onclick="selectSubType(this)"><i class="fas fa-car"></i><span>Car</span></div>
+                                <div class="subtype-btn" data-sub="Motorcycle" onclick="selectSubType(this)"><i class="fas fa-motorcycle"></i><span>Motorcycle</span></div>
+                                <div class="subtype-btn" data-sub="Scooter/Moped" onclick="selectSubType(this)"><i class="fas fa-bicycle"></i><span>Scooter</span></div>
+                                <div class="subtype-btn" data-sub="Trailer/Caravan" onclick="selectSubType(this)"><i class="fas fa-trailer"></i><span>Trailer</span></div>
+                                <div class="subtype-btn" data-sub="Truck" onclick="selectSubType(this)"><i class="fas fa-truck"></i><span>Truck</span></div>
+                                <div class="subtype-btn" data-sub="Other Vehicle" onclick="selectSubType(this)"><i class="fas fa-ellipsis"></i><span>Other</span></div>
                             </div>
                             <div class="subtype-hint">Selected: <strong>Car</strong> — Please provide details about the stolen vehicle below.</div>
                         </div>
@@ -1161,24 +1020,12 @@ body{
                         <!-- PET SUB-TYPES -->
                         <div class="dynamic-section" id="petSubtypes">
                             <div class="subtype-selector">
-                                <div class="subtype-btn pet-sub active-pet" data-sub="Dog" onclick="selectSubType(this)">
-                                    <i class="fas fa-dog"></i><span>Dog</span>
-                                </div>
-                                <div class="subtype-btn pet-sub" data-sub="Cat" onclick="selectSubType(this)">
-                                    <i class="fas fa-cat"></i><span>Cat</span>
-                                </div>
-                                <div class="subtype-btn pet-sub" data-sub="Bird" onclick="selectSubType(this)">
-                                    <i class="fas fa-dove"></i><span>Bird</span>
-                                </div>
-                                <div class="subtype-btn pet-sub" data-sub="Rabbit/Small Mammal" onclick="selectSubType(this)">
-                                    <i class="fas fa-otter"></i><span>Rabbit</span>
-                                </div>
-                                <div class="subtype-btn pet-sub" data-sub="Horse/Equine" onclick="selectSubType(this)">
-                                    <i class="fas fa-horse"></i><span>Horse</span>
-                                </div>
-                                <div class="subtype-btn pet-sub" data-sub="Exotic Pet" onclick="selectSubType(this)">
-                                    <i class="fas fa-dragon"></i><span>Exotic</span>
-                                </div>
+                                <div class="subtype-btn pet-sub active-pet" data-sub="Dog" onclick="selectSubType(this)"><i class="fas fa-dog"></i><span>Dog</span></div>
+                                <div class="subtype-btn pet-sub" data-sub="Cat" onclick="selectSubType(this)"><i class="fas fa-cat"></i><span>Cat</span></div>
+                                <div class="subtype-btn pet-sub" data-sub="Bird" onclick="selectSubType(this)"><i class="fas fa-dove"></i><span>Bird</span></div>
+                                <div class="subtype-btn pet-sub" data-sub="Rabbit/Small Mammal" onclick="selectSubType(this)"><i class="fas fa-otter"></i><span>Rabbit</span></div>
+                                <div class="subtype-btn pet-sub" data-sub="Horse/Equine" onclick="selectSubType(this)"><i class="fas fa-horse"></i><span>Horse</span></div>
+                                <div class="subtype-btn pet-sub" data-sub="Exotic Pet" onclick="selectSubType(this)"><i class="fas fa-dragon"></i><span>Exotic</span></div>
                             </div>
                             <div class="subtype-hint">Selected: <strong class="pet-color">Dog</strong> — Please provide details about your missing pet below.</div>
                         </div>
@@ -1282,16 +1129,40 @@ body{
                             </div>
                         </div>
 
-                        <!-- PHYSICAL DESCRIPTION -->
-                        <div class="form-section-title">Physical Description</div>
-                        <div class="form-grid">
-                            <div class="form-group full">
-                                <label class="form-label">Distinguishing Features <span class="optional">(optional)</span></label>
-                                <textarea class="form-textarea" name="Distinguishing Features" placeholder="Any unique features, modifications, scars, markings, after-market parts..."></textarea>
+                        <!-- VEHICLE PHYSICAL DESCRIPTION -->
+                        <div class="dynamic-section visible" id="vehiclePhysicalDesc">
+                            <div class="form-section-title">Physical Description</div>
+                            <div class="form-grid">
+                                <div class="form-group full">
+                                    <label class="form-label">Distinguishing Features <span class="optional">(optional)</span></label>
+                                    <textarea class="form-textarea" name="Distinguishing Features" placeholder="Any unique features, modifications, after-market parts..."></textarea>
+                                </div>
+                                <div class="form-group full">
+                                    <label class="form-label">Damage/Scratches <span class="optional">(optional)</span></label>
+                                    <textarea class="form-textarea" name="Damage" placeholder="Location and description of any damage, scratches, dents..." style="min-height:70px;"></textarea>
+                                </div>
                             </div>
-                            <div class="form-group full">
-                                <label class="form-label">Damage/Scratches <span class="optional">(optional)</span></label>
-                                <textarea class="form-textarea" name="Damage" placeholder="Location and description of any damage, scratches, dents..." style="min-height:70px;"></textarea>
+                        </div>
+
+                        <!-- PET PHYSICAL DESCRIPTION -->
+                        <div class="dynamic-section" id="petPhysicalDesc">
+                            <div class="form-section-title">Physical Description</div>
+                            <div class="form-grid">
+                                <div class="form-group full">
+                                    <label class="form-label">Distinguishing Features <span class="optional">(optional)</span></label>
+                                    <textarea class="form-textarea" name="Pet Distinguishing Features" placeholder="Any unique markings, scars, patterns, collar color, etc..."></textarea>
+                                </div>
+                                <div class="form-group full">
+                                    <label class="form-label">Temperament <span class="optional">(optional)</span></label>
+                                    <select class="form-select" name="Temperament">
+                                        <option value="">-- Select --</option>
+                                        <option>Friendly - approaches strangers</option>
+                                        <option>Shy - may hide or run</option>
+                                        <option>Scared - may bite if cornered</option>
+                                        <option>Aggressive - use caution</option>
+                                        <option>Unknown</option>
+                                    </select>
+                                </div>
                             </div>
                         </div>
 
@@ -1303,7 +1174,7 @@ body{
                             </div>
                         </div>
 
-                        <div class="alert-note"><i class="fas fa-exclamation-circle"></i> Please Note: This is NOT a free service. By submitting, you agree to be contacted with a quote for recovery.</div>
+                        <div class="alert-note"><i class="fas fa-exclamation-circle"></i> By submitting, you agree to be contacted by our recovery team.</div>
                         <div class="info-note"><i class="fas fa-camera"></i> Photos should be sent directly to chat.</div>
 
                         <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
@@ -1360,11 +1231,12 @@ function selectCaseType(el){
         document.getElementById('caseTypeField').value='Vehicle';
         document.getElementById('vehicleSubtypes').classList.add('visible');
         document.getElementById('vehicleDetails').classList.add('visible');
+        document.getElementById('vehiclePhysicalDesc').classList.add('visible');
         document.getElementById('petSubtypes').classList.remove('visible');
         document.getElementById('petDetails').classList.remove('visible');
+        document.getElementById('petPhysicalDesc').classList.remove('visible');
         document.getElementById('policeReportGroup').style.display='';
         document.getElementById('directionGroup').style.display='';
-        // Reset to first vehicle subtype
         document.querySelectorAll('#vehicleSubtypes .subtype-btn').forEach(function(b){b.classList.remove('active');});
         document.querySelector('#vehicleSubtypes .subtype-btn').classList.add('active');
         selectedSubType='Car';
@@ -1375,11 +1247,12 @@ function selectCaseType(el){
         document.getElementById('caseTypeField').value='Pet';
         document.getElementById('vehicleSubtypes').classList.remove('visible');
         document.getElementById('vehicleDetails').classList.remove('visible');
+        document.getElementById('vehiclePhysicalDesc').classList.remove('visible');
         document.getElementById('petSubtypes').classList.add('visible');
         document.getElementById('petDetails').classList.add('visible');
+        document.getElementById('petPhysicalDesc').classList.add('visible');
         document.getElementById('policeReportGroup').style.display='none';
         document.getElementById('directionGroup').style.display='none';
-        // Reset to first pet subtype
         document.querySelectorAll('#petSubtypes .subtype-btn').forEach(function(b){b.classList.remove('active','active-pet');});
         document.querySelector('#petSubtypes .subtype-btn').classList.add('active','active-pet');
         selectedSubType='Dog';
@@ -1450,7 +1323,6 @@ function displayCaseResult(c){
     document.getElementById('resultCaseType').textContent=c.caseType;
     document.getElementById('resultCategory').textContent=c.subCategory;
     
-    // Show/hide vehicle vs pet rows
     if(c.caseType==='Vehicle'){
         document.getElementById('resultMakeRow').style.display='';
         document.getElementById('resultBreedRow').style.display='none';
@@ -1476,7 +1348,6 @@ function displayCaseResult(c){
 
 // ===== FORM SUBMISSION =====
 var form=document.getElementById('report-form');
-var submitBtn=document.getElementById('submit-btn');
 
 form.addEventListener('submit',function(e){
     e.preventDefault();
@@ -1485,6 +1356,9 @@ form.addEventListener('submit',function(e){
     submitBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Submitting...';
     submitBtn.style.pointerEvents='none';
     submitBtn.style.opacity='0.7';
+    
+    // Set reply-to as reporter's email
+    document.getElementById('replyToField').value = form.querySelector('[name="Email"]').value;
     
     // Generate case number
     var digits=Math.floor(1000000+Math.random()*9000000);
@@ -1500,7 +1374,7 @@ form.addEventListener('submit',function(e){
     else if(timeVal) timeDisplay='Time: '+timeVal+' (no date given)';
     else if(dateVal) timeDisplay=dateVal+' (no time given)';
     
-    // 1. Save to localStorage FIRST
+    // Save to localStorage
     var cases=JSON.parse(localStorage.getItem('legitCases')||'{}');
     var caseData={
         caseId: caseNum,
@@ -1521,12 +1395,80 @@ form.addEventListener('submit',function(e){
     cases[caseNum]=caseData;
     localStorage.setItem('legitCases',JSON.stringify(cases));
     
-    // 2. Send to Web3Forms via fetch
-    var formData=new FormData(form);
+    // Create clean FormData - only include relevant fields
+    var cleanFormData = new FormData();
+    cleanFormData.append('access_key', '447acc7a-a646-4999-86a5-a96a11f3a5b9');
+    cleanFormData.append('subject', 'New Recovery Case - Legit Patrol');
+    cleanFormData.append('from_name', 'Legit Patrol Database');
+    cleanFormData.append('_replyto', form.querySelector('[name="Email"]').value);
+    cleanFormData.append('Generated Case Number', caseNum);
+    cleanFormData.append('Case Type', document.getElementById('caseTypeField').value);
+    cleanFormData.append('Sub Category', document.getElementById('subCatField').value);
     
+    // Always include reporter info
+    cleanFormData.append('Full Name', form.querySelector('[name="Full Name"]').value);
+    cleanFormData.append('Email', form.querySelector('[name="Email"]').value);
+    cleanFormData.append('Phone Number', form.querySelector('[name="Phone Number"]').value);
+    
+    // Always include loss info
+    var lastSeen = form.querySelector('[name="Last Seen Location"]').value;
+    var dateLoss = form.querySelector('[name="Date of Loss"]').value;
+    var timeLoss = form.querySelector('[name="Time of Loss"]').value;
+    var additionalNotes = form.querySelector('[name="Additional Notes"]').value;
+    
+    if(lastSeen) cleanFormData.append('Last Seen Location', lastSeen);
+    if(dateLoss) cleanFormData.append('Date of Loss', dateLoss);
+    if(timeLoss) cleanFormData.append('Time of Loss', timeLoss);
+    if(additionalNotes) cleanFormData.append('Additional Notes', additionalNotes);
+    
+    // Include TYPE-SPECIFIC fields only
+    if(selectedCaseType === 'vehicle'){
+        var vehicleMake = form.querySelector('[name="Vehicle Make"]').value;
+        var vehicleModel = form.querySelector('[name="Vehicle Model"]').value;
+        var year = form.querySelector('[name="Year"]').value;
+        var color = form.querySelector('[name="Color"]').value;
+        var vin = form.querySelector('[name="VIN"]').value;
+        var plate = form.querySelector('[name="License Plate"]').value;
+        var policeReport = form.querySelector('[name="Police Report Number"]').value;
+        var direction = form.querySelector('[name="Suspected Direction"]').value;
+        var features = form.querySelector('[name="Distinguishing Features"]').value;
+        var damage = form.querySelector('[name="Damage"]').value;
+        
+        if(vehicleMake) cleanFormData.append('Vehicle Make', vehicleMake);
+        if(vehicleModel) cleanFormData.append('Vehicle Model', vehicleModel);
+        if(year) cleanFormData.append('Year', year);
+        if(color) cleanFormData.append('Color', color);
+        if(vin) cleanFormData.append('VIN', vin);
+        if(plate) cleanFormData.append('License Plate', plate);
+        if(policeReport) cleanFormData.append('Police Report Number', policeReport);
+        if(direction) cleanFormData.append('Suspected Direction', direction);
+        if(features) cleanFormData.append('Distinguishing Features', features);
+        if(damage) cleanFormData.append('Damage/Scratches', damage);
+    } else {
+        // PET fields only
+        var petName = form.querySelector('[name="Pet Name"]').value;
+        var breed = form.querySelector('[name="Breed"]').value;
+        var petColor = form.querySelector('[name="Pet Color"]').value;
+        var petSize = form.querySelector('[name="Pet Size"]').value;
+        var microchip = form.querySelector('[name="Microchip"]').value;
+        var collar = form.querySelector('[name="Collar"]').value;
+        var petFeatures = form.querySelector('[name="Pet Distinguishing Features"]').value;
+        var temperament = form.querySelector('[name="Temperament"]').value;
+        
+        if(petName) cleanFormData.append('Pet Name', petName);
+        if(breed) cleanFormData.append('Breed/Species', breed);
+        if(petColor) cleanFormData.append('Pet Color', petColor);
+        if(petSize) cleanFormData.append('Pet Size', petSize);
+        if(microchip) cleanFormData.append('Microchip Number', microchip);
+        if(collar) cleanFormData.append('Wearing Collar/Tag', collar);
+        if(petFeatures) cleanFormData.append('Distinguishing Features', petFeatures);
+        if(temperament) cleanFormData.append('Temperament', temperament);
+    }
+    
+    // Send to Web3Forms
     fetch('https://api.web3forms.com/submit',{
         method:'POST',
-        body:formData
+        body: cleanFormData
     })
     .then(function(response){return response.json();})
     .then(function(data){
@@ -1544,7 +1486,6 @@ function showSuccess(caseNum){
     document.getElementById('successUI').style.display='block';
     document.getElementById('generatedCaseNumber').innerText=caseNum;
     
-    // Switch to open tab
     document.querySelectorAll('.case-tab').forEach(function(t){t.classList.remove('active');});
     document.querySelector('[data-tab="open"]').classList.add('active');
     document.getElementById('searchPanel').classList.remove('active');
@@ -1552,14 +1493,12 @@ function showSuccess(caseNum){
     
     window.scrollTo({top:document.querySelector('.panel-body').offsetTop-80,behavior:'smooth'});
     
-    // Reset button state
     var submitBtn=document.getElementById('submit-btn');
     submitBtn.innerHTML='<i class="fas fa-database"></i> Submit Case';
     submitBtn.style.pointerEvents='';
     submitBtn.style.opacity='';
 }
 
-// Check URL for case param
 (function(){
     var urlParams=new URLSearchParams(window.location.search);
     var caseParam=urlParams.get('case');
@@ -1594,7 +1533,6 @@ function copyCaseNumber(){
 
 function resetForm(){
     form.reset();
-    // Reset to vehicle > car
     document.querySelectorAll('.category-btn').forEach(function(b){b.classList.remove('active-vehicle','active-pet');});
     document.querySelector('[data-type="vehicle"]').classList.add('active-vehicle');
     selectCaseType(document.querySelector('[data-type="vehicle"]'));
