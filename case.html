@@ -1,0 +1,1604 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Track Case — Legit Patrol</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Chakra+Petch:wght@400;500;600;700;800&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+:root{
+    --bg-primary:#0a0a0a;
+    --bg-secondary:#111111;
+    --bg-card:#1a1a1a;
+    --accent:#00a8ff;
+    --accent-dark:#0088cc;
+    --accent-glow:rgba(0,168,255,0.25);
+    --alert:#ff6d00;
+    --alert-glow:rgba(255,109,0,0.3);
+    --pet-pink:#ec4899;
+    --pet-purple:#a855f7;
+    --pet-green:#22c55e;
+    --pet-orange:#f97316;
+    --text-primary:#f0f0f0;
+    --text-secondary:#888888;
+    --text-muted:#555555;
+    --border:#2a2a2a;
+    --font-heading:'Chakra Petch',sans-serif;
+    --font-body:'Inter',sans-serif;
+    --input-bg:#111111;
+    --error:#ef4444;
+    --success:#22c55e;
+    --warning:#f59e0b;
+    --info:#3b82f6;
+}
+
+[data-theme="light"]{
+    --bg-primary:#ffffff;
+    --bg-secondary:#f8f9fa;
+    --bg-card:#ffffff;
+    --accent:#0077cc;
+    --accent-dark:#005fa3;
+    --accent-glow:rgba(0,119,204,0.2);
+    --alert:#e65c00;
+    --alert-glow:rgba(230,92,0,0.2);
+    --pet-pink:#ec4899;
+    --pet-purple:#a855f7;
+    --pet-green:#22c55e;
+    --pet-orange:#f97316;
+    --text-primary:#1a1a1a;
+    --text-secondary:#555555;
+    --text-muted:#999999;
+    --border:#e0e0e0;
+    --input-bg:#f1f5f9;
+}
+
+html{scroll-behavior:smooth;}
+
+body{
+    font-family:var(--font-body);
+    background:var(--bg-primary);
+    color:var(--text-primary);
+    transition:background .4s,color .4s;
+    overflow-x:hidden;
+    min-height:100vh;
+}
+
+/* Theme Toggle */
+.theme-toggle-page{
+    position:fixed;
+    top:20px;
+    right:20px;
+    z-index:9999;
+    background:rgba(255,255,255,0.08);
+    border:2px solid rgba(255,255,255,0.15);
+    color:var(--text-primary);
+    width:46px;
+    height:46px;
+    border-radius:12px;
+    font-size:19px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    transition:all .3s ease;
+}
+
+[data-theme="light"] .theme-toggle-page{
+    background:rgba(0,0,0,0.06);
+    border-color:rgba(0,0,0,0.15);
+}
+
+.theme-toggle-page:hover{
+    border-color:var(--accent);
+    color:var(--accent);
+    transform:rotate(15deg);
+}
+
+/* Top Bar */
+.top-bar{
+    background:linear-gradient(135deg,rgba(0,168,255,0.1),rgba(255,109,0,0.05));
+    border-bottom:1px solid var(--border);
+    padding:40px 24px 36px;
+    text-align:center;
+    position:relative;
+    overflow:hidden;
+}
+
+.top-bar::before{
+    content:'';
+    position:absolute;
+    top:-100px;
+    left:50%;
+    transform:translateX(-50%);
+    width:400px;
+    height:400px;
+    background:radial-gradient(circle,var(--accent-glow),transparent 70%);
+    opacity:.3;
+}
+
+.top-bar h1{
+    font-family:var(--font-heading);
+    font-size:clamp(1.8rem,4vw,2.4rem);
+    font-weight:700;
+    margin-bottom:8px;
+    position:relative;
+    color:var(--text-primary);
+}
+
+.top-bar h1 span{
+    color:var(--accent);
+}
+
+.top-bar p{
+    color:var(--text-secondary);
+    font-size:.95rem;
+    position:relative;
+}
+
+/* Page Content */
+.page-content{
+    padding:40px 24px 80px;
+}
+
+.container{
+    max-width:900px;
+    margin:0 auto;
+}
+
+/* Tabs */
+.case-tabs{
+    display:flex;
+    gap:0;
+    margin-bottom:32px;
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:14px;
+    overflow:hidden;
+}
+
+.case-tab{
+    flex:1;
+    padding:16px 24px;
+    text-align:center;
+    cursor:pointer;
+    font-weight:600;
+    font-size:.95rem;
+    font-family:var(--font-heading);
+    color:var(--text-secondary);
+    transition:all .3s;
+    border-bottom:3px solid transparent;
+    background:var(--bg-card);
+    letter-spacing:.5px;
+}
+
+.case-tab:hover{
+    background:rgba(0,168,255,.05);
+    color:var(--accent);
+}
+
+.case-tab.active{
+    color:var(--accent);
+    border-bottom-color:var(--accent);
+    background:rgba(0,168,255,.08);
+}
+
+.case-tab i{
+    margin-right:8px;
+}
+
+/* Panels */
+.search-panel{display:none;}
+.search-panel.active{display:block;}
+.open-panel{display:none;}
+.open-panel.active{display:block;}
+
+/* Search Box */
+.search-box{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    padding:48px 40px;
+    text-align:center;
+    box-shadow:0 20px 60px rgba(0,0,0,.2);
+    position:relative;
+    overflow:hidden;
+}
+
+.search-box::before{
+    content:'';
+    position:absolute;
+    top:-50px;
+    right:-50px;
+    width:200px;
+    height:200px;
+    background:radial-gradient(circle,var(--accent-glow),transparent 70%);
+    opacity:.15;
+    pointer-events:none;
+}
+
+.search-box h2{
+    font-family:var(--font-heading);
+    font-size:1.6rem;
+    margin-bottom:8px;
+    color:var(--text-primary);
+    font-weight:700;
+}
+
+.search-box>p{
+    color:var(--text-secondary);
+    font-size:.95rem;
+    margin-bottom:28px;
+}
+
+.search-input-wrap{
+    display:flex;
+    gap:0;
+    max-width:520px;
+    margin:0 auto;
+    border-radius:12px;
+    overflow:hidden;
+    border:2px solid var(--border);
+    transition:border-color .3s;
+}
+
+.search-input-wrap:focus-within{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-glow);
+}
+
+.search-input-wrap input{
+    flex:1;
+    padding:16px 20px;
+    border:none;
+    background:var(--input-bg);
+    color:var(--text-primary);
+    font-size:1rem;
+    font-family:var(--font-body);
+    outline:none;
+}
+
+.search-input-wrap input::placeholder{
+    color:var(--text-muted);
+}
+
+.search-input-wrap button{
+    padding:16px 24px;
+    background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+    color:#fff;
+    border:none;
+    cursor:pointer;
+    font-size:1rem;
+    font-weight:600;
+    transition:all .3s;
+}
+
+.search-input-wrap button:hover{
+    background:linear-gradient(135deg,var(--accent-dark),#006699);
+}
+
+.search-hint{
+    margin-top:16px;
+    font-size:.82rem;
+    color:var(--text-muted);
+}
+
+.search-hint code{
+    background:var(--input-bg);
+    padding:2px 8px;
+    border-radius:4px;
+    font-family:monospace;
+    color:var(--accent);
+}
+
+/* Case Result */
+.case-result{
+    display:none;
+    max-width:620px;
+    margin:32px auto 0;
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    overflow:hidden;
+    box-shadow:0 20px 60px rgba(0,0,0,.2);
+    animation:slideUp .5s ease;
+}
+
+@keyframes slideUp{
+    from{opacity:0;transform:translateY(20px);}
+    to{opacity:1;transform:translateY(0);}
+}
+
+@keyframes scaleIn{
+    from{transform:scale(0);}
+    to{transform:scale(1);}
+}
+
+.result-header{
+    padding:20px 28px;
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+    border-bottom:1px solid var(--border);
+    background:rgba(0,168,255,.03);
+}
+
+.result-case-id{
+    font-family:var(--font-heading);
+    font-size:1.4rem;
+    font-weight:700;
+    color:var(--accent);
+}
+
+.result-badge{
+    padding:5px 14px;
+    border-radius:50px;
+    font-size:.78rem;
+    font-weight:600;
+    text-transform:uppercase;
+    letter-spacing:.5px;
+    font-family:var(--font-heading);
+}
+
+.badge-open{
+    background:rgba(0,168,255,.1);
+    color:var(--accent);
+    border:1px solid rgba(0,168,255,.2);
+}
+
+.badge-investigating{
+    background:rgba(245,158,11,.1);
+    color:var(--warning);
+    border:1px solid rgba(245,158,11,.2);
+}
+
+.badge-located{
+    background:rgba(34,197,94,.1);
+    color:var(--success);
+    border:1px solid rgba(34,197,94,.2);
+}
+
+.badge-recovered{
+    background:rgba(34,197,94,.15);
+    color:var(--success);
+    border:1px solid rgba(34,197,94,.3);
+}
+
+.result-body{
+    padding:24px 28px;
+}
+
+.result-row{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid var(--border);
+}
+
+.result-row:last-child{
+    border-bottom:none;
+}
+
+.result-label{
+    font-size:.85rem;
+    color:var(--text-muted);
+    font-weight:500;
+}
+
+.result-value{
+    font-size:.9rem;
+    color:var(--text-primary);
+    font-weight:600;
+    text-align:right;
+    max-width:60%;
+}
+
+.result-timeline{
+    margin-top:20px;
+    padding:16px 20px;
+    background:var(--input-bg);
+    border-radius:12px;
+    border:1px solid var(--border);
+}
+
+.result-timeline h4{
+    font-family:var(--font-heading);
+    font-size:.9rem;
+    font-weight:600;
+    margin-bottom:12px;
+    color:var(--text-primary);
+    display:flex;
+    align-items:center;
+    gap:6px;
+}
+
+.timeline-item{
+    display:flex;
+    gap:12px;
+    margin-bottom:10px;
+    font-size:.84rem;
+    color:var(--text-secondary);
+}
+
+.timeline-item:last-child{
+    margin-bottom:0;
+}
+
+.timeline-dot{
+    width:10px;
+    height:10px;
+    min-width:10px;
+    border-radius:50%;
+    background:var(--accent);
+    margin-top:4px;
+}
+
+.timeline-item .time{
+    color:var(--text-muted);
+    font-size:.78rem;
+    min-width:100px;
+}
+
+/* Error Result */
+.error-result{
+    display:none;
+    max-width:500px;
+    margin:32px auto 0;
+    background:rgba(239,68,68,.08);
+    border:1px solid rgba(239,68,68,.2);
+    border-radius:14px;
+    padding:32px;
+    text-align:center;
+    animation:slideUp .5s ease;
+}
+
+.error-result i{
+    font-size:2.5rem;
+    color:var(--error);
+    margin-bottom:12px;
+}
+
+.error-result h3{
+    font-family:var(--font-heading);
+    font-size:1.1rem;
+    color:var(--error);
+    margin-bottom:6px;
+}
+
+.error-result p{
+    font-size:.9rem;
+    color:var(--text-secondary);
+}
+
+/* Panel (Form) */
+.panel{
+    background:var(--bg-card);
+    border:1px solid var(--border);
+    border-radius:20px;
+    box-shadow:0 20px 60px rgba(0,0,0,.2);
+    overflow:hidden;
+}
+
+.panel-header{
+    background:linear-gradient(135deg,rgba(0,168,255,.15),rgba(255,109,0,.05));
+    padding:20px 32px;
+    border-bottom:1px solid var(--border);
+}
+
+.panel-title{
+    font-family:var(--font-heading);
+    font-size:1.15rem;
+    font-weight:600;
+    color:var(--text-primary);
+    display:flex;
+    align-items:center;
+    gap:8px;
+}
+
+.panel-body{
+    padding:36px 32px;
+}
+
+/* Form Section Title */
+.form-section-title{
+    font-family:var(--font-heading);
+    font-size:1.05rem;
+    font-weight:700;
+    color:var(--text-primary);
+    margin-top:28px;
+    margin-bottom:14px;
+    padding-bottom:8px;
+    border-bottom:2px solid var(--accent);
+    display:inline-block;
+}
+
+.form-section-title:first-child{
+    margin-top:0;
+}
+
+/* Form Grid */
+.form-grid{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+    margin-bottom:0;
+}
+
+.form-group{
+    display:flex;
+    flex-direction:column;
+}
+
+.form-group.full{
+    grid-column:span 2;
+}
+
+.form-label{
+    font-size:.84rem;
+    font-weight:600;
+    color:var(--text-primary);
+    margin-bottom:7px;
+    font-family:var(--font-heading);
+    letter-spacing:.3px;
+}
+
+.form-label .required{
+    color:var(--error);
+}
+
+.form-label .optional{
+    color:var(--text-muted);
+    font-weight:400;
+    font-size:.78rem;
+}
+
+.form-input,.form-select,.form-textarea{
+    width:100%;
+    padding:12px 15px;
+    border-radius:10px;
+    border:1.5px solid var(--border);
+    background:var(--input-bg);
+    color:var(--text-primary);
+    font-family:var(--font-body);
+    font-size:.9rem;
+    transition:all .3s;
+    outline:none;
+}
+
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+    border-color:var(--accent);
+    box-shadow:0 0 0 3px var(--accent-glow);
+}
+
+.form-input::placeholder,.form-textarea::placeholder{
+    color:var(--text-muted);
+}
+
+.form-textarea{
+    resize:vertical;
+    min-height:90px;
+}
+
+.form-select{
+    cursor:pointer;
+    appearance:none;
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300a8ff' viewBox='0 0 16 16'%3E%3Cpath d='M8 11L3 6h10z'/%3E%3C/svg%3E");
+    background-repeat:no-repeat;
+    background-position:right 14px center;
+}
+
+.form-select option{
+    background:var(--bg-card);
+    color:var(--text-primary);
+}
+
+/* Category Selector (Vehicle/Pet) */
+.category-selector{
+    display:grid;
+    grid-template-columns:1fr 1fr;
+    gap:16px;
+    margin-bottom:24px;
+}
+
+.category-btn{
+    padding:24px 20px;
+    border-radius:16px;
+    border:2px solid var(--border);
+    background:var(--bg-card);
+    cursor:pointer;
+    text-align:center;
+    transition:all .3s;
+}
+
+.category-btn:hover{
+    border-color:rgba(0,168,255,.3);
+    transform:translateY(-2px);
+}
+
+.category-btn.active-vehicle{
+    border-color:var(--accent);
+    background:rgba(0,168,255,.08);
+    box-shadow:0 4px 20px var(--accent-glow);
+}
+
+.category-btn.active-pet{
+    border-color:var(--pet-pink);
+    background:rgba(236,72,153,.08);
+    box-shadow:0 4px 20px rgba(236,72,153,.2);
+}
+
+.category-btn i{
+    font-size:2.2rem;
+    display:block;
+    margin-bottom:10px;
+    transition:transform .3s;
+}
+
+.category-btn:hover i{
+    transform:scale(1.1);
+}
+
+.category-btn.vehicle-icon{
+    color:var(--accent);
+}
+
+.category-btn.pet-icon{
+    color:var(--pet-pink);
+}
+
+.category-btn span{
+    font-size:1rem;
+    font-weight:700;
+    font-family:var(--font-heading);
+    color:var(--text-primary);
+    display:block;
+    margin-bottom:4px;
+}
+
+.category-btn small{
+    font-size:.78rem;
+    color:var(--text-muted);
+}
+
+/* Sub-type Selector */
+.subtype-selector{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:12px;
+    margin-bottom:20px;
+}
+
+.subtype-btn{
+    padding:16px 12px;
+    border-radius:12px;
+    border:2px solid var(--border);
+    background:var(--bg-card);
+    cursor:pointer;
+    text-align:center;
+    transition:all .3s;
+}
+
+.subtype-btn:hover{
+    border-color:rgba(0,168,255,.3);
+    transform:translateY(-2px);
+}
+
+.subtype-btn.active{
+    border-color:var(--accent);
+    background:rgba(0,168,255,.08);
+}
+
+.subtype-btn.active-pet{
+    border-color:var(--pet-pink) !important;
+    background:rgba(236,72,153,.08) !important;
+}
+
+.subtype-btn i{
+    font-size:1.6rem;
+    color:var(--accent);
+    display:block;
+    margin-bottom:6px;
+    transition:transform .3s;
+}
+
+.subtype-btn.pet-sub i{
+    color:var(--pet-pink);
+}
+
+.subtype-btn:hover i{
+    transform:scale(1.1);
+}
+
+.subtype-btn span{
+    font-size:.82rem;
+    font-weight:600;
+    font-family:var(--font-heading);
+    color:var(--text-primary);
+}
+
+.subtype-hint{
+    font-size:.78rem;
+    color:var(--text-muted);
+    margin-bottom:20px;
+    padding-left:2px;
+}
+
+.subtype-hint strong{
+    color:var(--accent);
+}
+
+.subtype-hint strong.pet-color{
+    color:var(--pet-pink);
+}
+
+/* Dynamic Sections */
+.dynamic-section{
+    display:none;
+}
+
+.dynamic-section.visible{
+    display:block;
+}
+
+/* Buttons */
+.btn{
+    display:inline-flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    padding:14px 28px;
+    border-radius:10px;
+    font-weight:600;
+    font-size:.95rem;
+    font-family:var(--font-heading);
+    border:none;
+    cursor:pointer;
+    transition:all .3s;
+    letter-spacing:.3px;
+}
+
+.btn-primary{
+    background:linear-gradient(135deg,var(--accent),var(--accent-dark));
+    color:#fff;
+    box-shadow:0 8px 25px rgba(0,0,0,.3);
+}
+
+.btn-primary:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 35px var(--accent-glow);
+    color:#fff;
+}
+
+.btn-pet{
+    background:linear-gradient(135deg,var(--pet-pink),var(--pet-purple));
+    color:#fff;
+    box-shadow:0 8px 25px rgba(0,0,0,.3);
+}
+
+.btn-pet:hover{
+    transform:translateY(-3px);
+    box-shadow:0 12px 35px rgba(236,72,153,.3);
+    color:#fff;
+}
+
+.btn-ghost{
+    background:transparent;
+    color:var(--text-secondary);
+    border:2px solid var(--border);
+}
+
+.btn-ghost:hover{
+    background:var(--input-bg);
+    border-color:var(--accent);
+    color:var(--accent);
+}
+
+/* Case Number Box */
+.case-number-box{
+    background:var(--input-bg);
+    border:2px dashed var(--accent);
+    padding:24px 28px;
+    border-radius:12px;
+    margin:24px 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:20px;
+}
+
+.case-number-box .case-text{
+    text-align:left;
+}
+
+.case-number-box .case-text span{
+    display:block;
+    font-size:.8rem;
+    color:var(--text-muted);
+    margin-bottom:4px;
+    font-family:var(--font-heading);
+}
+
+.case-number-box .case-text strong{
+    font-size:1.5rem;
+    color:var(--accent);
+    font-family:var(--font-heading);
+}
+
+.copy-btn{
+    background:none;
+    border:2px solid var(--accent);
+    color:var(--accent);
+    width:48px;
+    height:48px;
+    min-width:48px;
+    border-radius:10px;
+    cursor:pointer;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:1.1rem;
+    transition:all .3s;
+}
+
+.copy-btn:hover{
+    background:var(--accent);
+    color:#fff;
+}
+
+/* Success UI */
+.success-container{
+    text-align:center;
+    padding:20px 0;
+}
+
+.success-icon{
+    margin:0 auto 20px;
+    width:80px;
+    height:80px;
+    border-radius:50%;
+    background:rgba(34,197,94,.1);
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    animation:scaleIn .5s ease;
+}
+
+.success-icon i{
+    font-size:2.2rem;
+    color:var(--success);
+}
+
+.success-container h3{
+    font-family:var(--font-heading);
+    font-size:1.8rem;
+    margin-bottom:12px;
+    color:var(--text-primary);
+}
+
+.success-container h3 span{
+    color:var(--accent);
+}
+
+.success-container>p{
+    color:var(--text-secondary);
+    margin-bottom:8px;
+    line-height:1.6;
+}
+
+/* Info Notes */
+.info-note{
+    background:rgba(59,130,246,.08);
+    color:var(--info);
+    border:1px solid rgba(59,130,246,.2);
+    padding:12px 18px;
+    border-radius:10px;
+    font-size:.84rem;
+    margin-top:16px;
+    text-align:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+}
+
+.alert-note{
+    background:rgba(255,109,0,.08);
+    color:var(--alert);
+    border:1px solid rgba(255,109,0,.2);
+    padding:12px 20px;
+    border-radius:10px;
+    font-size:.85rem;
+    font-weight:600;
+    margin-top:24px;
+    text-align:center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    gap:8px;
+    font-family:var(--font-heading);
+}
+
+/* Responsive */
+@media(max-width:768px){
+    .form-grid{
+        grid-template-columns:1fr;
+    }
+    .form-group.full{
+        grid-column:span 1;
+    }
+    .panel-body{
+        padding:24px 20px;
+    }
+    .subtype-selector{
+        grid-template-columns:repeat(2,1fr);
+    }
+    .case-tabs{
+        flex-direction:column;
+    }
+    .case-tab{
+        border-bottom:none;
+        border-right:3px solid transparent;
+        padding:14px 20px;
+    }
+    .case-tab.active{
+        border-right-color:var(--accent);
+        border-bottom:none;
+    }
+    .search-box{
+        padding:32px 24px;
+    }
+    .result-header{
+        flex-direction:column;
+        gap:10px;
+        text-align:center;
+    }
+    .case-number-box{
+        flex-direction:column;
+        text-align:center;
+    }
+}
+
+@media(max-width:480px){
+    .page-content{
+        padding:24px 16px 60px;
+    }
+    .subtype-selector{
+        grid-template-columns:1fr 1fr;
+    }
+    .category-selector{
+        grid-template-columns:1fr 1fr;
+        gap:12px;
+    }
+    .category-btn{
+        padding:18px 14px;
+    }
+    .category-btn i{
+        font-size:1.8rem;
+    }
+}
+
+@media(max-width:360px){
+    .panel-body{
+        padding:20px 16px;
+    }
+    .subtype-selector{
+        grid-template-columns:1fr;
+    }
+}
+</style>
+</head>
+<body data-theme="dark">
+
+<button class="theme-toggle-page" id="themeToggle" title="Toggle Dark/Light Mode">
+    <i class="fas fa-moon"></i>
+</button>
+
+<div class="top-bar">
+    <h1>Track Your <span>Case</span></h1>
+    <p>Search an existing case or open a new recovery case.</p>
+</div>
+
+<div class="page-content">
+    <div class="container">
+        <div class="case-tabs">
+            <div class="case-tab active" data-tab="search"><i class="fas fa-magnifying-glass"></i> Search Case</div>
+            <div class="case-tab" data-tab="open"><i class="fas fa-plus-circle"></i> Open New Case</div>
+        </div>
+
+        <!-- SEARCH PANEL -->
+        <div class="search-panel active" id="searchPanel">
+            <div class="search-box">
+                <h2>Look Up Your Case</h2>
+                <p>Enter your Case ID to check the current status of your recovery.</p>
+                <div class="search-input-wrap">
+                    <input type="text" id="caseSearchInput" placeholder="e.g. LEGIT-1234567" autocomplete="off">
+                    <button onclick="searchCase()"><i class="fas fa-search"></i></button>
+                </div>
+                <p class="search-hint">Format: <code>LEGIT-0000000</code> (LEGIT- followed by 7 digits)</p>
+            </div>
+
+            <div class="case-result" id="caseResult">
+                <div class="result-header">
+                    <span class="result-case-id" id="resultCaseId">LEGIT-0000000</span>
+                    <span class="result-badge" id="resultBadge">Open</span>
+                </div>
+                <div class="result-body">
+                    <div class="result-row">
+                        <span class="result-label">Case Type</span>
+                        <span class="result-value" id="resultCaseType">—</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Category</span>
+                        <span class="result-value" id="resultCategory">—</span>
+                    </div>
+                    <div class="result-row" id="resultMakeRow">
+                        <span class="result-label">Make / Model</span>
+                        <span class="result-value" id="resultMake">—</span>
+                    </div>
+                    <div class="result-row" id="resultBreedRow" style="display:none">
+                        <span class="result-label">Breed / Species</span>
+                        <span class="result-value" id="resultBreed">—</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Last Seen</span>
+                        <span class="result-value" id="resultLocation">—</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Date/Time</span>
+                        <span class="result-value" id="resultTime">—</span>
+                    </div>
+                    <div class="result-row">
+                        <span class="result-label">Date Reported</span>
+                        <span class="result-value" id="resultDate">—</span>
+                    </div>
+                    <div class="result-timeline">
+                        <h4><i class="fas fa-clock-rotate-left" style="color:var(--accent);"></i> Case Timeline</h4>
+                        <div id="resultTimeline"></div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="error-result" id="errorResult">
+                <i class="fas fa-circle-exclamation"></i>
+                <h3>Case Not Found</h3>
+                <p>The Case ID you entered doesn't match any case in our system. Please double-check and try again.</p>
+            </div>
+        </div>
+
+        <!-- OPEN CASE PANEL -->
+        <div class="open-panel" id="openPanel">
+            <div class="panel">
+                <div class="panel-header">
+                    <span class="panel-title"><i class="fas fa-exclamation-triangle" style="color:var(--alert);"></i> Register Recovery Case</span>
+                </div>
+                <div class="panel-body">
+
+                    <!-- SUCCESS UI -->
+                    <div id="successUI" style="display:none;">
+                        <div class="success-container">
+                            <div class="success-icon"><i class="fas fa-check"></i></div>
+                            <h3>Case <span>Logged</span> Successfully!</h3>
+                            <p>Please copy your Case Number below. Our team will contact you shortly with next steps.</p>
+                            <div class="case-number-box">
+                                <div class="case-text"><span>Your Case Number</span><strong id="generatedCaseNumber">LEGIT-0000000</strong></div>
+                                <button class="copy-btn" onclick="copyCaseNumber()" title="Copy to clipboard"><i class="fas fa-copy" id="copyIcon"></i></button>
+                            </div>
+                            <div class="info-note"><i class="fas fa-camera"></i> Please send any photos directly to the chat.</div>
+                            <p style="font-size:.85rem;color:var(--text-muted);margin-top:16px;">You can search for your case status using the Search tab.</p>
+                        </div>
+                    </div>
+
+                    <!-- FORM -->
+                    <form id="report-form">
+                        <input type="hidden" name="access_key" value="447acc7a-a646-4999-86a5-a96a11f3a5b9">
+                        <input type="hidden" name="subject" value="New Recovery Case - Legit Patrol">
+                        <input type="hidden" name="from_name" value="Legit Patrol Database">
+                        <input type="hidden" name="Generated Case Number" id="caseNumField">
+                        <input type="hidden" name="Case Type" id="caseTypeField" value="Vehicle">
+                        <input type="hidden" name="Sub Category" id="subCatField" value="Car">
+
+                        <!-- REPORTER INFO -->
+                        <div class="form-section-title">Your Information</div>
+                        <div class="form-grid">
+                            <div class="form-group">
+                                <label class="form-label">Full Name <span class="required">*</span></label>
+                                <input class="form-input" name="Full Name" placeholder="John Doe" required>
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Email Address <span class="required">*</span></label>
+                                <input class="form-input" name="Email" type="email" placeholder="john@example.com" required>
+                            </div>
+                            <div class="form-group full">
+                                <label class="form-label">Phone Number <span class="required">*</span></label>
+                                <input class="form-input" name="Phone Number" type="tel" placeholder="+44 xxx xxx xxxx" required>
+                            </div>
+                        </div>
+
+                        <!-- CASE TYPE -->
+                        <div class="form-section-title">What Do You Need Recovered? <span class="required">*</span></div>
+                        <div class="category-selector">
+                            <div class="category-btn active-vehicle" data-type="vehicle" onclick="selectCaseType(this)">
+                                <i class="fas fa-car vehicle-icon"></i>
+                                <span>Vehicle</span>
+                                <small>Cars, Bikes, Trailers & More</small>
+                            </div>
+                            <div class="category-btn" data-type="pet" onclick="selectCaseType(this)">
+                                <i class="fas fa-paw pet-icon"></i>
+                                <span>Pet</span>
+                                <small>Dogs, Cats, Birds & More</small>
+                            </div>
+                        </div>
+
+                        <!-- VEHICLE SUB-TYPES -->
+                        <div class="dynamic-section visible" id="vehicleSubtypes">
+                            <div class="subtype-selector">
+                                <div class="subtype-btn active" data-sub="Car" onclick="selectSubType(this)">
+                                    <i class="fas fa-car"></i><span>Car</span>
+                                </div>
+                                <div class="subtype-btn" data-sub="Motorcycle" onclick="selectSubType(this)">
+                                    <i class="fas fa-motorcycle"></i><span>Motorcycle</span>
+                                </div>
+                                <div class="subtype-btn" data-sub="Scooter/Moped" onclick="selectSubType(this)">
+                                    <i class="fas fa-bicycle"></i><span>Scooter</span>
+                                </div>
+                                <div class="subtype-btn" data-sub="Trailer/Caravan" onclick="selectSubType(this)">
+                                    <i class="fas fa-trailer"></i><span>Trailer</span>
+                                </div>
+                                <div class="subtype-btn" data-sub="Truck" onclick="selectSubType(this)">
+                                    <i class="fas fa-truck"></i><span>Truck</span>
+                                </div>
+                                <div class="subtype-btn" data-sub="Other Vehicle" onclick="selectSubType(this)">
+                                    <i class="fas fa-ellipsis"></i><span>Other</span>
+                                </div>
+                            </div>
+                            <div class="subtype-hint">Selected: <strong>Car</strong> — Please provide details about the stolen vehicle below.</div>
+                        </div>
+
+                        <!-- PET SUB-TYPES -->
+                        <div class="dynamic-section" id="petSubtypes">
+                            <div class="subtype-selector">
+                                <div class="subtype-btn pet-sub active-pet" data-sub="Dog" onclick="selectSubType(this)">
+                                    <i class="fas fa-dog"></i><span>Dog</span>
+                                </div>
+                                <div class="subtype-btn pet-sub" data-sub="Cat" onclick="selectSubType(this)">
+                                    <i class="fas fa-cat"></i><span>Cat</span>
+                                </div>
+                                <div class="subtype-btn pet-sub" data-sub="Bird" onclick="selectSubType(this)">
+                                    <i class="fas fa-dove"></i><span>Bird</span>
+                                </div>
+                                <div class="subtype-btn pet-sub" data-sub="Rabbit/Small Mammal" onclick="selectSubType(this)">
+                                    <i class="fas fa-otter"></i><span>Rabbit</span>
+                                </div>
+                                <div class="subtype-btn pet-sub" data-sub="Horse/Equine" onclick="selectSubType(this)">
+                                    <i class="fas fa-horse"></i><span>Horse</span>
+                                </div>
+                                <div class="subtype-btn pet-sub" data-sub="Exotic Pet" onclick="selectSubType(this)">
+                                    <i class="fas fa-dragon"></i><span>Exotic</span>
+                                </div>
+                            </div>
+                            <div class="subtype-hint">Selected: <strong class="pet-color">Dog</strong> — Please provide details about your missing pet below.</div>
+                        </div>
+
+                        <!-- VEHICLE DETAILS -->
+                        <div class="dynamic-section visible" id="vehicleDetails">
+                            <div class="form-section-title">Vehicle Identity</div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Make <span class="optional">(optional)</span></label>
+                                    <input class="form-input" name="Vehicle Make" placeholder="e.g. Toyota">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Model <span class="optional">(optional)</span></label>
+                                    <input class="form-input" name="Vehicle Model" placeholder="e.g. Camry">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Year <span class="optional">(optional)</span></label>
+                                    <input class="form-input" name="Year" type="number" min="1950" max="2030" placeholder="2024">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Color <span class="optional">(optional)</span></label>
+                                    <input class="form-input" name="Color" placeholder="e.g. White">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">VIN <span class="optional">(optional)</span></label>
+                                    <input class="form-input" name="VIN" placeholder="17-character VIN" maxlength="17" style="text-transform:uppercase;">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">License Plate <span class="optional">(optional)</span></label>
+                                    <input class="form-input" name="License Plate" placeholder="e.g. ABC-1234" style="text-transform:uppercase;">
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PET DETAILS -->
+                        <div class="dynamic-section" id="petDetails">
+                            <div class="form-section-title">Pet Identity</div>
+                            <div class="form-grid">
+                                <div class="form-group">
+                                    <label class="form-label">Pet Name <span class="optional">(optional)</span></label>
+                                    <input class="form-input" name="Pet Name" placeholder="e.g. Buddy">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Breed/Species <span class="optional">(optional)</span></label>
+                                    <input class="form-input" name="Breed" placeholder="e.g. Golden Retriever">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Color <span class="optional">(optional)</span></label>
+                                    <input class="form-input" name="Pet Color" placeholder="e.g. Golden, Black & White">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Size <span class="optional">(optional)</span></label>
+                                    <select class="form-select" name="Pet Size">
+                                        <option value="">-- Select --</option>
+                                        <option>Small (under 10kg)</option>
+                                        <option>Medium (10-25kg)</option>
+                                        <option>Large (25-45kg)</option>
+                                        <option>Extra Large (45kg+)</option>
+                                    </select>
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Microchip Number <span class="optional">(optional)</span></label>
+                                    <input class="form-input" name="Microchip" placeholder="15-digit microchip number">
+                                </div>
+                                <div class="form-group">
+                                    <label class="form-label">Wearing Collar/Tag? <span class="optional">(optional)</span></label>
+                                    <select class="form-select" name="Collar">
+                                        <option value="">-- Select --</option>
+                                        <option value="Yes - with tag">Yes - with tag</option>
+                                        <option value="Yes - no tag">Yes - no tag</option>
+                                        <option value="No">No</option>
+                                        <option value="Unknown">Unknown</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- THEFT/LOSS INFO -->
+                        <div class="form-section-title">Loss Information</div>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label class="form-label">Last Seen Location <span class="optional">(optional)</span></label>
+                                <input class="form-input" name="Last Seen Location" placeholder="Address or description of where it was last seen">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Date of Loss <span class="optional">(optional)</span></label>
+                                <input class="form-input" name="Date of Loss" type="date">
+                            </div>
+                            <div class="form-group">
+                                <label class="form-label">Time of Loss <span class="optional">(optional)</span></label>
+                                <input class="form-input" name="Time of Loss" type="time">
+                            </div>
+                            <div class="form-group" id="policeReportGroup">
+                                <label class="form-label">Police Report Number <span class="optional">(optional)</span></label>
+                                <input class="form-input" name="Police Report Number" placeholder="e.g. PD-2024-00123">
+                            </div>
+                            <div class="form-group full" id="directionGroup">
+                                <label class="form-label">Suspected Direction <span class="optional">(optional)</span></label>
+                                <input class="form-input" name="Suspected Direction" placeholder="e.g. Northbound on M1">
+                            </div>
+                        </div>
+
+                        <!-- PHYSICAL DESCRIPTION -->
+                        <div class="form-section-title">Physical Description</div>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <label class="form-label">Distinguishing Features <span class="optional">(optional)</span></label>
+                                <textarea class="form-textarea" name="Distinguishing Features" placeholder="Any unique features, modifications, scars, markings, after-market parts..."></textarea>
+                            </div>
+                            <div class="form-group full">
+                                <label class="form-label">Damage/Scratches <span class="optional">(optional)</span></label>
+                                <textarea class="form-textarea" name="Damage" placeholder="Location and description of any damage, scratches, dents..." style="min-height:70px;"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- ADDITIONAL NOTES -->
+                        <div class="form-section-title">Additional Notes</div>
+                        <div class="form-grid">
+                            <div class="form-group full">
+                                <textarea class="form-textarea" name="Additional Notes" placeholder="Any other relevant information that could help with recovery..." style="min-height:80px;"></textarea>
+                            </div>
+                        </div>
+
+                        <div class="alert-note"><i class="fas fa-exclamation-circle"></i> By submitting, you agree to be contacted by our recovery team regarding your case.</div>
+                        <div class="info-note"><i class="fas fa-camera"></i> Photos should be sent directly to our team via email or live chat.</div>
+
+                        <div style="margin-top:24px;display:flex;gap:12px;flex-wrap:wrap;">
+                            <button type="submit" class="btn btn-primary" id="submit-btn"><i class="fas fa-database"></i> Submit Case</button>
+                            <button type="button" class="btn btn-ghost" onclick="resetForm()"><i class="fas fa-eraser"></i> Clear Form</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+// ===== THEME TOGGLE =====
+(function(){
+    var saved=localStorage.getItem('legitTheme')||'dark';
+    document.body.setAttribute('data-theme',saved);
+    var icon=document.querySelector('#themeToggle i');
+    icon.className=saved==='dark'?'fas fa-moon':'fas fa-sun';
+})();
+
+document.getElementById('themeToggle').addEventListener('click',function(){
+    var current=document.body.getAttribute('data-theme');
+    var next=current==='dark'?'light':'dark';
+    document.body.setAttribute('data-theme',next);
+    localStorage.setItem('legitTheme',next);
+    var icon=this.querySelector('i');
+    icon.className=next==='dark'?'fas fa-moon':'fas fa-sun';
+});
+
+// ===== TABS =====
+document.querySelectorAll('.case-tab').forEach(function(tab){
+    tab.addEventListener('click',function(){
+        document.querySelectorAll('.case-tab').forEach(function(t){t.classList.remove('active');});
+        this.classList.add('active');
+        var target=this.dataset.tab;
+        document.getElementById('searchPanel').classList.toggle('active',target==='search');
+        document.getElementById('openPanel').classList.toggle('active',target==='open');
+    });
+});
+
+// ===== CASE TYPE SELECTOR =====
+var selectedCaseType='vehicle';
+var selectedSubType='Car';
+
+function selectCaseType(el){
+    document.querySelectorAll('.category-btn').forEach(function(b){
+        b.classList.remove('active-vehicle','active-pet');
+    });
+    selectedCaseType=el.dataset.type;
+    if(selectedCaseType==='vehicle'){
+        el.classList.add('active-vehicle');
+        document.getElementById('caseTypeField').value='Vehicle';
+        document.getElementById('vehicleSubtypes').classList.add('visible');
+        document.getElementById('vehicleDetails').classList.add('visible');
+        document.getElementById('petSubtypes').classList.remove('visible');
+        document.getElementById('petDetails').classList.remove('visible');
+        document.getElementById('policeReportGroup').style.display='';
+        document.getElementById('directionGroup').style.display='';
+        // Reset to first vehicle subtype
+        document.querySelectorAll('#vehicleSubtypes .subtype-btn').forEach(function(b){b.classList.remove('active');});
+        document.querySelector('#vehicleSubtypes .subtype-btn').classList.add('active');
+        selectedSubType='Car';
+        document.getElementById('subCatField').value='Car';
+        updateSubtypeHint('Car');
+    } else {
+        el.classList.add('active-pet');
+        document.getElementById('caseTypeField').value='Pet';
+        document.getElementById('vehicleSubtypes').classList.remove('visible');
+        document.getElementById('vehicleDetails').classList.remove('visible');
+        document.getElementById('petSubtypes').classList.add('visible');
+        document.getElementById('petDetails').classList.add('visible');
+        document.getElementById('policeReportGroup').style.display='none';
+        document.getElementById('directionGroup').style.display='none';
+        // Reset to first pet subtype
+        document.querySelectorAll('#petSubtypes .subtype-btn').forEach(function(b){b.classList.remove('active','active-pet');});
+        document.querySelector('#petSubtypes .subtype-btn').classList.add('active','active-pet');
+        selectedSubType='Dog';
+        document.getElementById('subCatField').value='Dog';
+        updateSubtypeHint('Dog');
+    }
+}
+
+function selectSubType(el){
+    var parent=el.closest('.dynamic-section');
+    parent.querySelectorAll('.subtype-btn').forEach(function(b){b.classList.remove('active','active-pet');});
+    if(selectedCaseType==='pet'){
+        el.classList.add('active','active-pet');
+    } else {
+        el.classList.add('active');
+    }
+    selectedSubType=el.dataset.sub;
+    document.getElementById('subCatField').value=selectedSubType;
+    updateSubtypeHint(selectedSubType);
+}
+
+function updateSubtypeHint(sub){
+    var hint=document.querySelector('.subtype-hint');
+    if(selectedCaseType==='vehicle'){
+        hint.innerHTML='Selected: <strong>'+sub+'</strong> — Please provide details about the stolen vehicle below.';
+    } else {
+        hint.innerHTML='Selected: <strong class="pet-color">'+sub+'</strong> — Please provide details about your missing pet below.';
+    }
+}
+
+// ===== SEARCH CASE =====
+function searchCase(){
+    var input=document.getElementById('caseSearchInput').value.trim().toUpperCase();
+    document.getElementById('caseResult').style.display='none';
+    document.getElementById('errorResult').style.display='none';
+    if(!input) return;
+    if(!/^LEGIT-\d{7}$/.test(input)){
+        showCaseError();
+        return;
+    }
+    var cases=JSON.parse(localStorage.getItem('legitCases')||'{}');
+    if(cases[input]){
+        displayCaseResult(cases[input]);
+    } else {
+        showCaseError();
+    }
+}
+
+document.getElementById('caseSearchInput').addEventListener('keypress',function(e){
+    if(e.key==='Enter') searchCase();
+});
+
+function showCaseError(){
+    document.getElementById('errorResult').style.display='block';
+}
+
+function displayCaseResult(c){
+    document.getElementById('resultCaseId').textContent=c.caseId;
+    
+    var badge=document.getElementById('resultBadge');
+    badge.textContent=c.status;
+    badge.className='result-badge';
+    if(c.status==='Open') badge.classList.add('badge-open');
+    else if(c.status==='Investigating') badge.classList.add('badge-investigating');
+    else if(c.status==='Located') badge.classList.add('badge-located');
+    else if(c.status==='Recovered') badge.classList.add('badge-recovered');
+    
+    document.getElementById('resultCaseType').textContent=c.caseType;
+    document.getElementById('resultCategory').textContent=c.subCategory;
+    
+    // Show/hide vehicle vs pet rows
+    if(c.caseType==='Vehicle'){
+        document.getElementById('resultMakeRow').style.display='';
+        document.getElementById('resultBreedRow').style.display='none';
+        document.getElementById('resultMake').textContent=(c.make?c.make+' ':'')+(c.model||'—');
+    } else {
+        document.getElementById('resultMakeRow').style.display='none';
+        document.getElementById('resultBreedRow').style.display='';
+        document.getElementById('resultBreed').textContent=(c.breed||'—')+(c.petName?' ("'+c.petName+'")':'');
+    }
+    
+    document.getElementById('resultLocation').textContent=c.lastSeen||'—';
+    document.getElementById('resultTime').textContent=c.timeOfLoss||'—';
+    document.getElementById('resultDate').textContent=c.dateReported;
+    
+    var tl=document.getElementById('resultTimeline');
+    tl.innerHTML='';
+    c.timeline.forEach(function(t){
+        tl.innerHTML+='<div class="timeline-item"><div class="timeline-dot"></div><span class="time">'+t.time+'</span><span>'+t.event+'</span></div>';
+    });
+    
+    document.getElementById('caseResult').style.display='block';
+}
+
+// ===== FORM SUBMISSION =====
+var form=document.getElementById('report-form');
+var submitBtn=document.getElementById('submit-btn');
+
+form.addEventListener('submit',function(e){
+    e.preventDefault();
+    
+    var submitBtn=document.getElementById('submit-btn');
+    submitBtn.innerHTML='<i class="fas fa-spinner fa-spin"></i> Submitting...';
+    submitBtn.style.pointerEvents='none';
+    submitBtn.style.opacity='0.7';
+    
+    // Generate case number
+    var digits=Math.floor(1000000+Math.random()*9000000);
+    var caseNum='LEGIT-'+digits;
+    document.getElementById('caseNumField').value=caseNum;
+    
+    // Build time display
+    var now=new Date();
+    var timeVal=form.querySelector('[name="Time of Loss"]').value;
+    var dateVal=form.querySelector('[name="Date of Loss"]').value;
+    var timeDisplay='Not specified';
+    if(timeVal && dateVal) timeDisplay=dateVal+' at '+timeVal;
+    else if(timeVal) timeDisplay='Time: '+timeVal+' (no date given)';
+    else if(dateVal) timeDisplay=dateVal+' (no time given)';
+    
+    // 1. Save to localStorage FIRST
+    var cases=JSON.parse(localStorage.getItem('legitCases')||'{}');
+    var caseData={
+        caseId: caseNum,
+        caseType: document.getElementById('caseTypeField').value,
+        subCategory: document.getElementById('subCatField').value,
+        make: form.querySelector('[name="Vehicle Make"]') ? form.querySelector('[name="Vehicle Make"]').value : '',
+        model: form.querySelector('[name="Vehicle Model"]') ? form.querySelector('[name="Vehicle Model"]').value : '',
+        breed: form.querySelector('[name="Breed"]') ? form.querySelector('[name="Breed"]').value : '',
+        petName: form.querySelector('[name="Pet Name"]') ? form.querySelector('[name="Pet Name"]').value : '',
+        lastSeen: form.querySelector('[name="Last Seen Location"]').value,
+        timeOfLoss: timeDisplay,
+        dateReported: now.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'})+' '+now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}),
+        status: 'Open',
+        timeline: [
+            {time: now.toLocaleTimeString('en-US',{hour:'2-digit',minute:'2-digit'}), event: 'Case logged in database'}
+        ]
+    };
+    cases[caseNum]=caseData;
+    localStorage.setItem('legitCases',JSON.stringify(cases));
+    
+    // 2. Send to Web3Forms via fetch
+    var formData=new FormData(form);
+    
+    fetch('https://api.web3forms.com/submit',{
+        method:'POST',
+        body:formData
+    })
+    .then(function(response){return response.json();})
+    .then(function(data){
+        showSuccess(caseNum);
+    })
+    .catch(function(error){
+        console.log('Web3Forms error:',error);
+        showSuccess(caseNum);
+    });
+});
+
+function showSuccess(caseNum){
+    var form=document.getElementById('report-form');
+    form.style.display='none';
+    document.getElementById('successUI').style.display='block';
+    document.getElementById('generatedCaseNumber').innerText=caseNum;
+    
+    // Switch to open tab
+    document.querySelectorAll('.case-tab').forEach(function(t){t.classList.remove('active');});
+    document.querySelector('[data-tab="open"]').classList.add('active');
+    document.getElementById('searchPanel').classList.remove('active');
+    document.getElementById('openPanel').classList.add('active');
+    
+    window.scrollTo({top:document.querySelector('.panel-body').offsetTop-80,behavior:'smooth'});
+    
+    // Reset button state
+    var submitBtn=document.getElementById('submit-btn');
+    submitBtn.innerHTML='<i class="fas fa-database"></i> Submit Case';
+    submitBtn.style.pointerEvents='';
+    submitBtn.style.opacity='';
+}
+
+// Check URL for case param
+(function(){
+    var urlParams=new URLSearchParams(window.location.search);
+    var caseParam=urlParams.get('case');
+    if(caseParam){
+        document.getElementById('report-form').style.display='none';
+        document.getElementById('successUI').style.display='block';
+        document.getElementById('generatedCaseNumber').innerText=caseParam;
+        document.querySelectorAll('.case-tab').forEach(function(t){t.classList.remove('active');});
+        document.querySelector('[data-tab="open"]').classList.add('active');
+        document.getElementById('searchPanel').classList.remove('active');
+        document.getElementById('openPanel').classList.add('active');
+        window.scrollTo({top:document.querySelector('.panel-body').offsetTop-80,behavior:'smooth'});
+    }
+})();
+
+function copyCaseNumber(){
+    var text=document.getElementById('generatedCaseNumber').innerText;
+    var icon=document.getElementById('copyIcon');
+    navigator.clipboard.writeText(text).then(function(){
+        icon.classList.remove('fa-copy');
+        icon.classList.add('fa-check');
+        icon.style.color='var(--success)';
+        setTimeout(function(){
+            icon.classList.remove('fa-check');
+            icon.classList.add('fa-copy');
+            icon.style.color='';
+        },2000);
+    }).catch(function(){
+        alert("Please manually copy: "+text);
+    });
+}
+
+function resetForm(){
+    form.reset();
+    // Reset to vehicle > car
+    document.querySelectorAll('.category-btn').forEach(function(b){b.classList.remove('active-vehicle','active-pet');});
+    document.querySelector('[data-type="vehicle"]').classList.add('active-vehicle');
+    selectCaseType(document.querySelector('[data-type="vehicle"]'));
+}
+</script>
+</body>
+</html>
